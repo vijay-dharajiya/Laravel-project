@@ -482,8 +482,7 @@
             <h2>Trending Listings</h2>
             <p>Best Seller Travel Services</p>
         </div>
-<br>
-<br>
+       
         {{-- TOP BUTTONS --}}
         <div class="top-tabs">
             <button class="tab-btn active" data-tab="flight">Flight</button>
@@ -506,36 +505,6 @@
                 </div>
             </div>
             @endforeach
-
-            {{-- HOTEL --}}
-            @for($i=1;$i<=4;$i++)
-            <div class="trend-card tab-item hotel d-none">
-                <img src="{{ asset('images/hotel.jpg') }}">
-                <div class="trend-content">
-                    <h4>Hotel {{ $i }}</h4>
-                </div>
-            </div>
-            @endfor
-
-            {{-- TOUR --}}
-            @for($i=1;$i<=4;$i++)
-            <div class="trend-card tab-item tour d-none">
-                <img src="{{ asset('images/tour.jpg') }}">
-                <div class="trend-content">
-                    <h4>Tour {{ $i }}</h4>
-                </div>
-            </div>
-            @endfor
-
-            {{-- CAR --}}
-            @for($i=1;$i<=4;$i++)
-            <div class="trend-card tab-item car d-none">
-                <img src="{{ asset('images/car.jpg') }}">
-                <div class="trend-content">
-                    <h4>Car {{ $i }}</h4>
-                </div>
-            </div>
-            @endfor
 
         </div>
 

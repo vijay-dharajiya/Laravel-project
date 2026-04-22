@@ -6,6 +6,7 @@
   <title>DreamsTour - Header</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -192,49 +193,112 @@
       .hamburger { display: flex; }
     }
 
-    .user-profile {
-    display: inline-flex;
+    /* USER OPTION CONTAINER */
+.user_option {
+    display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    background: #f5f7fa;
-    border-radius: 30px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border: 1px solid #e0e0e0;
+    gap: 12px;
 }
 
-.user-profile i {
-    font-size: 16px;
+/* USER BOX (LOGGED IN) */
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #f9fafb, #eef2f7);
+    border: 1px solid #e5e7eb;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.3s ease;
+}
+
+.user-box i {
+    font-size: 18px;
     color: #fff;
-    background: #007bff;
+    background: linear-gradient(135deg, #ff5722, #ff784e);
     padding: 8px;
     border-radius: 50%;
-    transition: 0.3s;
 }
 
-.user-profile span {
-    font-size: 14px;
+.user-box span {
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-/* Hover effect */
-.user-profile:hover {
-    background: #007bff;
-    color: #fff;
-    border-color: #007bff;
+/* BUTTON BASE */
+.btn {
+    position: relative;
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
-.user-profile:hover i {
-    background: #fff;
-    color: #007bff;
+/* DASHBOARD BUTTON */
+.btn-dashboard {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
 }
-.user-profile span {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+.btn-dashboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+}
+
+/* LOGIN BUTTON */
+.btn-login {
+    background: #fff;
+    color: #374151;
+    border: 1.5px solid #d1d5db;
+}
+
+.btn-login:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+}
+
+/* SIGNUP BUTTON (PRIMARY) */
+.btn-register {
+    background: linear-gradient(135deg, #ff5722, #ff784e);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(255, 87, 34, 0.4);
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+}
+
+/* SMOOTH CLICK EFFECT */
+.btn:active {
+    transform: scale(0.96);
+}
+
+/* SUBTLE GLOW EFFECT */
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.15);
+    top: 0;
+    left: -100%;
+    transition: 0.4s;
+}
+
+.btn:hover::after {
+    left: 100%;
 }
   </style>
 </head>
@@ -310,26 +374,27 @@
 
       </ul>
 
-        <!-- ── Auth Buttons ── -->
-        <div class="user_option">
+      <div class="user_option d-flex align-items-center gap-3">
 
-            @auth
-                <a href="{{ route('dashboard') }}" class="user-profile">
-                    <i class="fa fa-user"></i>
-                    <span>{{ Auth::user()->name }}</span>
-                </a>
-            @else
-                <!-- User is NOT logged in -->
-                <a href="{{ route('login') }}">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>Login</span>
-                </a>
+          @auth
+              <div class="user-box">
+                  <i class="fa fa-user-circle"></i>
+                  <span>{{ Auth::user()->name }}</span>
+              </div>
 
-                <a href="{{ route('register') }}">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>Sign Up</span>
-                </a>
-            @endauth
+              <a href="{{ route('dashboard') }}" class="btn btn-dashboard">
+                  Dashboard
+              </a>
+          @else
+              <a href="{{ route('login') }}" class="btn btn-login ">
+                  Login
+              </a>
+
+              <a href="{{ route('register') }}" class="btn btn-register">
+                  Sign Up
+              </a>
+          @endauth
+
         </div>
 
       <!-- Hamburger (mobile) -->

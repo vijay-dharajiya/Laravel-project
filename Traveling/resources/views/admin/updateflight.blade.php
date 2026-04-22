@@ -18,7 +18,7 @@
             @endif
 
             {{-- FORM START --}}
-            <form action="{{ route('admin.posteditflight', $flight->id) }}" method="POST">
+            <form action="{{ route('admin.posteditflight', $flight->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -27,6 +27,12 @@
                     <div class="col-md-6 mb-3">
                         <label>Airline Name</label>
                         <input type="text" name="airline_name" class="form-control" value="{{ $flight->airline_name }}" required>
+                    </div>
+
+                    {{-- Airline Image --}}
+                    <div class="col-md-6 mb-3">
+                        <label>Airline Image</label>
+                        <input type="file" name="image" class="form-control" value="{{ $flight->image }}">
                     </div>
 
                     {{-- From City --}}

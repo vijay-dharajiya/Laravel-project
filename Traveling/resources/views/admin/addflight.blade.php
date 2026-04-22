@@ -18,7 +18,7 @@
             @endif
 
             {{-- FORM START --}}
-            <form action="{{ route('admin.postaddflight') }}" method="POST">
+            <form action="{{ route('admin.postaddflight') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">

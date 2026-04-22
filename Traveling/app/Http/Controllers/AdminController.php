@@ -20,6 +20,12 @@ class AdminController extends Controller
     function postAddflight(request $rq){
         $flight = new flight;
         $flight-> airline_name = $rq->airline_name;
+        $img = $rq->image;
+        if($img){
+            $imagename = time().'.'.$img->getClientOriginalExtension(); 
+            $flight->image = $imagename;
+            $rq->image->move('images', $imagename);
+        }
         $flight-> from_city = $rq-> from_city;
         $flight-> to_city = $rq-> to_city;
         $flight-> departure_time = $rq-> departure_time;
@@ -37,7 +43,17 @@ class AdminController extends Controller
     function posteditflight(request $rq, $id){
         $flight = flight::findOrfail($id);
         $flight-> airline_name = $rq->airline_name;
-        $flight-> image = $rq->image;
+        $img = $rq->image;
+        if($img){
+
+            $oldimage = ('/images/'.$flight->image);
+            if(file_exists($oldimage)){
+                unlink($oldimage);
+            }
+            $imagename = time().'.'.$img->getClientOriginalExtension();  
+            $flight->image = $imagename;
+            $rq->image->move('images', $imagename);
+        }
         $flight-> from_city = $rq-> from_city;
         $flight-> to_city = $rq-> to_city;
         $flight-> departure_time = $rq-> departure_time;

@@ -29,6 +29,7 @@
                         <tr>
                             <th>No</th>
                             <th>Airline Name</th>
+                            <th>Image</th>
                             <th>From City</th>
                             <th>To City</th>
                             <th>Departure</th>
@@ -43,6 +44,13 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $flight->airline_name }}</td>
+                                <td>
+                                    @if($flight->image)
+                                        <img src="{{ asset('images/' . $flight->image) }}" alt="Flight Image" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
+                                    @else
+                                        <span>No Image</span>
+                                    @endif
+                                </td>
                                 <td>{{ $flight->from_city }}</td>
                                 <td>{{ $flight->to_city }}</td>
 
