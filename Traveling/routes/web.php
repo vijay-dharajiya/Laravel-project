@@ -6,7 +6,14 @@ use App\Http\Middleware\Adminmiddleware;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', [UserController::class, 'home'])->name('index'); 
+Route::get('/', [UserController::class, 'home'])->name('index');
+
+/* Authenticated route for bookings*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/flight_booking/{id}', [UserController::class, 'flightbook'])->name('flight.book');
+});
+
+Route::post('/flight_booking/{id}', [UserController::class, 'postflightbook'])->name('flightbooking'); 
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -24,9 +31,9 @@ Route::middleware('admin')->group(function() {
     Route::get('/view_hotel', [AdminController::class, 'viewhotel'])->name('admin.viewhotel');
     Route::post('/add_flight', [AdminController::class,'postAddflight'])->name('admin.postaddflight');
     Route::get('/edit_flight/{id}', [AdminController::class, 'editflight'])->name('admin.editflight');
-    Route::get('/delete_flight/{id}', [AdminController::class, 'deleteflight'])->name('admin.deleteflight');
     Route::post('/edit_flight/{id}', [AdminController::class, 'posteditflight'])->name('admin.posteditflight');
-    Route::post('/add_hotel', [AdminController::class, 'postaddhotel'])->name('admin.postaddhotel');
+    Route::get('/delete_flight/{id}', [AdminController::class, 'deleteflight'])->name('admin.deleteflight');
+    Route::post('/add_hotel', [AdminController::class, 'hotelstore'])->name('admin.hotelstore');
 });
 
 

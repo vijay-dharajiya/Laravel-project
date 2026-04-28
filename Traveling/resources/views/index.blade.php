@@ -2,597 +2,401 @@
 
 @section('home')
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap');
+body { font-family: 'Poppins', sans-serif; }
 
-  :root {
-    --primary:      #ff5722;
-    --primary-dark: #e64a19;
-    --white:        #ffffff;
-  }
-
-  /* ════ HERO WRAPPER ════ */
-  .hero-section {
-    position: relative;
-    width: 100%;
+/* HERO */
+.hero-section {
     height: 100vh;
-    min-height: 620px;
+    position: relative;
     overflow: hidden;
-    background: #0d0d0d;
-    font-family: 'Outfit', sans-serif;
-  }
+}
 
-  /* ════ SLIDESHOW ════ */
-  .hero-slides { position: absolute; inset: 0; z-index: 0; }
-  .hero-slide {
-    position: absolute; inset: 0;
+/* SLIDER */
+.hero-slide {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transform: scale(1.08);
-    transition: opacity 1.4s ease, transform 8s ease;
-  }
-  .hero-slide.active { opacity: 1; transform: scale(1); }
-
-  /* ── 3 stunning adventure travel images from Unsplash ── */
-  .hero-slide:nth-child(1) {
-    background-image: url('{{ asset('images/sea.jpg') }}');
+    transform: scale(1.1);
+    transition: opacity 1.2s ease, transform 6s ease;
 }
-.hero-slide:nth-child(2) {
-    background-image: url('{{ asset('images/lake.jpg') }}');
-}
-.hero-slide:nth-child(3) {
-    background-image: url('{{ asset('images/mountain.jpg') }}');
+.hero-slide.active {
+    opacity: 1;
+    transform: scale(1);
 }
 
-  /* ════ OVERLAYS ════ */
-  .hero-overlay {
-    position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(to top,  rgba(0,0,0,.88) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.1) 100%),
-      linear-gradient(to right, rgba(0,0,0,.55) 0%, transparent 65%);
-  }
-  .hero-grain {
-    position: absolute; inset: 0; z-index: 2;
-    opacity: .045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px;
-    pointer-events: none;
-  }
-  .hero-sweep {
-    position: absolute; inset: 0; z-index: 2;
-    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.035) 50%, transparent 70%);
-    background-size: 200% 100%;
-    animation: sweep 7s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes sweep {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
+/* IMAGES */
+.hero-slide:nth-child(1){background-image:url('{{ asset('images/sea.jpg') }}');}
+.hero-slide:nth-child(2){background-image:url('{{ asset('images/lake.jpg') }}');}
+.hero-slide:nth-child(3){background-image:url('{{ asset('images/mountain.jpg') }}');}
 
-  /* ════ CONTENT ════ */
-  .hero-content {
-    position: absolute; inset: 0; z-index: 10;
-    display: flex; flex-direction: column;
-    justify-content: center;
-    padding: 0 7vw;
-    padding-bottom: 110px;
-  }
-
-  /* Tag */
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 9px;
-    background: rgba(255,87,34,.14);
-    border: 1px solid rgba(255,87,34,.45);
-    color: var(--primary);
-    font-size: 11.5px; font-weight: 700;
-    letter-spacing: 2.8px; text-transform: uppercase;
-    padding: 7px 18px; border-radius: 30px;
-    width: fit-content; margin-bottom: 24px;
-    opacity: 0; transform: translateY(22px);
-    animation: heroIn .8s ease forwards;
-    animation-delay: .3s;
-  }
-  .hero-tag .dot {
-    width: 7px; height: 7px;
-    background: var(--primary); border-radius: 50%;
-    animation: blink 1.8s ease infinite;
-  }
-  @keyframes blink {
-    0%,100% { transform: scale(1); opacity:1; }
-    50%      { transform: scale(1.7); opacity:.4; }
-  }
-
-  /* Headline */
-  .hero-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: clamp(76px, 12vw, 156px);
-    line-height: .9;
-    color: var(--white);
-    letter-spacing: 2px;
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .hero-title .line {
-    display: block;
-    opacity: 0; transform: translateY(110%);
-    animation: slideUp .95s cubic-bezier(.22,1,.36,1) forwards;
-  }
-  .hero-title .line:nth-child(1) { animation-delay: .5s; }
-  .hero-title .line:nth-child(2) {
-    animation-delay: .72s;
-    -webkit-text-stroke: 3px var(--primary);
-    color: transparent;
-  }
-  @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
-
-  /* Sub */
-  .hero-sub {
-    font-size: clamp(15px, 1.4vw, 18px);
-    color: rgba(255,255,255,.72);
-    font-weight: 300; max-width: 480px;
-    line-height: 1.75; margin-bottom: 38px;
-    opacity: 0; transform: translateY(18px);
-    animation: heroIn .85s ease forwards;
-    animation-delay: 1s;
-  }
-
-  /* Buttons */
-  .hero-btns {
-    display: flex; gap: 14px; flex-wrap: wrap;
-    opacity: 0; transform: translateY(18px);
-    animation: heroIn .85s ease forwards;
-    animation-delay: 1.2s;
-  }
-  .hero-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 32px; border-radius: 50px;
-    font-size: 15px; font-weight: 600;
-    text-decoration: none; border: none; cursor: pointer;
-    font-family: 'Outfit', sans-serif;
-    transition: all .3s; letter-spacing: .3px;
-  }
-  .hero-btn-primary {
-    background: var(--primary); color: #fff;
-    box-shadow: 0 6px 30px rgba(255,87,34,.45);
-  }
-  .hero-btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 38px rgba(255,87,34,.55);
-  }
-  .hero-btn-secondary {
-    background: rgba(255,255,255,.1); color: #fff;
-    border: 1.5px solid rgba(255,255,255,.35);
-    backdrop-filter: blur(10px);
-  }
-  .hero-btn-secondary:hover {
-    background: rgba(255,255,255,.2);
-    transform: translateY(-3px);
-  }
-
-  /* Stats */
-  .hero-stats {
-    position: absolute; bottom: 28px;
-    left: 7vw; right: 7vw; z-index: 10;
-    display: flex;
-    background: rgba(255,255,255,.07);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 18px; overflow: hidden;
-    opacity: 0; transform: translateY(18px);
-    animation: heroIn 1s ease forwards;
-    animation-delay: 1.55s;
-  }
-  .hero-stat {
-    flex: 1; padding: 20px 24px; text-align: center;
-    border-right: 1px solid rgba(255,255,255,.1);
-    transition: background .25s;
-  }
-  .hero-stat:last-child { border-right: none; }
-  .hero-stat:hover { background: rgba(255,255,255,.07); }
-  .hero-stat-num {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 34px; color: var(--primary);
-    line-height: 1; letter-spacing: 1px;
-  }
-  .hero-stat-label {
-    font-size: 11px; color: rgba(255,255,255,.5);
-    text-transform: uppercase; letter-spacing: 1.5px;
-    margin-top: 5px;
-  }
-
-  /* Dots */
-  .hero-dots {
-    position: absolute; right: 28px; top: 50%;
-    transform: translateY(-50%); z-index: 10;
-    display: flex; flex-direction: column; gap: 10px;
-    opacity: 0;
-    animation: heroIn .8s ease forwards;
-    animation-delay: 1.7s;
-  }
-  .hero-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,255,255,.35);
-    border: none; cursor: pointer; padding: 0;
-    transition: all .3s;
-  }
-  .hero-dot.active {
-    background: var(--primary);
-    transform: scale(1.5);
-    box-shadow: 0 0 12px rgba(255,87,34,.65);
-  }
-
-  /* Scroll cue */
-  .hero-scroll {
-    position: absolute; bottom: 130px; right: 32px;
-    z-index: 10;
-    display: flex; flex-direction: column; align-items: center; gap: 7px;
-    opacity: 0;
-    animation: heroIn .8s ease forwards;
-    animation-delay: 1.9s;
-  }
-  .hero-scroll span {
-    font-size: 10px; color: rgba(255,255,255,.4);
-    letter-spacing: 2px; text-transform: uppercase;
-    writing-mode: vertical-rl;
-  }
-  .scroll-line {
-    width: 1px; height: 52px;
-    background: linear-gradient(to bottom, rgba(255,255,255,.45), transparent);
-    animation: scrollDrop 2s ease infinite;
-  }
-  @keyframes scrollDrop {
-    0%   { transform: scaleY(0); transform-origin: top; opacity:1; }
-    100% { transform: scaleY(1); transform-origin: top; opacity:0; }
-  }
-
-  /* Shared entrance */
-  @keyframes heroIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Particles */
-  .hero-particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; border-radius: 50%;
-    background: rgba(255,87,34,.3);
-    animation: floatUp linear infinite;
-  }
-  @keyframes floatUp {
-    0%   { transform: translateY(100vh) rotate(0deg); opacity:0; }
-    10%  { opacity: 1; }
-    90%  { opacity: .35; }
-    100% { transform: translateY(-100px) rotate(720deg); opacity:0; }
-  }
-
-  /* Slide counter */
-  .hero-counter {
-    position: absolute; bottom: 135px; left: 7vw;
-    z-index: 10; display: flex; align-items: baseline; gap: 4px;
-    opacity: 0;
-    animation: heroIn .8s ease forwards;
-    animation-delay: 1.7s;
-  }
-  .hero-counter .current {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 48px; color: var(--primary); line-height: 1;
-  }
-  .hero-counter .sep {
-    font-size: 18px; color: rgba(255,255,255,.3); margin: 0 3px;
-  }
-  .hero-counter .total {
-    font-size: 16px; color: rgba(255,255,255,.4);
-    font-weight: 300;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .hero-content { padding: 0 5vw; padding-bottom: 180px; }
-    .hero-stats { flex-wrap: wrap; left: 4vw; right: 4vw; bottom: 20px; }
-    .hero-stat { min-width: 50%; border-bottom: 1px solid rgba(255,255,255,.1); }
-    .hero-dots, .hero-scroll, .hero-counter { display: none; }
-  }
-
-  @media (max-width: 992px) {
-    .trending-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 576px) {
-    .trending-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* SECTION BACKGROUND */
-.trending-section {
-    background: #ffffff;
-    padding: 70px 0;
-}
-
-/* CARD GRID */
-.trending-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-}
-
-/* CARD DESIGN */
-.trend-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
-
-.trend-card:hover {
-    transform: translateY(-6px);
-}
-
-/* IMAGE */
-.trend-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+/* OVERLAY */
+.hero-overlay {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to right, rgba(0,0,0,0.75) 35%, transparent);
 }
 
 /* CONTENT */
-.trend-content {
-    padding: 15px;
+.hero-content {
+    z-index:2;
+    animation:fadeUp 1s ease;
 }
 
-.trend-content h4 {
-    font-size: 16px;
-    margin-bottom: 5px;
+.hero-title {
+    font-size: clamp(50px,7vw,90px);
+    font-weight:800;
+    color:#fff;
+    line-height:1.1;
+}
+.hero-title span { color:#ff5722; }
+
+.hero-sub {
+    color:rgba(255,255,255,0.75);
+    font-size:15px;
 }
 
-.trend-content p {
-    font-size: 13px;
-    color: #777;
+.btn-main {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color:#fff;
+    border-radius:50px;
+    padding:12px 30px;
+    transition:0.3s;
 }
 
-/* BUTTONS */
-.top-tabs {
-    text-align: center;
-    margin-bottom: 30px;
+.btn-main:hover {
+    transform:translateY(-4px);
+    box-shadow:0 12px 30px rgba(106,17,203,0.4);
 }
 
-.tab-btn {
-    padding: 10px 22px;
-    border: none;
-    margin: 5px;
-    border-radius: 25px;
-    background: #eee;
-    cursor: pointer;
+/* STATS */
+.hero-stats {
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    width:80%;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:15px;
+}
+.hero-stats h4 { color:#ff5722; font-weight:700; }
+.hero-stats small { color:#fff; }
+
+/* ANIMATION */
+@keyframes fadeUp {
+    from {opacity:0; transform:translateY(40px);}
+    to {opacity:1; transform:translateY(0);}
 }
 
-.tab-btn.active {
+/* TABS */
+.pro-tab {
+    padding: 10px 26px;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-weight: 600;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.pro-tab:hover {
+    color: #ff5722;
+    border-color: #ff5722;
+}
+.pro-tab.active {
     background: #ff5722;
     color: #fff;
+    box-shadow: 0 10px 25px rgba(255,87,34,0.4);
+}
+.pro-tab::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: 0.6s;
+}
+.pro-tab:hover::before { left: 100%; }
+
+/* CARD */
+.trend-card-pro{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transition:0.4s;
+}
+.trend-card-pro:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.15);
 }
 
-/* HIDE */
-.d-none {
-    display: none !important;
+/* IMAGE */
+.trend-img{
+    position:relative;
+    overflow:hidden;
 }
-.section-header {
+.trend-img img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    transition:0.6s;
+}
+.trend-card-pro:hover img{
+    transform:scale(1.15);
+}
+
+/* OVERLAY */
+.img-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+/* FLIGHT LINE */
+.line{
+    height:2px;
+    background:#ddd;
+    position:relative;
+}
+.line::after{
+    content:"✈";
+    position:absolute;
+    top:-10px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:14px;
+    color:#ff5722;
+}
+
+/* ================= RESPONSIVE (ONLY ADDED) ================= */
+
+@media (max-width: 1200px){
+  .hero-title{
+    font-size: clamp(40px,6vw,70px);
+  }
+}
+
+@media (max-width: 992px){
+
+  .hero-section{
+    height: auto;
+    min-height: 100vh;
+    padding: 120px 0 80px;
+  }
+
+  .hero-content{
     text-align: center;
+  }
+
+  .hero-title{
+    font-size: clamp(36px,8vw,60px);
+  }
+
+  .hero-stats{
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 40px;
+  }
 }
 
-.section-header h2 {
+@media (max-width: 768px){
+
+  .hero-title{
     font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 10px;
+  }
+
+  .hero-stats .col-md-3{
+    width: 50%;
+  }
+
+  .trend-img img{
+    height: 180px;
+  }
 }
 
-.section-header p {
-    font-size: 14px;
-    color: #777;
+@media (max-width: 576px){
+
+  .hero-title{
+    font-size: 26px;
+  }
+
+  .hero-stats h4{
+    font-size: 18px;
+  }
+
+  .hero-stats small{
+    font-size: 12px;
+  }
+
+  .pro-tab{
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .trend-img img{
+    height: 160px;
+  }
 }
 </style>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero-section" id="heroSection">
+<!-- HERO -->
+<section class="hero-section d-flex align-items-center">
 
-  {{-- Slides --}}
-  <div class="hero-slides">
     <div class="hero-slide active"></div>
     <div class="hero-slide"></div>
     <div class="hero-slide"></div>
-  </div>
 
-  {{-- Atmosphere --}}
-  <div class="hero-overlay"></div>
-  <div class="hero-grain"></div>
-  <div class="hero-sweep"></div>
+    <div class="hero-overlay"></div>
 
-  {{-- Particles --}}
-  <div class="hero-particles" id="heroParticles"></div>
+    <div class="container">
+        <div class="row align-items-center">
 
-  {{-- Content --}}
-  <div class="hero-content">
-    <div class="hero-tag">
-      <span class="dot"></span>
-      Discover the World
+            <div class="col-lg-4 hero-content text-white">
+                <h1 class="hero-title">
+                    Explore <span>Beyond</span>
+                </h1>
+
+                <p class="hero-sub my-3">
+                    Travel the world with premium experiences and unforgettable adventures.
+                </p>
+            </div>
+
+            <div class="col-lg-8"></div>
+        </div>
     </div>
 
-    <h1 class="hero-title">
-      <span class="line">Feel the</span>
-      <span class="line">Adventure</span>
-    </h1>
-
-    <p class="hero-sub">
-      Explore breathtaking destinations, book seamless journeys, and create memories that last a lifetime. Your next great escape starts here.
-    </p>
-
-  </div>
-
-  {{-- Slide counter --}}
-  <div class="hero-counter">
-    <span class="current" id="slideCurrentNum">01</span>
-    <span class="sep">/</span>
-    <span class="total">03</span>
-  </div>
-
-  {{-- Stats --}}
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-num" data-count="15000">0</div>
-      <div class="hero-stat-label">Happy Clients</div>
+    <div class="hero-stats py-3">
+        <div class="row text-center">
+            <div class="col-md-3"><h4>15K+</h4><small>Happy Clients</small></div>
+            <div class="col-md-3"><h4>98+</h4><small>Destinations</small></div>
+            <div class="col-md-3"><h4>20+</h4><small>Services</small></div>
+            <div class="col-md-3"><h4>12+</h4><small>Experience</small></div>
+        </div>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num" data-count="98">0</div>
-      <div class="hero-stat-label">Destinations</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num" data-count="20">0</div>
-      <div class="hero-stat-label">Services</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num" data-count="12">0</div>
-      <div class="hero-stat-label">Years Experience</div>
-    </div>
-  </div>
-
-  {{-- Dots --}}
-  <div class="hero-dots">
-    <button class="hero-dot active" data-slide="0"></button>
-    <button class="hero-dot" data-slide="1"></button>
-    <button class="hero-dot" data-slide="2"></button>
-  </div>
-
-  {{-- Scroll indicator --}}
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
 
 </section>
 
+<!-- TRENDING -->
+<section class="py-5 bg-light">
+<div class="container">
 
-<section class="trending-section">
-    <div class="container">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold display-6">Trending Listings</h2>
+        <p class="text-muted">Best Seller Travel Services</p>
+    </div>
 
-        <div class="text-center mb-5 section-header">
-            <h2>Trending Listings</h2>
-            <p>Best Seller Travel Services</p>
-        </div>
-       
-        {{-- TOP BUTTONS --}}
-        <div class="top-tabs">
-            <button class="tab-btn active" data-tab="flight">Flight</button>
-            <button class="tab-btn" data-tab="hotel">Hotel</button>
-            <button class="tab-btn" data-tab="tour">Tour</button>
-            <button class="tab-btn" data-tab="car">Car</button>
-        </div>
+    <div class="d-flex justify-content-center mb-5 flex-wrap gap-3">
+        <button class="pro-tab active" data-type="flight">✈ Flights</button>
+        <button class="pro-tab" data-type="hotel">🏨 Hotels</button>
+        <button class="pro-tab" data-type="tour">🌍 Tours</button>
+        <button class="pro-tab" data-type="car">🚗 Cars</button>
+    </div>
+    <!-- FLIGHT SECTION -->
+    <div class="row g-4">
 
-        {{-- CARDS (ALL IN ONE GRID) --}}
-        <div class="trending-grid">
+        @foreach($flights as $flight)
+        <div class="col-md-6 col-lg-4 trend-item" data-type="flight">
 
-            {{-- FLIGHT --}}
-            @foreach($flights as $flight)
-            <div class="trend-card tab-item flight">
-                <img src="{{ asset('images/'.$flight->image) }}">
-                <div class="trend-content">
-                    <h2>{{ $flight->airline_name }}</h2>
-                    <h4>{{ $flight->from_city }} → {{ $flight->to_city }}</h4>
-                    <p>₹{{ $flight->price }}</p>
+            <div class="trend-card-pro">
+
+                <div class="trend-img">
+                    <img src="{{ asset('images/'.$flight->image) }}">
+                    <div class="img-overlay"></div>
                 </div>
+
+                <div class="p-3">
+
+                    <div class="d-flex mb-2 align-items-center">
+                        <h6 class="fw-bold mb-0">
+                            {{ $flight->airline_name }}
+                            <i class="fa-solid fa-circle mx-2 text-danger small"></i>
+                            <small class="text-muted">{{ $flight->flight_no }}</small>
+                        </h6>
+                    </div>
+
+                    @php
+                        $dep = \Carbon\Carbon::parse($flight->departure_time);
+                        $arr = \Carbon\Carbon::parse($flight->arrival_time);
+                        if($arr->lessThan($dep)) $arr->addDay();
+                        $diff = $dep->diff($arr);
+                    @endphp
+
+                    <div class="d-flex justify-content-between text-center my-3">
+
+                        <div>
+                            <strong>{{ $dep->format('h:i A') }}</strong><br>
+                            <small class="text-muted">{{ $flight->from_city }}</small>
+                        </div>
+
+                        <div class="flex-grow-1 px-2">
+                            <div class="line"></div>
+                            <small class="text-muted">
+                                {{ $diff->h }}h {{ $diff->i }}m
+                            </small><br>
+                            <small class="text-danger fw-bold">
+                                {{ $flight->stops ?? 'Non-stop' }}
+                            </small>
+                        </div>
+
+                        <div>
+                            <strong>{{ $arr->format('h:i A') }}</strong><br>
+                            <small class="text-muted">{{ $flight->to_city }}</small>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <h5 class="text-primary fw-bold mb-0">${{ number_format($flight->price) }}</h5>
+                        @auth
+                            <a href="{{ route('flight.book', $flight->id) }}" class="btn btn-sm btn-main">Book Now</a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-sm btn-main">Login to Book</a>
+                        @endauth                    </div>
+
+                </div>
+
             </div>
-            @endforeach
 
         </div>
+        @endforeach
 
     </div>
+
+    <!-- HOTEL SECTION -->
+
+</div>
 </section>
 
 <script>
-(function () {
+let slides = document.querySelectorAll('.hero-slide');
+let index = 0;
 
-  /* ── Slideshow ── */
-  const slides  = document.querySelectorAll('.hero-slide');
-  const dots    = document.querySelectorAll('.hero-dot');
-  const counter = document.getElementById('slideCurrentNum');
-  let current = 0, timer;
+setInterval(() => {
+    slides[index].classList.remove('active');
+    index = (index + 1) % slides.length;
+    slides[index].classList.add('active');
+}, 5000);
 
-  function goTo(i) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (i + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    if (counter) counter.textContent = String(current + 1).padStart(2, '0');
-  }
-
-  function startAuto() { timer = setInterval(() => goTo(current + 1), 6000); }
-
-  dots.forEach(d => d.addEventListener('click', () => {
-    clearInterval(timer);
-    goTo(+d.dataset.slide);
-    startAuto();
-  }));
-
-  startAuto();
-
-  /* ── Count-up ── */
-  function countUp(el) {
-    const target = +el.dataset.count;
-    const isK    = target >= 1000;
-    const end    = isK ? target / 1000 : target;
-    const suffix = isK ? 'K+' : '+';
-    let n = 0;
-    const step = end / 55;
-    const iv = setInterval(() => {
-      n += step;
-      if (n >= end) { el.textContent = end + suffix; clearInterval(iv); }
-      else          { el.textContent = Math.floor(n) + suffix; }
-    }, 22);
-  }
-
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      document.querySelectorAll('.hero-stat-num').forEach(countUp);
-      obs.disconnect();
-    }
-  }, { threshold: .3 });
-  const statsEl = document.querySelector('.hero-stats');
-  if (statsEl) obs.observe(statsEl);
-
-  /* ── Particles ── */
-  const pc = document.getElementById('heroParticles');
-  if (pc) {
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 7 + 3;
-      p.style.cssText = `
-        width:${size}px;height:${size}px;
-        left:${Math.random()*100}%;
-        animation-duration:${Math.random()*14+10}s;
-        animation-delay:${Math.random()*12}s;
-        opacity:${Math.random()*.35+.1};
-      `;
-      pc.appendChild(p);
-    }
-  }
-
-})();
-
-document.querySelectorAll('.top-tabs .tab-btn').forEach(btn=>{
-    btn.addEventListener('click', function(){
-
-        document.querySelectorAll('.top-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.pro-tab').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.pro-tab').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
 
-        document.querySelectorAll('.listing-tabs-section .tab-content')
-        .forEach(tab=>tab.classList.remove('active'));
+        let type = this.dataset.type;
 
-        document.getElementById(this.dataset.tab).classList.add('active');
+        document.querySelectorAll('.trend-item').forEach(item => {
+            item.classList.toggle('d-none', item.dataset.type !== type);
+        });
     });
 });
 </script>

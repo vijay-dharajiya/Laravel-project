@@ -3,37 +3,37 @@
 @section('content')
 
 <div class="container mt-4">
-    <div class="card shadow">
+    <div class="card shadow-lg border-0">
         
+        <!-- HEADER -->
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Flight List</h4>
-            <a href="{{ route('admin.addflight') }}" class="btn btn-light btn-sm">
+            <a href="{{ route('admin.addflight') }}" class="btn btn-warning btn-sm fw-bold">
                 + Add Flight
             </a>
         </div>
 
         <div class="card-body">
 
-            {{-- SUCCESS MESSAGE --}}
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+            {{-- SUCCESS --}}
+            @if(session('msg'))
+                <div class="alert alert-success alert-dismissible fade show" id="successMsg">
+                    {{ session('msg') }}
                 </div>
             @endif
 
             {{-- TABLE --}}
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center">
-                    
+                <table class="table table-hover align-middle text-center">
+
                     <thead class="table-dark">
                         <tr>
                             <th>No</th>
-                            <th>Airline Name</th>
-                            <th>Image</th>
-                            <th>From City</th>
-                            <th>To City</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
+                            <th>Flight</th>
+                            <th>Route</th>
+                            <th>Time</th>
+                            <th>Duration</th>
+                            <th>Stops</th>
                             <th>Price</th>
                             <th colspan="2">Action</th>
                         </tr>
@@ -41,60 +41,129 @@
 
                     <tbody>
                         @forelse($flights as $flight)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $flight->airline_name }}</td>
-                                <td>
-                                    @if($flight->image)
-                                        <img src="{{ asset('images/' . $flight->image) }}" alt="Flight Image" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
-                                    @else
-                                        <span>No Image</span>
-                                    @endif
-                                </td>
-                                <td>{{ $flight->from_city }}</td>
-                                <td>{{ $flight->to_city }}</td>
 
-                                <td>
-                                    {{ \Carbon\Carbon::parse($flight->departure_time)->format('h:i A') }}
-                                </td>
+                        @php
+                            $dep = \Carbon\Carbon::parse($flight->departure_time);
+                            $arr = \Carbon\Carbon::parse($flight->arrival_time);
 
-                                <td>
-                                    {{ \Carbon\Carbon::parse($flight->arrival_time)->format('h:i A') }}
-                                </td>
+                            if($arr->lessThan($dep)){
+                                $arr->addDay();
+                            }
 
-                                <td>₹{{ $flight->price }}</td>
+                            $diff = $dep->diff($arr);
+                        @endphp
 
-                                <td>
-                                    <a href="{{ route('admin.editflight', $flight->id) }}" 
-                                       class="btn btn-sm btn-primary">
-                                       Edit
-                                    </a>
-                                </td>
+                        <tr>
 
-                                <td>
-                                    <a href="{{ route('admin.deleteflight', $flight->id) }}" 
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('Are you sure you want to delete this flight?')">
-                                       Delete
-                                    </a>
-                                </td>
-                            </tr>
+                            <!-- NO -->
+                            <td>{{ $loop->iteration }}</td>
+
+                            <!-- FLIGHT (NO IMAGE) -->
+                            <td class="text-start">
+                                <strong>{{ $flight->airline_name }}</strong><br>
+                                <small class="text-muted">{{ $flight->flight_no }}</small>
+                            </td>
+
+                            <!-- ROUTE -->
+                            <td>
+                                <span class="badge bg-light text-dark px-3 py-2">
+                                    {{ $flight->from_city }}
+                                </span>
+                                →
+                                <span class="badge bg-light text-dark px-3 py-2">
+                                    {{ $flight->to_city }}
+                                </span>
+                            </td>
+
+                            <!-- TIME -->
+                            <td>
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <strong>{{ $dep->format('h:i A') }}</strong>
+
+                                    <div class="d-flex align-items-center gap-2 my-1">
+                                        <hr style="width:40px; margin:0;">
+                                        <small class="text-muted fw-bold">TO</small>
+                                        <hr style="width:40px; margin:0;">
+                                    </div>
+
+                                    <small class="text-muted">{{ $arr->format('h:i A') }}</small>
+
+                                </div>
+                            </td>
+
+                            <!-- DURATION -->
+                            <td>
+                                {{ $diff->h }}h {{ $diff->i }}m
+                            </td>
+
+                            <!-- STOPS -->
+                            <td>
+                                <span class="badge bg-danger">
+                                    {{ $flight->stops ?? 'Non-stop' }}
+                                </span>
+                            </td>
+
+                            <!-- PRICE -->
+                            <td>
+                                <strong class="text-success">
+                                    ${{ number_format($flight->price) }}
+                                </strong>
+                            </td>
+
+                            <!-- EDIT -->
+                            <td>
+                                <a href="{{ route('admin.editflight', $flight->id) }}" 
+                                   class="btn btn-sm btn-primary">
+                                   Edit
+                                </a>
+                            </td>
+
+                            <!-- DELETE -->
+                            <td>
+                                <a href="{{ route('admin.deleteflight', $flight->id) }}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Delete this flight?')">
+                                   Delete
+                                </a>
+                            </td>
+
+                        </tr>
+
                         @empty
-                            <tr>
-                                <td colspan="9">No Flights Found</td>
-                            </tr>
+                        <tr>
+                            <td colspan="9" class="text-muted">No Flights Found</td>
+                        </tr>
                         @endforelse
+
                     </tbody>
 
                 </table>
             </div>
 
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary mt-2">
+            <!-- BACK -->
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary mt-3">
                 Back
             </a>
 
         </div>
     </div>
 </div>
+
+<style>
+.table td {
+    vertical-align: middle;
+}
+</style>
+
+<script>
+    setTimeout(function () {
+        let msg = document.getElementById('successMsg');
+        if (msg) {
+            msg.classList.remove('show');
+            setTimeout(() => msg.remove(), 500);
+        }
+    }, 2000);
+</script>
 
 @endsection
