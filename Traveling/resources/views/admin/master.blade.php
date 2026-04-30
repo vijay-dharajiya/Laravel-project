@@ -21,26 +21,6 @@
     <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{ asset('admin/img/favicon.ico') }}">
-    <style>
-      .footer {
-        background-color: #2d3035;
-        color: #fff;
-        padding: 10px 0;
-        border-top: 1px solid #1a1c1e;
-      }
-      .footer p {
-        color: #9ca3af;
-      }
-      .footer a {
-        color: #3b82f6;
-      }
-      .footer a:hover {
-        color: #60a5fa;
-      }
-    </style>
-    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
   </head>
   <body>
     <header class="header">   
@@ -79,26 +59,50 @@
           </div>
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-        <ul class="list-unstyled">
-          <li class="active"><a href="{{ route('dashboard') }}"> <i class="icon-home"></i>Home </a></li>
-          <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Flights</a>
-            <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+        <ul class="list-unstyled" id="sidebar-menu">
+
+          <li class="active">
+            <a href="{{ route('dashboard') }}">
+              <i class="fa fa-home"></i> Home
+            </a>
+          </li>
+
+          <!-- Flights -->
+          <li>
+            <a href="#exampledropdownDropdown" data-toggle="collapse">
+              <i class="fa fa-plane"></i> Flights
+            </a>
+            <ul id="exampledropdownDropdown" class="collapse list-unstyled">
               <li><a href="{{ route('admin.addflight') }}">Add Flight</a></li>
               <li><a href="{{ route('admin.viewflight') }}">View Flights</a></li>
             </ul>
           </li>
-          <li><a href="#product" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Hotels</a>
-            <ul id="product" class="collapse list-unstyled ">
+
+          <!-- Hotels -->
+          <li>
+            <a href="#product" data-toggle="collapse">
+              <i class="fa fa-bed"></i> Hotels
+            </a>
+            <ul id="product" class="collapse list-unstyled">
               <li><a href="{{ route('admin.addhotel') }}">Add Hotel</a></li>
               <li><a href="{{ route('admin.viewhotel') }}">View Hotels</a></li>
+              <li><a href="{{ route('admin.hotelimages') }}">Add Hotel images</a></li>
+              <li><a href="{{ route('admin.hotelroom') }}">Add Hotel room</a></li>
+              <li><a href="{{ route('admin.roomimages') }}">Add Room images</a></li>
             </ul>
           </li>
-          <li><a href="#orders" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Pakeges</a>
-            <ul id="orders" class="collapse list-unstyled ">
-              <li><a href="#">Add Pakege</a></li>
-              <li><a href="#">View Pakeges</a></li>
+
+          <!-- Packages -->
+          <li>
+            <a href="#orders" data-toggle="collapse">
+              <i class="fa fa-suitcase"></i> Packages
+            </a>
+            <ul id="orders" class="collapse list-unstyled">
+              <li><a href="#">Add Package</a></li>
+              <li><a href="#">View Packages</a></li>
             </ul>
           </li>
+
         </ul>
       </nav>
       <!-- Sidebar Navigation end-->
@@ -107,23 +111,22 @@
        
       </div>
     </div>
-    <!-- Page Footer-->         
-    <footer class="footer">
-      <div class="footer__block block no-margin-bottom">
-        <div class="container-fluid text-center">
-          <!-- Please do not remove the backlink to us unless you support us at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-           <p class="no-margin-bottom">2026 &copy; MY STORE. Download From <a target="_blank" href="https://templateshub.net">Templates Hub</a>.</p>
-        </div>
-      </div>
-    </footer>
-    <!-- JavaScript files-->
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('admin/vendor/popper.js/umd/popper.min.js') }}"> </script>
+    <script src="{{ asset('admin/vendor/popper.js/umd/popper.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('admin/vendor/jquery.cookie/jquery.cookie.js') }}"> </script>
+    <script src="{{ asset('admin/vendor/jquery.cookie/jquery.cookie.js') }}"></script>
     <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('admin/js/charts-home.js') }}"></script>
     <script src="{{ asset('admin/js/front.js') }}"></script>
+
+    <!-- ✅ ADD THIS HERE -->
+    <script>
+    $(document).ready(function () {
+        $('#sidebar-menu a[data-toggle="collapse"]').on('click', function () {
+            $('#sidebar-menu .collapse').not($(this).next()).collapse('hide');
+        });
+    });
+    </script>
   </body>
 </html>

@@ -3,136 +3,194 @@
 @section('content')
 
 <style>
+.page-title{
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
 .table-card{
-    margin-top: 30px;
+    margin-top: 25px;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
     padding: 20px;
 }
 
-.hotel-img{
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
+/* TABLE STYLE */
+.table thead{
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
 }
 
+.table tbody tr{
+    transition: 0.2s ease-in-out;
+}
+
+.table tbody tr:hover{
+    background: #f6f9ff;
+    transform: scale(1.01);
+}
+
+/* IMAGE */
+.hotel-img{
+    width: 85px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #eee;
+}
+
+/* BADGE */
 .badge-rating{
-    background: #ffc107;
-    color: #000;
+    background: #ffb703;
+    color: #fdfefc;
     font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
     font-size: 12px;
 }
 
-.action-btns a{
+/* BUTTONS */
+.btn-sm{
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.action-btns a,
+.action-btns button{
     margin-right: 5px;
 }
+
+/* HEADER BOX */
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom: 15px;
+}
+
+.top-bar a{
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+
 </style>
 
 <div class="container table-card">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0">Hotel List</h4>
-        <a href="{{ route('admin.addhotel') }}" class="btn btn-primary">+ Add Hotel</a>
+    {{-- HEADER --}}
+    <div class="top-bar">
+        <div>
+            <h4 class="page-title">🏨 Hotel Management</h4>
+            <small class="text-muted">Manage all hotel listings easily</small>
+        </div>
+
+        <a href="{{ route('admin.addhotel') }}" class="btn btn-primary">
+            + Add New Hotel
+        </a>
     </div>
 
+    {{-- TABLE --}}
     <div class="table-responsive">
 
-        <table class="table table-bordered align-middle">
-            <thead class="table-dark">
+        <table class="table table-hover align-middle">
+
+            <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Image</th>
-                    <th>Name</th>
+                    <th>No</th>
+                    <th>Hotel</th>
                     <th>Location</th>
-                    <th>Price/Night</th>
+                    <th>Price / Night</th>
                     <th>Rating</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                @foreach($hotels as $hotel)
+                @forelse($hotels as $hotel)
 
                 <tr>
+
+                    {{-- NO --}}
                     <td>{{ $loop->iteration }}</td>
 
-                    {{-- IMAGE --}}
+                    {{-- HOTEL INFO --}}
                     <td>
-                        <img src="hote_images/{{ $hotel->thumbnail }}" class="hotel-img">
-                    </td>
-
-                    {{-- NAME --}}
-                    <td>
-                        <strong>{{ $hotel->name }}</strong><br>
-                        <small class="text-muted">{{ $hotel->city }}</small>
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('hotel_images/'.$hotel->thumbnail) }}" class="hotel-img mx-3">
+                            <div>
+                                <strong>{{ $hotel->name }}</strong><br>
+                                <small class="text-muted">{{ $hotel->city }}</small>
+                            </div>
+                        </div>
                     </td>
 
                     {{-- LOCATION --}}
                     <td>
-                        {{ $hotel->city }}, {{ $hotel->state }}, {{ $hotel->country }}
+                        {{ $hotel->city }}<br>
+                        <small class="text-muted">
+                            {{ $hotel->state }}, {{ $hotel->country }}
+                        </small>
                     </td>
 
                     {{-- PRICE --}}
                     <td>
-                        ₹{{ number_format($hotel->price_per_night) }}
+                        <strong>₹{{ number_format($hotel->price_per_night) }}</strong>
                     </td>
 
                     {{-- RATING --}}
                     <td>
                         <span class="badge-rating">
-                            ⭐ {{ $hotel->star_rating ?? 'N/A' }}
+                            {{ $hotel->star_rating ?? 'N/A' }}⭐
                         </span>
                     </td>
 
                     {{-- STATUS --}}
                     <td>
                         @if($hotel->status == 'active')
-                            <span class="badge bg-success">Active</span>
+                            <span class="badge bg-success px-3 py-2 text-white">Active</span>
                         @else
-                            <span class="badge bg-danger">Inactive</span>
+                            <span class="badge bg-danger px-3 py-2 text-white">Inactive</span>
                         @endif
                     </td>
 
                     {{-- ACTIONS --}}
-                    <td class="action-btns">
+                    <td class="text-center action-btns">
 
-                        {{-- VIEW --}}
-                        <a href="#" class="btn btn-sm btn-info">
-                            View
-                        </a>
 
-                        {{-- EDIT --}}
-                        <a href="#" class="btn btn-sm btn-warning">
+                        <a href="{{ route('admin.edithotel', $hotel->id) }}" class="btn btn-sm btn-warning text-white">
                             Edit
                         </a>
 
-                        {{-- DELETE --}}
-                        <form action="#" method="POST" style="display:inline;">
+                        <form action="{{ route('admin.deletehotel', $hotel->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure?')">
+                            <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this hotel?')">
                                 Delete
                             </button>
                         </form>
 
                     </td>
+
                 </tr>
 
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center">No hotels found</td>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        No hotels found 😕
+                    </td>
                 </tr>
                 @endforelse
 
             </tbody>
+
         </table>
 
     </div>

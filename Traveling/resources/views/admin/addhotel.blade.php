@@ -96,7 +96,7 @@
                     {{-- Website --}}
                     <div class="col-md-4">
                         <label class="form-label">Website</label>
-                        <input type="text" name="website" class="form-control">
+                        <input type="url" name="website" class="form-control" placeholder="https://example.com">
                     </div>
 
                     {{-- Star Rating --}}

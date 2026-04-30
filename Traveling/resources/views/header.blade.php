@@ -383,15 +383,21 @@ body {
     <!-- DESKTOP AUTH -->
     <div class="nav-actions">
       @auth
-        <!-- User is logged in -->
+        {{-- ✅ Show "Admin Panel" button only if admin --}}
+        @if(Auth::user()->usertype == 'admin')
+          <a href="{{ route('admin.viewhotel') }}" class="btn-login">
+            <i class="fa fa-dashboard" aria-hidden="true"></i>
+            <span>Admin Panel</span>
+          </a>
+        @endif
+
+        {{-- Show username for both admin and user --}}
         <a href="{{ route('dashboard') }}" class="btn-register">
           <i class="fa fa-user" aria-hidden="true"></i>
-          <span>
-              {{ Auth::user()->name }}
-          </span>
+          <span>{{ Auth::user()->name }}</span>
         </a>
       @else
-        <!-- User is NOT logged in -->
+        {{-- User is NOT logged in --}}
         <a href="{{ route('login') }}" class="btn-login">
           <i class="fa fa-user" aria-hidden="true"></i>
           <span>Login</span>

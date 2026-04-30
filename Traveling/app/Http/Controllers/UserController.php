@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\flight;
+use App\Models\Flight;
 use App\Models\Booking;
+use App\Models\Hotel;
+use App\Models\Hotelimage;
+use App\Models\Room;
+use App\Models\Roomimage;
 
 class UserController extends Controller
 {
@@ -19,12 +23,13 @@ class UserController extends Controller
     }
 
     function home(){
-        $flights = flight::limit(6)->get();
-        return view('index', compact('flights'));
+        $flights = Flight::limit(6)->get();
+        $hotels = Hotel::with('images')->where('status', 'active')->limit(6)->get();
+        return view('index', compact('flights', 'hotels'));
     }
 
     function flightbook($id){
-        $flight = flight::find($id);
+        $flight = Flight::find($id);
         if(!$flight){
             return redirect()->route('index')->with('error', 'Flight not found.');
         }
@@ -68,5 +73,16 @@ class UserController extends Controller
         $booking->save();
 
         return redirect()->back()->with('success', 'Booking Confirmed!');
+    }
+
+    public function hotelview($id)
+    {
+        // Get hotel with images
+        $hotel = Hotel::with('images')->findOrFail($id);
+
+        // 🔥 Get only THIS hotel's rooms with images
+        $rooms = Room::with(['images' => function($q) {$q->orderBy('sort_order');}])->where('hotel_id', $id)->where('status', 1)->get();
+
+        return view('hoteldetails', compact('hotel', 'rooms'));
     }
 }

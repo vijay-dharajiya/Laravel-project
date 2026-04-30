@@ -46,7 +46,7 @@ body { font-family: 'Poppins', sans-serif; }
     z-index:2;
     animation:fadeUp 1s ease;
 }
-
+/* TITLE */
 .hero-title {
     font-size: clamp(50px,7vw,90px);
     font-weight:800;
@@ -93,7 +93,7 @@ body { font-family: 'Poppins', sans-serif; }
     from {opacity:0; transform:translateY(40px);}
     to {opacity:1; transform:translateY(0);}
 }
-
+/** ================= TRENDING LISTINGS ================= */
 /* TABS */
 .pro-tab {
     padding: 10px 26px;
@@ -125,7 +125,8 @@ body { font-family: 'Poppins', sans-serif; }
     transition: 0.6s;
 }
 .pro-tab:hover::before { left: 100%; }
-
+/* TREND ITEM */
+.trend-item { transition: 0.4s; }
 /* CARD */
 .trend-card-pro{
     background:#fff;
@@ -246,6 +247,21 @@ body { font-family: 'Poppins', sans-serif; }
   .trend-img img{
     height: 160px;
   }
+
+  /*=================       Hotel Section          =================*/  
+  /* HOTEL BADGE GLOW */
+.trend-card-pro:hover .bg-warning {
+    box-shadow: 0 0 15px rgba(255,193,7,0.7);
+}
+
+/* FACILITY ICON STYLE */
+.trend-card-pro span {
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+  
 }
 </style>
 
@@ -334,12 +350,13 @@ body { font-family: 'Poppins', sans-serif; }
                     <div class="d-flex justify-content-between text-center my-3">
 
                         <div>
+                            <p>Origin</p>
                             <strong>{{ $dep->format('h:i A') }}</strong><br>
                             <small class="text-muted">{{ $flight->from_city }}</small>
                         </div>
 
                         <div class="flex-grow-1 px-2">
-                            <div class="line"></div>
+                            <div class="line mt-3"></div>
                             <small class="text-muted">
                                 {{ $diff->h }}h {{ $diff->i }}m
                             </small><br>
@@ -349,6 +366,7 @@ body { font-family: 'Poppins', sans-serif; }
                         </div>
 
                         <div>
+                            <p>Destination</p>
                             <strong>{{ $arr->format('h:i A') }}</strong><br>
                             <small class="text-muted">{{ $flight->to_city }}</small>
                         </div>
@@ -372,7 +390,74 @@ body { font-family: 'Poppins', sans-serif; }
 
     </div>
 
-    <!-- HOTEL SECTION -->
+   <!-- HOTEL SECTION -->
+    <div class="row g-4">
+
+        @foreach($hotels as $hotel)
+        <div class="col-md-6 col-lg-4 trend-item d-none" data-type="hotel">
+
+            <div class="trend-card-pro">
+
+                {{-- IMAGE --}}
+                <div class="trend-img">
+                    <img src="{{ asset('hotel_images/'.$hotel->thumbnail) }}">
+                    <div class="img-overlay"></div>
+
+                    {{-- RATING BADGE --}}
+                    <div class="position-absolute top-0 end-0 m-2 bg-warning text-dark px-2 py-1 rounded">
+                        ⭐ {{ $hotel->star_rating ?? 'N/A' }}
+                    </div>
+                </div>
+
+                {{-- CONTENT --}}
+                <div class="p-3">
+
+                    {{-- HOTEL NAME --}}
+                    <h6 class="fw-bold mb-1">
+                        {{ $hotel->name }}
+                    </h6>
+
+                    {{-- LOCATION --}}
+                    <small class="text-muted">
+                        <i class="fa-solid fa-location-dot text-danger"></i>
+                        {{ $hotel->city }}, {{ $hotel->country }}
+                    </small>
+
+                    {{-- FACILITIES --}}
+                    <div class="mt-2 small text-muted">
+                        @if($hotel->wifi) <span class="me-2">📶 Wifi</span> @endif
+                        @if($hotel->parking) <span class="me-2">🅿 Parking</span> @endif
+                        @if($hotel->pool) <span class="me-2">🏊 Pool</span> @endif
+                        @if($hotel->ac) <span class="me-2">❄ AC</span> @endif
+                        @if($hotel->restaurant) <span class="me-2">🍽️ Restaurant</span> @endif
+                    </div>
+
+                    {{-- PRICE + BUTTON --}}
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+
+                        <div>
+                            <h5 class="text-success fw-bold mb-0">
+                                ₹{{ number_format($hotel->price_per_night) }}
+                            </h5>
+                            <small class="text-muted">per night</small>
+                        </div>
+
+                        <a href="{{ route('hotelview', $hotel->id) }}" class="btn btn-sm btn-main">
+                            View
+                        </a>
+                        
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        @endforeach
+
+    </div>
+
 
 </div>
 </section>
