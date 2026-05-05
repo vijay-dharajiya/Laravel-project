@@ -77,7 +77,7 @@ body {
 
 @keyframes glow {
   0%, 100% { box-shadow: 0 0 10px rgba(255,87,34,0.4); }
-  50% { box-shadow: 0 0 25px rgba(255,87,34,0.8); }
+  50%       { box-shadow: 0 0 25px rgba(255,87,34,0.8); }
 }
 
 .logo-text {
@@ -90,101 +90,8 @@ body {
   color: var(--primary);
 }
 
-/* ===== NAV LINKS ===== */
-.nav-links {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 2px;
-}
-
-.nav-links > li {
-  position: relative;
-}
-
-.nav-links > li > a {
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  height: var(--nav-height);
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
-  position: relative;
-  transition: 0.3s;
-}
-
-.navbar.scrolled .nav-links > li > a {
+.navbar.scrolled .logo-text {
   color: #222;
-}
-
-/* HOVER */
-.nav-links > li > a::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff5722, #ff8a50);
-  border-radius: 4px;
-  transform: scaleX(0);
-  transition: transform 0.25s ease;
-}
-
-.nav-links > li:hover > a {
-  color: #ff8a50;
-  transform: translateY(-2px);
-}
-
-.nav-links > li:hover > a::after {
-  transform: scaleX(1);
-}
-
-/* ===== DROPDOWN ===== */
-.mega-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  min-width: 220px;
-  border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-  padding: 10px 0;
-  animation: fadeDown 0.25s ease;
-}
-
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.nav-links > li:hover .mega-menu {
-  display: block;
-}
-
-.mega-menu a {
-  display: block;
-  padding: 8px 16px;
-  text-decoration: none;
-  color: #333;
-}
-
-.mega-menu a:hover {
-  background: #fff5f2;
-  color: var(--primary);
-  padding-left: 20px;
-}
-
-.menu-img {
-  display: block;
-  width: calc(100% - 36px);
-  max-height: 110px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin: 8px 18px 14px;
 }
 
 /* ===== RIGHT SIDE ===== */
@@ -200,6 +107,9 @@ body {
   border-radius: 8px;
   text-decoration: none;
   color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s;
 }
 
 .navbar.scrolled .btn-login {
@@ -217,88 +127,65 @@ body {
   background: linear-gradient(135deg, #ff5722, #ff8a50);
   color: #fff;
   text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-/* ===== MOBILE ===== */
-.mobile-toggle {
-  display: none;
-  font-size: 22px;
+.btn-register:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ===== MOBILE AUTH ===== */
+.mobile-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.4);
   color: #fff;
-  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.navbar.scrolled .mobile-btn {
+  color: #222;
+  border-color: rgba(0,0,0,0.3);
+}
+
+.mobile-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.mobile-btn.primary {
+  background: linear-gradient(135deg, #ff5722, #ff8a50);
+  color: #fff;
+  border: none;
+}
+
+.mobile-btn.primary:hover {
+  opacity: 0.9;
 }
 
 @media (max-width: 992px) {
-
-  .mobile-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    display: flex !important;
-    position: absolute;
-    top: 72px;
-    left: 0;
-    width: 100%;
-    flex-direction: column;
-    background: #ffffff;
-    max-height: 0;
-    overflow: hidden;
-    transition: 0.3s ease;
-  }
-
-  .nav-links.active {
-    max-height: 600px;
-  }
-
-  .nav-links > li > a {
-    height: auto;
-    padding: 14px 20px;
-    color: #222;
-  }
-
-  .mega-menu {
-    position: static;
-    display: none !important;
-    background: #f9f9f9;
-    box-shadow: none;
-  }
-
-  .dropdown.active .mega-menu {
-    display: block !important;
-  }
-
-  .mega-menu a {
-    color: #444;
-  }
-
-  .menu-img {
-    display: none;
-  }
-
   .nav-actions {
     display: none;
   }
+}
 
-  /* MOBILE AUTH */
+@media (min-width: 993px) {
   .mobile-auth {
-    padding: 10px 20px;
-  }
-
-  .mobile-btn {
-    display: block;
-    margin: 8px 0;
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-    color: #333;
-  }
-
-  .mobile-btn.primary {
-    background: linear-gradient(135deg, #ff5722, #ff8a50);
-    color: #fff;
-    border: none;
+    display: none;
   }
 }
 </style>
@@ -317,73 +204,29 @@ body {
       <span class="logo-text">Dreams<span>Tour</span></span>
     </a>
 
-    <!-- MOBILE BUTTON -->
-    <div class="mobile-toggle d-lg-none" id="menuToggle">
-      <i class="fa-solid fa-bars"></i>
+    <!-- MOBILE AUTH -->
+    <div class="mobile-auth d-lg-none">
+      @auth
+        <a href="{{ route('dashboard') }}" class="mobile-btn">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span>{{ Auth::user()->name }}</span>
+        </a>
+      @else
+        <a href="{{ route('login') }}" class="mobile-btn">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span>Login</span>
+        </a>
+        <a href="{{ route('register') }}" class="mobile-btn primary">
+          <i class="fa fa-user-plus" aria-hidden="true"></i>
+          <span>Sign Up</span>
+        </a>
+      @endauth
     </div>
-
-    <!-- NAV -->
-    <ul class="nav-links d-lg-flex" id="navMenu">
-
-      <li><a href="{{ route('index') }}">Home</a></li>
-
-      <li class="dropdown">
-        <a href="#">Flight</a>
-        <div class="mega-menu">
-          <a href="#">Flight List</a>
-          <a href="#">Flight Details</a>
-          <a href="#">Flight Booking</a>
-          <img class="menu-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=300&q=80">
-        </div>
-      </li>
-
-      <li class="dropdown">
-        <a href="#">Hotel</a>
-        <div class="mega-menu">
-          <a href="#">Hotel List</a>
-          <a href="#">Hotel Map</a>
-          <a href="#">Hotel Booking</a>
-          <img class="menu-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&q=80">
-        </div>
-      </li>
-
-      <li class="dropdown">
-        <a href="#">Tour</a>
-        <div class="mega-menu">
-          <a href="#">Tour List</a>
-          <a href="#">Tour Details</a>
-          <a href="#">Tour Booking</a>
-          <img class="menu-img" src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=300&q=80">
-        </div>
-      </li>
-
-      <!-- MOBILE AUTH -->
-      <li class="mobile-auth d-lg-none">
-        @auth
-          <a href="{{ route('dashboard') }}" class="mobile-btn">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <span>
-                {{ Auth::user()->name }}
-            </span>
-          </a>
-        @else
-          <a href="{{ route('login') }}" class="mobile-btn">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <span>Login</span>
-          </a>
-          <a href="{{ route('register') }}" class="mobile-btn primary">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
-            <span>Sign Up</span>
-          </a>
-        @endauth
-      </li>
-
-    </ul>
 
     <!-- DESKTOP AUTH -->
     <div class="nav-actions">
       @auth
-        {{-- ✅ Show "Admin Panel" button only if admin --}}
+        {{-- Show "Admin Panel" button only if admin --}}
         @if(Auth::user()->usertype == 'admin')
           <a href="{{ route('admin.viewhotel') }}" class="btn-login">
             <i class="fa fa-dashboard" aria-hidden="true"></i>
@@ -403,7 +246,7 @@ body {
           <span>Login</span>
         </a>
         <a href="{{ route('register') }}" class="btn-register">
-          <i class="fa fa-user" aria-hidden="true"></i>
+          <i class="fa fa-user-plus" aria-hidden="true"></i>
           <span>Sign Up</span>
         </a>
       @endauth
@@ -420,27 +263,6 @@ body {
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 10);
-});
-
-// MOBILE MENU
-const toggle = document.getElementById('menuToggle');
-const menu = document.getElementById('navMenu');
-
-toggle.addEventListener('click', () => {
-  menu.classList.toggle('active');
-});
-
-// MOBILE DROPDOWN
-document.querySelectorAll('.nav-links > li > a').forEach(link => {
-  link.addEventListener('click', function(e){
-    if(window.innerWidth < 992){
-      const parent = this.parentElement;
-      if(parent.querySelector('.mega-menu')){
-        e.preventDefault();
-        parent.classList.toggle('active');
-      }
-    }
-  });
 });
 </script>
 

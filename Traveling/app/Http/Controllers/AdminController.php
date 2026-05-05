@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Flight;       // ✅ uppercase
-use App\Models\Hotel;        // ✅ uppercase
-use App\Models\HotelImage;   // ✅ fixed
+use App\Models\Flight;       
+use App\Models\FlightClass; 
+use App\Models\FlightSchedule;
+use App\Models\Hotel;        
+use App\Models\HotelImage;   
 use App\Models\Room;
-use App\Models\RoomImage;    // ✅ fixed
-use App\Models\RoomType;     // ✅ fixed
+use App\Models\RoomImage;    
+use App\Models\RoomType;     
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -21,87 +24,366 @@ class AdminController extends Controller
 
     public function viewflight()
     {
-        $flights = Flight::all(); // ✅ uppercase
+        $flights = Flight::all(); 
         return view('admin.viewflight', compact('flights'));
     }
 
     public function postAddflight(Request $rq)
     {
+        // ✅ Validation
         $rq->validate([
-            'airline_name'   => 'required',
-            'flight_no'      => 'required|unique:flights,flight_no',
-            'from_city'      => 'required',
-            'to_city'        => 'required',
-            'departure_time' => 'required',
-            'arrival_time'   => 'required',
-            'price'          => 'required|numeric',
+            'airline_name'        => 'required',
+            'airline_code'        => 'required|max:10',
+            'flight_number'       => 'required|unique:flights,flight_number',
+            'aircraft_type'       => 'nullable',
+
+            'from_city'           => 'required',
+            'from_airport'        => 'required',
+            'from_airport_code'   => 'required|max:10',
+
+            'to_city'             => 'required',
+            'to_airport'          => 'required',
+            'to_airport_code'     => 'required|max:10',
+
+            'departure_time'      => 'required',
+            'arrival_time'        => 'required',
+
+            'stops'               => 'required|integer|min:0|max:2',
+            'stopover_cities' => 'nullable|required_if:stops,1|required_if:stops,2',
         ]);
 
-        $flight = new Flight();
-        $flight->airline_name   = $rq->airline_name;
-        $flight->flight_name    = $rq->flight_name;
-        $flight->flight_no      = $rq->flight_no;
-        $flight->from_city      = $rq->from_city;
-        $flight->to_city        = $rq->to_city;
-        $flight->departure_time = $rq->departure_time;
-        $flight->arrival_time   = $rq->arrival_time;
-        $flight->price          = $rq->price;
-        $flight->stops          = $rq->stops ?? 'Non-stop';
-
-        if ($rq->hasFile('image')) {
-            $img       = $rq->file('image');
-            $imagename = time() . '.' . $img->getClientOriginalExtension();
-            $img->move(public_path('images'), $imagename);
-            $flight->image = $imagename;
+        // ❌ Prevent same airport
+        if ($rq->from_airport_code == $rq->to_airport_code) {
+            return back()->with('error', 'From and To airport cannot be same');
         }
 
+        // ✅ Create Flight Object
+        $flight = new Flight();
+
+        // ─── Airline Info ───
+        $flight->airline_name  = $rq->airline_name;
+        $flight->airline_code  = $rq->airline_code;
+        $flight->flight_number = $rq->flight_number;
+        $flight->aircraft_type = $rq->aircraft_type;
+
+        // ─── Route ───
+        $flight->from_city          = $rq->from_city;
+        $flight->from_airport       = $rq->from_airport;
+        $flight->from_airport_code  = strtoupper($rq->from_airport_code);
+
+        $flight->to_city            = $rq->to_city;
+        $flight->to_airport         = $rq->to_airport;
+        $flight->to_airport_code    = strtoupper($rq->to_airport_code);
+
+        // ─── Timing ───
+        $flight->departure_time     = $rq->departure_time;
+        $flight->arrival_time       = $rq->arrival_time;
+        $flight->overnight_arrival  = $rq->overnight_arrival ?? 0;
+
+        // ─── Stops ───
+        $flight->stops = $rq->stops;
+
+        // Stopover cities (comma → JSON)
+        if (!empty($rq->stopover_cities)) {
+            $cities = array_map('trim', explode(',', $rq->stopover_cities));
+            $flight->stopover_cities = json_encode(array_values(array_filter($cities)));
+        }
+
+        // ─── Airline Logo Upload (Your Style) ───
+        if ($rq->hasFile('airline_logo')) {
+            $img = $rq->file('airline_logo');
+
+            $imagename = time() . '_logo.' . $img->getClientOriginalExtension();
+
+            $img->move(public_path('airline_logos'), $imagename);
+
+            $flight->airline_logo = 'airline_logos/' . $imagename;
+        }
+
+        // ─── Status ───
+        $flight->is_active = $rq->has('is_active') ? 1 : 0;
+
+        // ✅ Save
         $flight->save();
-        return redirect()->route('admin.viewflight')->with('msg', 'Flight Added Successfully');
+
+        return redirect()->route('admin.viewflight')->with('msg', '✈️ Flight Added Successfully');
     }
+
 
     public function editflight($id)
     {
-        $flight = Flight::findOrFail($id); // ✅ uppercase
+        $flight = Flight::findOrFail($id); 
         return view('admin.updateflight', compact('flight'));
     }
 
     public function posteditflight(Request $rq, $id)
     {
-        $flight = Flight::findOrFail($id); // ✅ uppercase
+        // ✅ Validation
+        $rq->validate([
+            'airline_name'        => 'required',
+            'airline_code'        => 'required|max:10',
+            'flight_number'       => 'required|unique:flights,flight_number,' . $id,
+            'aircraft_type'       => 'nullable',
 
-        $flight->airline_name   = $rq->airline_name;
-        $flight->flight_name    = $rq->flight_name;
-        $flight->flight_no      = $rq->flight_no;
-        $flight->from_city      = $rq->from_city;
-        $flight->to_city        = $rq->to_city;
-        $flight->departure_time = $rq->departure_time;
-        $flight->arrival_time   = $rq->arrival_time;
-        $flight->stops          = $rq->stops;
-        $flight->price          = $rq->price;
+            'from_city'           => 'required',
+            'from_airport'        => 'required',
+            'from_airport_code'   => 'required|max:10',
 
-        if ($rq->hasFile('image')) {
-            if ($flight->image && file_exists(public_path('images/' . $flight->image))) {
-                unlink(public_path('images/' . $flight->image));
-            }
-            $img       = $rq->file('image');
-            $imagename = time() . '.' . $img->getClientOriginalExtension();
-            $img->move(public_path('images'), $imagename);
-            $flight->image = $imagename;
+            'to_city'             => 'required',
+            'to_airport'          => 'required',
+            'to_airport_code'     => 'required|max:10',
+
+            'departure_time'      => 'required',
+            'arrival_time'        => 'required',
+
+            'stops'               => 'required|integer|min:0|max:2',
+        ]);
+
+        $flight = Flight::findOrFail($id);
+
+        // ❌ Prevent same airport
+        if ($rq->from_airport_code == $rq->to_airport_code) {
+            return back()->with('error', 'From and To airport cannot be same');
         }
 
-        $flight->save();
-        return redirect()->route('admin.viewflight')->with('msg', 'Flight Updated Successfully');
-    }
+        // ─── Airline Info ───
+        $flight->airline_name  = $rq->airline_name;
+        $flight->airline_code  = $rq->airline_code;
+        $flight->flight_number = $rq->flight_number;
+        $flight->aircraft_type = $rq->aircraft_type;
 
+        // ─── Route ───
+        $flight->from_city          = $rq->from_city;
+        $flight->from_airport       = $rq->from_airport;
+        $flight->from_airport_code  = strtoupper($rq->from_airport_code);
+
+        $flight->to_city            = $rq->to_city;
+        $flight->to_airport         = $rq->to_airport;
+        $flight->to_airport_code    = strtoupper($rq->to_airport_code);
+
+        // ─── Timing ───
+        $flight->departure_time     = $rq->departure_time;
+        $flight->arrival_time       = $rq->arrival_time;
+        $flight->overnight_arrival  = $rq->overnight_arrival ?? 0;
+
+        // ─── Stops ───
+        $flight->stops = $rq->stops;
+
+        // Stopover cities JSON
+        if (!empty($rq->stopover_cities)) {
+            $cities = array_map('trim', explode(',', $rq->stopover_cities));
+            $flight->stopover_cities = json_encode(array_values(array_filter($cities)));
+        } else {
+            $flight->stopover_cities = null;
+        }
+
+        // ─── Airline Logo Update (Your Style) ───
+        if ($rq->hasFile('airline_logo')) {
+
+            // Delete old logo
+            if ($flight->airline_logo && file_exists(public_path($flight->airline_logo))) {
+                unlink(public_path($flight->airline_logo));
+            }
+
+            $img = $rq->file('airline_logo');
+            $imagename = time() . '_logo.' . $img->getClientOriginalExtension();
+
+            $img->move(public_path('airline_logos'), $imagename);
+
+            $flight->airline_logo = 'airline_logos/' . $imagename;
+        }
+
+        // ─── Status ───
+        $flight->is_active = $rq->has('is_active') ? 1 : 0;
+
+        // ✅ Save
+        $flight->save();
+
+        return redirect()->route('admin.viewflight')->with('msg', '✏️ Flight Updated Successfully');
+    }
+    
     public function deleteflight($id)
     {
-        $flight = Flight::findOrFail($id); // ✅ uppercase
-        if ($flight->image && file_exists(public_path('images/' . $flight->image))) {
-            unlink(public_path('images/' . $flight->image));
+        $flight = Flight::findOrFail($id);
+
+        // Delete airline logo
+        if ($flight->airline_logo && file_exists(public_path($flight->airline_logo))) {
+            unlink(public_path($flight->airline_logo));
         }
+
         $flight->delete();
-        return redirect()->route('admin.viewflight')->with('msg', 'Flight Deleted Successfully');
+
+        return redirect()->route('admin.viewflight')->with('msg', '🗑️ Flight Deleted Successfully');
     }
+
+
+
+    /*================== FLIGHT CLASS FUNCTIONS ==================*/
+
+    // ─── Show all classes of a flight ─────────────────────────────────
+    public function flightClassIndex($flightId)
+    {
+        $flight  = Flight::findOrFail($flightId);
+        $classes = FlightClass::where('flight_id', $flightId)->get();
+
+        return view('admin.flight_classes.index', compact('flight', 'classes'));
+    }
+
+    // ─── Show add form ─────────────────────────────────────────────────
+    public function flightClassCreate($flightId)
+    {
+        $flight = Flight::findOrFail($flightId);
+
+        // Find which classes already exist for this flight
+        $existingTypes = FlightClass::where('flight_id', $flightId)
+                                    ->pluck('class_type')
+                                    ->toArray();
+
+        // Only show classes that are NOT added yet
+        $allTypes      = ['Economy', 'Premium Economy', 'Business', 'First'];
+        $availableTypes = array_diff($allTypes, $existingTypes);
+
+        if (empty($availableTypes)) {
+            return redirect()
+                ->route('admin.flightclass.index', $flightId)
+                ->with('error', 'All 4 classes already added for this flight.');
+        }
+
+        return view('admin.flight_classes.create', compact('flight', 'availableTypes'));
+    }
+
+    // ─── Store classes ─────────────────────────────────────────────────
+    public function flightClassStore(Request $rq, $flightId)
+    {
+        $flight = Flight::findOrFail($flightId);
+
+        $rq->validate([
+            'classes'                        => 'required|array|min:1',
+            'classes.*.class_type'           => 'required|in:Economy,Premium Economy,Business,First',
+            'classes.*.total_seats'          => 'required|integer|min:1',
+            'classes.*.base_price'           => 'required|numeric|min:0',
+            'classes.*.tax'                  => 'required|numeric|min:0',
+            'classes.*.cabin_baggage_kg'     => 'required|integer|min:0',
+            'classes.*.checkin_baggage_kg'   => 'required|integer|min:0',
+            'classes.*.is_refundable'        => 'nullable|boolean',
+            'classes.*.cancellation_charge'  => 'nullable|numeric|min:0',
+        ]);
+
+        foreach ($rq->classes as $classData) {
+
+            // Prevent duplicate class type for same flight
+            $exists = FlightClass::where('flight_id', $flightId)
+                                  ->where('class_type', $classData['class_type'])
+                                  ->exists();
+
+            if ($exists) continue; // skip if already added
+
+            $base = (float) $classData['base_price'];
+            $tax  = (float) $classData['tax'];
+
+            FlightClass::create([
+                'flight_id'           => $flightId,
+                'class_type'          => $classData['class_type'],
+
+                // Seats
+                'total_seats'         => $classData['total_seats'],
+                'available_seats'     => $classData['total_seats'], // same as total at start
+                'booked_seats'        => 0,
+
+                // Pricing
+                'base_price'          => $base,
+                'tax'                 => $tax,
+                'total_price'         => $base + $tax, // auto calculated
+                'currency'            => 'INR',
+
+                // Baggage
+                'cabin_baggage_kg'    => $classData['cabin_baggage_kg'],
+                'checkin_baggage_kg'  => $classData['checkin_baggage_kg'],
+
+                // Refund
+                'is_refundable'       => isset($classData['is_refundable']) ? 1 : 0,
+                'cancellation_charge' => $classData['cancellation_charge'] ?? 0,
+            ]);
+        }
+
+        return redirect()
+            ->route('admin.flightclass.index', $flightId)
+            ->with('msg', '✅ Flight Classes Added Successfully');
+    }
+
+    // ─── Show edit form ────────────────────────────────────────────────
+    public function flightClassEdit($id)
+    {
+        $class  = FlightClass::findOrFail($id);
+        $flight = Flight::findOrFail($class->flight_id);
+
+        return view('admin.flight_classes.edit', compact('class', 'flight'));
+    }
+
+    // ─── Update class ──────────────────────────────────────────────────
+    public function flightClassUpdate(Request $rq, $id)
+    {
+        $class = FlightClass::findOrFail($id);
+
+        $rq->validate([
+            'total_seats'         => 'required|integer|min:1',
+            'base_price'          => 'required|numeric|min:0',
+            'tax'                 => 'required|numeric|min:0',
+            'cabin_baggage_kg'    => 'required|integer|min:0',
+            'checkin_baggage_kg'  => 'required|integer|min:0',
+            'is_refundable'       => 'nullable|boolean',
+            'cancellation_charge' => 'nullable|numeric|min:0',
+        ]);
+
+        $base = (float) $rq->base_price;
+        $tax  = (float) $rq->tax;
+
+        // Recalculate available seats if total_seats changed
+        $seatDiff            = $rq->total_seats - $class->total_seats;
+        $newAvailable        = $class->available_seats + $seatDiff;
+
+        // available_seats should never go below 0
+        if ($newAvailable < 0) {
+            return back()->with('error', 'Total seats cannot be less than already booked seats.');
+        }
+
+        $class->total_seats         = $rq->total_seats;
+        $class->available_seats     = $newAvailable;
+        $class->base_price          = $base;
+        $class->tax                 = $tax;
+        $class->total_price         = $base + $tax;
+        $class->cabin_baggage_kg    = $rq->cabin_baggage_kg;
+        $class->checkin_baggage_kg  = $rq->checkin_baggage_kg;
+        $class->is_refundable       = $rq->has('is_refundable') ? 1 : 0;
+        $class->cancellation_charge = $rq->cancellation_charge ?? 0;
+
+        $class->save();
+
+        return redirect()
+            ->route('admin.flight_classes.index', $class->flight_id)
+            ->with('msg', '✏️ Class Updated Successfully');
+    }
+
+    // ─── Delete class ──────────────────────────────────────────────────
+    public function flightClassDestroy($id)
+    {
+        $class    = FlightClass::findOrFail($id);
+        $flightId = $class->flight_id;
+
+        // Safety check — don't delete if bookings exist
+        if ($class->booked_seats > 0) {
+            return redirect()
+                ->route('admin.flight_classes.index', $flightId)
+                ->with('error', '❌ Cannot delete. This class has active bookings.');
+        }
+
+        $class->delete();
+
+        return redirect()
+            ->route('admin.flight_classes.index', $flightId)
+            ->with('msg', '🗑️ Class Deleted Successfully');
+    }
+
 
     /*==================  HOTEL FUNCTIONS  ==================*/
 
@@ -112,7 +394,7 @@ class AdminController extends Controller
 
     public function viewhotel()
     {
-        $hotels = Hotel::all(); // ✅ uppercase
+        $hotels = Hotel::all(); 
         return view('admin.viewhotel', compact('hotels'));
     }
 
@@ -129,8 +411,8 @@ class AdminController extends Controller
     }
     public function hotelroom()
     {
-        $hotels     = Hotel::all();    // ✅ uppercase
-        $room_types = RoomType::where('status', 1)->get(); // ✅ fixed
+        $hotels     = Hotel::all();    
+        $room_types = RoomType::where('status', 1)->get(); 
         return view('admin.addhotelroom', compact('hotels', 'room_types'));
     }
 
@@ -141,8 +423,118 @@ class AdminController extends Controller
         // ✅ Empty by default — rooms load via AJAX after hotel selected
         $rooms = collect();
         $room_types = RoomType::where('status', 1)->get(); 
-        return view('admin.addroomimage', compact('hotels', 'rooms',));
+        return view('admin.addroomimage', compact('hotels', 'rooms', 'room_types'));
     }
+
+
+    /*================== FLIGHT SCHEDULE FUNCTIONS ==================*/
+
+    // ─── Show all schedules of a flight ───────────────────────────────
+    public function flightScheduleIndex($flightId)
+    {
+        $flight    = Flight::findOrFail($flightId);
+        $schedules = FlightSchedule::where('flight_id', $flightId)
+                                   ->orderBy('journey_date', 'asc')
+                                   ->paginate(30);
+
+        return view('admin.flight_schedules.index', compact('flight', 'schedules'));
+    }
+
+    // ─── Generate schedules in bulk (30/60/90 days) ───────────────────
+    public function flightScheduleGenerate(Request $rq, $flightId)
+    {
+        $rq->validate([
+            'days' => 'required|in:30,60,90',
+        ]);
+
+        $flight  = Flight::findOrFail($flightId);
+        $days    = (int) $rq->days;
+        $created = 0;
+        $skipped = 0;
+
+        for ($i = 0; $i < $days; $i++) {
+
+            $date = Carbon::today()->addDays($i)->toDateString();
+
+            // Skip if already exists
+            $exists = FlightSchedule::where('flight_id', $flightId)
+                                    ->where('journey_date', $date)
+                                    ->exists();
+
+            if ($exists) {
+                $skipped++;
+                continue;
+            }
+
+            FlightSchedule::create([
+                'flight_id'    => $flightId,
+                'journey_date' => $date,
+                'status'       => 'Scheduled',
+            ]);
+
+            $created++;
+        }
+
+        $msg = "✅ {$created} schedules created.";
+        if ($skipped > 0) {
+            $msg .= " {$skipped} already existed, skipped.";
+        }
+
+        return redirect()
+            ->route('admin.flightschedule.index', $flightId)
+            ->with('msg', $msg);
+    }
+
+    // ─── Update status of a single schedule ───────────────────────────
+    public function flightScheduleUpdateStatus(Request $rq, $id)
+    {
+        $rq->validate([
+            'status' => 'required|in:Scheduled,On Time,Delayed,Cancelled,Boarding,Departed,Landed',
+        ]);
+
+        $schedule         = FlightSchedule::findOrFail($id);
+        $schedule->status = $rq->status;
+        $schedule->save();
+
+        return redirect()
+            ->route('admin.flightschedule.index', $schedule->flight_id)
+            ->with('msg', '✅ Schedule status updated.');
+    }
+
+    // ─── Delete single schedule ────────────────────────────────────────
+    public function flightScheduleDestroy($id)
+    {
+        $schedule = FlightSchedule::findOrFail($id);
+        $flightId = $schedule->flight_id;
+
+        // Safety — don't delete past or active schedules
+        if (in_array($schedule->status, ['Boarding', 'Departed'])) {
+            return redirect()
+                ->route('admin.flightschedule.index', $flightId)
+                ->with('error', '❌ Cannot delete. Flight is currently Boarding or Departed.');
+        }
+
+        $schedule->delete();
+
+        return redirect()
+            ->route('admin.flightschedule.index', $flightId)
+            ->with('msg', '🗑️ Schedule deleted.');
+    }
+
+    // ─── Delete ALL past schedules of a flight (cleanup) ──────────────
+    public function flightScheduleCleanup($flightId)
+    {
+        Flight::findOrFail($flightId); // verify flight exists
+
+        $deleted = FlightSchedule::where('flight_id', $flightId)
+                                  ->where('journey_date', '<', Carbon::today())
+                                  ->delete();
+
+        return redirect()
+            ->route('admin.flightschedule.index', $flightId)
+            ->with('msg', "🧹 {$deleted} past schedules cleaned up.");
+    }
+
 
     /*==================  HOTEL STORE  ==================*/
 
@@ -205,13 +597,13 @@ class AdminController extends Controller
 
     public function edithotel($id)
     {
-        $hotel = Hotel::findOrFail($id); // ✅
+        $hotel = Hotel::findOrFail($id); 
         return view('admin.updatehotel', compact('hotel'));
     }
 
     public function postedithotel(Request $rq, $id)
     {
-        $hotel                  = Hotel::findOrFail($id); // ✅
+        $hotel                  = Hotel::findOrFail($id); 
         $hotel->name            = $rq->name;
         $hotel->description     = $rq->description;
         $hotel->city            = $rq->city;
@@ -282,7 +674,7 @@ class AdminController extends Controller
             $filename = time() . '_' . uniqid() . '.' . $img->getClientOriginalExtension();
             $img->move(public_path('hotel_images'), $filename);
 
-            $hotelImage           = new HotelImage(); // ✅ fixed class name
+            $hotelImage           = new HotelImage();  
             $hotelImage->hotel_id = $rq->hotel_id;
             $hotelImage->image    = $filename;
             $hotelImage->save();
@@ -318,7 +710,7 @@ class AdminController extends Controller
             'price'       => 'required|numeric|min:0',
             'total_rooms' => 'required|integer|min:1',
             'description' => 'nullable|string',
-            'status'      => 'required|in:0,1', // ✅ fixed validation
+            'status'      => 'required|in:0,1',
         ]);
 
         $room              = new Room();
@@ -352,7 +744,7 @@ class AdminController extends Controller
 
             $roomImage             = new RoomImage();
             $roomImage->hotel_id   = $rq->hotel_id;
-            $roomImage->room_id    = $rq->room_id;  // ✅ now correctly points to rooms.id
+            $roomImage->room_id    = $rq->room_id;  
             $roomImage->image      = $filename;
             $roomImage->is_primary = $index === 0 ? 1 : 0;
             $roomImage->sort_order = $index;

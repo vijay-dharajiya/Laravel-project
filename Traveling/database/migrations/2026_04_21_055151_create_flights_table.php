@@ -6,48 +6,43 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('flights', function (Blueprint $table) {
             $table->id();
 
-            // Airline Info
+            // ─── Airline Info ────────────────────────────────────────
             $table->string('airline_name');
-            $table->string('flight_name')->nullable();
-            $table->string('flight_no')->unique();
+            $table->string('airline_code', 10);           // e.g. "AI", "6E", "SG"
+            $table->string('flight_number', 20)->unique(); // e.g. "AI-202"
+            $table->string('aircraft_type')->nullable();   // e.g. "Boeing 737"
+            $table->string('airline_logo')->nullable();    // image path
 
-            // Image / Logo
-            $table->string('image')->nullable();
-
-            // Route
+            // ─── Route ───────────────────────────────────────────────
             $table->string('from_city');
+            $table->string('from_airport');                // full airport name
+            $table->string('from_airport_code', 10);      // IATA e.g. "AMD"
             $table->string('to_city');
+            $table->string('to_airport');
+            $table->string('to_airport_code', 10);
 
-            // Timing
+            // ─── Schedule (fixed timings, no date here) ───────────────
             $table->time('departure_time');
             $table->time('arrival_time');
+            // duration is NOT stored — calculated via Laravel accessor
+            $table->tinyInteger('overnight_arrival')->default(0); // +1 day flag
 
-            // Stops (IMPORTANT)
-            $table->string('stops')->default('Non-stop');
+            // ─── Stops ───────────────────────────────────────────────
+            $table->tinyInteger('stops')->default(0);      // 0=nonstop, 1, 2...
+            $table->json('stopover_cities')->nullable();   // ["Delhi","Dubai"]
 
-            // Price
-            $table->decimal('price', 10, 2);
-
-            // Optional (PRO FEATURES 🔥)
-            /*$table->string('class_type')->default('Economy'); // Economy, Business
-            $table->integer('available_seats')->default(50);
-            $table->string('status')->default('On Time'); // On Time, Delayed*/
+            // ─── Admin Control ────────────────────────────────────────
+            $table->boolean('is_active')->default(true);
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('flights');
