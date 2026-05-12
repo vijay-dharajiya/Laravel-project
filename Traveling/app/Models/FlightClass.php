@@ -33,10 +33,10 @@ class FlightClass extends Model
     ];
 
     protected $casts = [
-        'is_refundable'       => 'boolean',
-        'base_price'          => 'float',
-        'tax'                 => 'float',
-        'total_price'         => 'float',
+        'is_refundable' => 'boolean',
+        'base_price' => 'float',
+        'tax' => 'float',
+        'total_price' => 'float',
         'cancellation_charge' => 'float',
     ];
 
@@ -77,19 +77,22 @@ class FlightClass extends Model
     // ─── Seat fill percentage (useful for frontend progress bar) ──────
     public function getFillPercentageAttribute(): int
     {
-        if ($this->total_seats === 0) return 0;
+        if ($this->total_seats === 0) {
+            return 0;
+        }
+
         return (int) round(($this->booked_seats / $this->total_seats) * 100);
     }
 
     // ─── Class color for UI badges ────────────────────────────────────
     public function getClassColorAttribute(): string
     {
-        return match($this->class_type) {
-            'Economy'         => 'success',
+        return match ($this->class_type) {
+            'Economy' => 'success',
             'Premium Economy' => 'info',
-            'Business'        => 'warning',
-            'First'           => 'danger',
-            default           => 'secondary',
+            'Business' => 'warning',
+            'First' => 'danger',
+            default => 'secondary',
         };
     }
 }

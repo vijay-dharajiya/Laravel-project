@@ -11,122 +11,110 @@ class FlightBooking extends Model
     // ─── Fillable Fields ──────────────────────────────────────────────────────
     protected $fillable = [
         // Booking Core
-        'booking_id',
-        'pnr_number',
-        'booking_date',
-        'booking_status',
+        'booking_reference',
         'trip_type',
+        'class',
+        'depart_date',
+        'return_date',
+        'adults',
+        'children',
+        'grand_total',
+        'status',
 
-        // Flight Information
-        'flight_id',
-        'flight_number',
-        'airline_name',
-        'origin_airport',
-        'destination_airport',
-        'departure_datetime',
-        'arrival_datetime',
-        'flight_duration',
-        'cabin_class',
+        // Outbound Flight
+        'depart_flight_id',
+        'depart_class_id',
 
-        // Passenger Details
-        'passenger_id',
-        'first_name',
-        'last_name',
-        'gender',
-        'email',           // pre-filled from auth, but user can edit
-        'phone_number',
+        // Return Flight
+        'return_flight_id',
+        'return_class_id',
 
-        // Meta
-        'check_in_status',
+        // Primary Contact
+        'contact_email',
+        'contact_phone',
+
+        // Passengers JSON
+        'passengers',
     ];
 
     // ─── Casts ────────────────────────────────────────────────────────────────
     protected $casts = [
-        'booking_date'       => 'datetime',
-        'departure_datetime' => 'datetime',
-        'arrival_datetime'   => 'datetime',
-        'created_at'         => 'datetime',
-        'updated_at'         => 'datetime',
+        'depart_date'  => 'date',
+        'return_date'  => 'date',
+        'grand_total'  => 'decimal:2',
+        'passengers'   => 'array',   // auto encode/decode JSON
+        'created_at'   => 'datetime',
+        'updated_at'   => 'datetime',
     ];
 
-    // ─── Auto-generate booking_id & pnr_number on create ─────────────────────
+    // ─── Auto-generate booking_reference on create ────────────────────────────
     protected static function boot(): void
     {
         parent::boot();
 
         static::creating(function ($booking) {
-
-            // booking_id → BK + current year + 6 zero-padded random digits
-            // e.g. BK2025004821
+            // booking_reference → BK-2026-XXXXXX (6 random uppercase alphanumeric)
             do {
-                $bookingId = 'BK' . date('Y') . str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);
-            } while (self::where('booking_id', $bookingId)->exists()); // ensure unique
+                $ref = 'BK-' . date('Y') . '-' . strtoupper(Str::random(6));
+            } while (self::where('booking_reference', $ref)->exists());
 
-            $booking->booking_id = $bookingId;
-
-            // pnr_number → 6 random uppercase letters + digits
-            // e.g. A4XZ2B
-            do {
-                $pnr = strtoupper(Str::random(6));
-            } while (self::where('pnr_number', $pnr)->exists()); // ensure unique
-
-            $booking->pnr_number = $pnr;
+            $booking->booking_reference = $ref;
         });
     }
 
     // ─── Relationships ────────────────────────────────────────────────────────
 
-    /**
-     * The flight this booking belongs to.
-     */
-    public function flight(): BelongsTo
+    public function departFlight(): BelongsTo
     {
-        return $this->belongsTo(Flight::class);
+        return $this->belongsTo(Flight::class, 'depart_flight_id');
     }
 
-    /**
-     * The passenger (user) who made this booking.
-     */
-    public function passenger(): BelongsTo
+    public function returnFlight(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'passenger_id');
+        return $this->belongsTo(Flight::class, 'return_flight_id');
+    }
+
+    public function departClass(): BelongsTo
+    {
+        return $this->belongsTo(FlightClass::class, 'depart_class_id');
+    }
+
+    public function returnClass(): BelongsTo
+    {
+        return $this->belongsTo(FlightClass::class, 'return_class_id');
     }
 
     // ─── Helper Methods ───────────────────────────────────────────────────────
 
     /**
-     * Full name of the passenger.
+     * All passengers as a flat collection with their type label.
      */
-    public function getFullNameAttribute(): string
+    public function allPassengers(): array
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->passengers ?? [];
     }
 
     /**
-     * Flight duration formatted as "2h 15m" instead of raw minutes.
+     * Total passenger count (adults + children).
      */
-    public function getFormattedDurationAttribute(): string
+    public function getTotalPassengersAttribute(): int
     {
-        $hours   = intdiv($this->flight_duration, 60);
-        $minutes = $this->flight_duration % 60;
-
-        return "{$hours}h {$minutes}m";
+        return (int) $this->adults + (int) $this->children;
     }
 
     /**
-     * Check if booking can be cancelled
-     * (only Pending or Confirmed bookings can be cancelled).
+     * Whether the booking can still be cancelled.
      */
     public function isCancellable(): bool
     {
-        return in_array($this->booking_status, ['Pending', 'Confirmed']);
+        return in_array($this->status, ['pending', 'confirmed']);
     }
 
     /**
-     * Check if the flight is upcoming (departure is in the future).
+     * Whether the outbound flight is still upcoming.
      */
     public function isUpcoming(): bool
     {
-        return $this->departure_datetime->isFuture();
+        return $this->depart_date->isFuture();
     }
 }

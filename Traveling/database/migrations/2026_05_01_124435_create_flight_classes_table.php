@@ -12,15 +12,15 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('flight_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                ->constrained()
+                ->onDelete('cascade');
 
             // ─── Class Type ───────────────────────────────────────────
             $table->enum('class_type', [
                 'Economy',
                 'Premium Economy',
                 'Business',
-                'First'
+                'First',
             ]);
 
             // ─── Seats ────────────────────────────────────────────────

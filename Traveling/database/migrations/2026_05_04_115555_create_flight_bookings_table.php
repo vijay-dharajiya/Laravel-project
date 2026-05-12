@@ -11,66 +11,32 @@ return new class extends Migration
         Schema::create('flight_bookings', function (Blueprint $table) {
             $table->id();
 
-            // ─── Booking Core ─────────────────────────────────────────
-            $table->string('booking_id', 12)->unique();         // e.g. BK2025001234
-            $table->string('pnr_number', 6)->unique();          // e.g. ABCX12 (shown at airport)
-            $table->timestamp('booking_date')->useCurrent();
+            // ── Trip meta ──────────────────────────────────────────────
+            $table->string('booking_reference')->unique(); // e.g. BK-2026-XXXXXX
+            $table->enum('trip_type', ['one-way', 'round'])->default('one-way');
+            $table->string('class');
+            $table->date('depart_date');
+            $table->date('return_date')->nullable();
+            $table->integer('adults')->default(1);
+            $table->integer('children')->default(0);
+            $table->decimal('grand_total', 10, 2)->default(0);
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
 
-            $table->enum('booking_status', [
-                'Pending',
-                'Confirmed',
-                'Cancelled',
-                'Completed',
-            ])->default('Pending');
+            // ── Outbound flight ────────────────────────────────────────
+            $table->unsignedBigInteger('depart_flight_id');
+            $table->unsignedBigInteger('depart_class_id');
 
-            $table->enum('trip_type', [
-                'One Way',
-                'Round Trip',
-            ]);
+            // ── Return flight (nullable for one-way) ───────────────────
+            $table->unsignedBigInteger('return_flight_id')->nullable();
+            $table->unsignedBigInteger('return_class_id')->nullable();
 
-            // ─── Flight Information ───────────────────────────────────
-            $table->foreignId('flight_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+            // ── Primary contact ────────────────────────────────────────
+            $table->string('contact_email');
+            $table->string('contact_phone');
 
-            $table->string('flight_number', 8);                 // e.g. 6E-345, AI-202
-            $table->string('airline_name', 50);                 // e.g. IndiGo, Air India
-            $table->char('origin_airport', 3);                  // IATA code e.g. AMD, BOM
-            $table->char('destination_airport', 3);             // IATA code e.g. DEL, DXB
-            $table->dateTime('departure_datetime');
-            $table->dateTime('arrival_datetime');
-            $table->integer('flight_duration');                  // in minutes e.g. 135
-
-            $table->enum('cabin_class', [
-                'Economy',
-                'Premium Economy',
-                'Business',
-                'First',
-            ])->default('Economy');
-
-            // ─── Passenger Details ────────────────────────────────────
-            $table->foreignId('passenger_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
-
-            $table->enum('gender', [
-                'Male',
-                'Female',
-                'Other',
-            ]);
-
-            $table->string('email', 100);
-            $table->string('phone_number', 15);                 // e.g. +91-9876543210
-
-            // ─── Check-in / Meta ──────────────────────────────────────
-            $table->enum('check_in_status', [
-                'Not Done',
-                'Checked In',
-                'Boarded',
-            ])->default('Not Done');
+            // ── Passengers JSON ────────────────────────────────────────
+            // Stores array of passengers: [{type, first_name, last_name, gender, dob?}]
+            $table->json('passengers');
 
             $table->timestamps();
         });

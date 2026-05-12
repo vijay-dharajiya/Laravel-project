@@ -10,7 +10,7 @@ class Hotel extends Model
         'name', 'description', 'slug', 'city', 'state', 'country',
         'address', 'phone', 'email', 'star_rating', 'price_per_night',
         'total_rooms', 'wifi', 'parking', 'pool', 'gym',
-        'restaurant', 'ac', 'thumbnail', 'status'
+        'restaurant', 'ac', 'thumbnail', 'status',
     ];
 
     public function images()

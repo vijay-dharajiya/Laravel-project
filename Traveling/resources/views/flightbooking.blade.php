@@ -2,932 +2,962 @@
 
 @section('home')
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ─── ROOT ───────────────────────────────────────────────── */
-:root {
-    --bg:        #f7f5f0;
-    --surface:   #ffffff;
-    --surface2:  #fafaf8;
-    --border:    #e8e4dc;
-    --border2:   #d4cec2;
-    --ink:       #1a1714;
-    --ink2:      #4a4540;
-    --muted:     #9a948a;
-    --gold:      #c8913a;
-    --gold2:     #e8b060;
-    --gold-lt:   #fdf3e3;
-    --gold-mid:  rgba(200,145,58,0.12);
-    --sky:       #2d7dd2;
-    --sky-lt:    #eef5fd;
-    --mint:      #2a9d68;
-    --mint-lt:   #edfaf3;
-    --rose:      #d64f4f;
-    --rose-lt:   #fdf0f0;
-    --r:         18px;
-    --shadow-sm: 0 1px 3px rgba(26,23,20,0.06), 0 1px 2px rgba(26,23,20,0.04);
-    --shadow-md: 0 4px 16px rgba(26,23,20,0.08), 0 2px 6px rgba(26,23,20,0.05);
-    --shadow-lg: 0 12px 40px rgba(26,23,20,0.10), 0 4px 12px rgba(26,23,20,0.06);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#1d4ed8;--primary-dark:#1e3a8a;--primary-mid:#2563eb;
+  --primary-light:#eff6ff;--primary-pale:#dbeafe;
+  --navy:#0f172a;--slate:#1e293b;--gray:#64748b;
+  --border:#e2e8f0;--bg:#f1f5f9;
+  --green:#16a34a;--green-light:#dcfce7;
+  --red:#dc2626;
+  --r8:8px;--r12:12px;--r16:16px;
+  --font-main:'Outfit',sans-serif;
+  --font-display:'Sora',sans-serif;
 }
+body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* HERO */
+.bk-hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#1d4ed8 100%);padding:22px 0 30px;box-shadow:0 4px 28px rgba(0,0,0,.35);}
+.bk-back{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);font-size:.78rem;font-weight:600;text-decoration:none;border:1.5px solid rgba(255,255,255,.2);border-radius:var(--r8);padding:6px 14px;transition:all .15s;margin-bottom:14px;}
+.bk-back:hover{background:rgba(255,255,255,.1);color:#fff;}
+.bk-hero-title{font-family:var(--font-display);color:#fff;font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:8px;}
+.bk-hero-sub{color:rgba(255,255,255,.55);font-size:.76rem;margin-top:4px;}
+.trip-badge{background:rgba(255,255,255,.15);color:#fff;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.06em;text-transform:uppercase;}
 
-body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Outfit', sans-serif;
-}
+/* Steps */
+.bk-steps{display:flex;align-items:center;gap:4px;}
+.bk-step{display:flex;align-items:center;gap:5px;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.35);}
+.bk-step.done{color:rgba(255,255,255,.65);}
+.bk-step.active{color:#fff;}
+.bk-snum{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;}
+.bk-step.active .bk-snum{background:var(--primary-mid);border-color:var(--primary-mid);}
+.bk-step.done .bk-snum{background:var(--green);border-color:var(--green);}
+.bk-sdiv{width:26px;height:2px;background:rgba(255,255,255,.1);margin:0 3px;}
 
-/* ─── BACKGROUND TEXTURE ─────────────────────────────────── */
-.bg-texture {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image:
-        radial-gradient(ellipse 80% 50% at 0% 0%,   rgba(200,145,58,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 100% 80%, rgba(45,125,210,0.05) 0%, transparent 60%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8913a' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
+/* WRAP */
+.bk-wrap{padding:28px 0 60px;}
 
-/* ─── PAGE ───────────────────────────────────────────────── */
-.page-wrap { position: relative; z-index: 1; padding: 110px 0 80px; }
+/* CARD */
+.bk-card{background:#fff;border-radius:var(--r16);border:1.5px solid var(--border);overflow:hidden;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,.05);animation:fadeUp .45s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.bk-card:nth-child(2){animation-delay:.08s;}
+.bk-card-head{padding:13px 20px;display:flex;align-items:center;gap:10px;}
+.bk-card-head.dep{background:linear-gradient(90deg,#eff6ff,#dbeafe);}
+.bk-card-head.ret{background:linear-gradient(90deg,#f0fdf4,#dcfce7);}
+.bk-ch-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;}
+.bk-ch-icon.blue{background:var(--primary-pale);color:var(--primary);}
+.bk-ch-icon.green{background:var(--green-light);color:var(--green);}
+.bk-ch-title{font-family:var(--font-display);font-weight:800;font-size:.88rem;color:var(--navy);}
+.bk-ch-sub{font-size:.67rem;color:var(--gray);margin-top:1px;}
+.cls-tag{margin-left:auto;font-size:.63rem;font-weight:800;padding:3px 12px;border-radius:100px;letter-spacing:.07em;text-transform:uppercase;color:#fff;}
+.bk-card-body{padding:20px 22px;}
 
-/* ─── SECTION TITLE ──────────────────────────────────────── */
-.s-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 10px; font-weight: 600;
-    color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em;
-    margin-bottom: 14px;
-    display: flex; align-items: center; gap: 10px;
-}
-.s-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* FLIGHT ROW */
+.fd-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.fd-airline{display:flex;align-items:center;gap:11px;min-width:160px;}
+.fd-logo{width:46px;height:46px;border-radius:var(--r8);border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:.58rem;font-weight:800;color:var(--primary);flex-shrink:0;}
+.fd-logo img{width:100%;height:100%;object-fit:contain;padding:4px;}
+.fd-al-name{font-family:var(--font-display);font-weight:700;font-size:.86rem;color:var(--navy);}
+.fd-al-sub{font-size:.67rem;color:var(--gray);margin-top:2px;display:flex;align-items:center;gap:5px;}
+.fd-flno{font-weight:600;color:var(--slate);}
+.fd-ac{background:#f1f5f9;border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:.6rem;font-weight:700;}
+.fd-route{flex:1;display:flex;align-items:center;min-width:0;}
+.fd-ep{}
+.fd-ep-r{text-align:right;}
+.fd-time{font-family:var(--font-display);font-size:1.55rem;font-weight:800;color:var(--navy);line-height:1;}
+.fd-iata{font-size:.82rem;font-weight:800;color:var(--primary);margin-top:3px;letter-spacing:.05em;}
+.fd-apt{font-size:.64rem;color:var(--gray);margin-top:2px;max-width:115px;line-height:1.3;}
+.fd-ep-r .fd-apt{text-align:right;}
+.fd-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 14px;}
+.fd-line{display:flex;align-items:center;width:100%;gap:3px;}
+.fd-dot{width:7px;height:7px;border-radius:50%;border:2px solid var(--primary);background:#fff;flex-shrink:0;}
+.fd-dash{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--primary) 0,var(--primary) 4px,transparent 4px,transparent 9px);}
+.fd-plane{color:var(--primary);font-size:.78rem;}
+.fd-dur{background:var(--primary-light);color:var(--primary-mid);font-size:.67rem;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap;}
+.fd-stop{font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:4px;}
+.ns{background:#dcfce7;color:#14532d;}
+.os{background:#fef9c3;color:#78350f;}
+.ts{background:#fee2e2;color:#7f1d1d;}
+.fd-via{display:inline-flex;align-items:center;gap:4px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:.63rem;font-weight:600;padding:3px 10px;border-radius:6px;}
+.sv-city{background:#fef3c7;border:1px solid #fde68a;padding:1px 6px;border-radius:100px;font-size:.61rem;font-weight:700;color:#78350f;}
+.fd-over{display:inline-flex;align-items:center;gap:4px;background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;font-size:.63rem;font-weight:600;padding:3px 10px;border-radius:6px;}
 
-/* ─── HERO STRIP ─────────────────────────────────────────── */
-.hero-strip {
-    border-radius: 24px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    position: relative;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-    height: 220px;                          /* fixed height */
-    background: linear-gradient(135deg, #1a1714 0%, #2d2520 60%, #3a2e24 100%); /* fallback bg */
-}
+/* CLASS PANEL */
+.cls-panel{background:var(--primary-light);border:1.5px solid var(--primary-pale);border-radius:var(--r12);padding:16px 18px;margin-top:18px;}
+.cls-panel.ret-cls{background:#f0fdf4;border-color:#bbf7d0;}
+.cls-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.cls-badge{display:inline-flex;align-items:center;gap:5px;color:#fff;font-size:.67rem;font-weight:800;letter-spacing:.08em;padding:4px 13px;border-radius:100px;text-transform:uppercase;}
+.seats-pill{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:100px;}
+.seats-ok{background:#dcfce7;color:#14532d;}
+.seats-low{background:#fee2e2;color:#7f1d1d;animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.cls-price-blk{text-align:right;}
+.cls-price-lbl{font-size:.6rem;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.07em;}
+.cls-price-amt{font-family:var(--font-display);font-size:1.35rem;font-weight:800;color:var(--primary-dark);}
+.cls-price-amt.ret{color:var(--green);}
+.cls-price-sub{font-size:.62rem;color:var(--gray);}
+.cls-specs{display:flex;flex-wrap:wrap;gap:8px;}
+.spec{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r8);padding:8px 12px;font-size:.73rem;font-weight:600;color:var(--slate);}
+.spec i{color:var(--primary);font-size:.7rem;}
+.ret-cls .spec i{color:var(--green);}
 
-/* background image layer */
-.hero-strip-bg {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: brightness(0.55) saturate(0.85);
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: block;
-}
-.hero-strip:hover .hero-strip-bg { transform: scale(1.04); }
+/* PRICE SUMMARY */
+.price-card{background:#fff;border-radius:var(--r16);border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.05);margin-bottom:16px;}
+.price-card-head{background:linear-gradient(90deg,#fefce8,#fef3c7);padding:13px 20px;display:flex;align-items:center;gap:10px;}
+.pc-icon{width:34px;height:34px;border-radius:10px;background:#fde68a;color:#92400e;display:flex;align-items:center;justify-content:center;font-size:.88rem;}
+.pc-title{font-family:var(--font-display);font-weight:800;font-size:.88rem;color:#78350f;}
+.pc-sub{font-size:.67rem;color:#a16207;margin-top:1px;}
+.price-card-body{padding:18px 20px;}
+.pg{display:grid;grid-template-columns:1fr auto;gap:6px 20px;align-items:center;}
+.pg-lbl{font-size:.78rem;color:var(--slate);}
+.pg-val{font-size:.82rem;font-weight:700;color:var(--navy);text-align:right;}
+.pg-div{grid-column:1/-1;height:1px;background:var(--border);margin:5px 0;}
+.pg-total-lbl{font-family:var(--font-display);font-size:.92rem;font-weight:800;color:var(--navy);}
+.pg-total-val{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--primary-dark);text-align:right;}
 
-/* dark gradient overlay */
-.hero-strip-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(105deg, rgba(26,23,20,0.92) 0%, rgba(26,23,20,0.55) 55%, rgba(26,23,20,0.20) 100%);
-    z-index: 1;
-}
+/* TRIP INFO */
+.info-card{background:#fff;border-radius:var(--r16);border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.05);}
+.info-card-head{background:linear-gradient(90deg,var(--navy),var(--slate));padding:13px 20px;display:flex;align-items:center;gap:10px;}
+.ic-icon{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.88rem;}
+.ic-title{font-family:var(--font-display);font-weight:800;font-size:.88rem;color:#fff;}
+.ic-sub{font-size:.67rem;color:rgba(255,255,255,.5);margin-top:1px;}
+.info-card-body{padding:4px 0;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;font-size:.78rem;}
+.info-row:last-child{border-bottom:none;}
+.ir-lbl{color:var(--gray);font-weight:500;}
+.ir-val{font-weight:700;color:var(--navy);text-align:right;}
 
-/* content sits on top of overlay */
-.hero-strip-content {
-    position: absolute; inset: 0; z-index: 2;
-    display: flex; align-items: center;
-    padding: 0 36px; gap: 28px;
-}
+/* ══ PASSENGER FORM ══ */
+.pax-form-card{background:#fff;border-radius:var(--r16);border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.07);margin-bottom:20px;animation:fadeUp .5s ease both;animation-delay:.12s;}
+.pax-form-head{background:linear-gradient(90deg,#1e293b,#0f172a);padding:16px 22px;display:flex;align-items:center;gap:12px;}
+.pfh-icon{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.pfh-title{font-family:var(--font-display);font-weight:800;font-size:.95rem;color:#fff;}
+.pfh-sub{font-size:.68rem;color:rgba(255,255,255,.5);margin-top:2px;}
+.pfh-count{margin-left:auto;background:var(--primary-mid);color:#fff;font-size:.65rem;font-weight:800;padding:4px 12px;border-radius:100px;letter-spacing:.06em;}
 
-/* airline logo circle */
-.airline-logo-wrap {
-    width: 64px; height: 64px; flex-shrink: 0;
-    background: rgba(255,255,255,0.14);
-    border: 1.5px solid rgba(255,255,255,0.28);
-    border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden; backdrop-filter: blur(14px);
-}
-.airline-logo-wrap img {
-    width: 100%; height: 100%;
-    object-fit: contain; padding: 8px;
-}
-.al-init {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700; font-size: 20px; color: var(--gold2);
-}
+/* Passenger accordion block */
+.pax-block{border-bottom:1.5px solid var(--border);}
+.pax-block:last-child{border-bottom:none;}
+.pax-accordion-btn{width:100%;background:none;border:none;padding:14px 22px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;transition:background .15s;}
+.pax-accordion-btn:hover{background:#f8fafc;}
+.pax-accordion-btn[aria-expanded="true"]{background:var(--primary-light);}
+.pab-num{width:30px;height:30px;border-radius:50%;background:var(--primary-pale);color:var(--primary);font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--primary-pale);}
+.pax-accordion-btn[aria-expanded="true"] .pab-num{background:var(--primary);color:#fff;border-color:var(--primary);}
+.pab-info{}
+.pab-title{font-family:var(--font-display);font-weight:700;font-size:.82rem;color:var(--navy);}
+.pab-sub{font-size:.65rem;color:var(--gray);margin-top:2px;}
+.pab-type{margin-left:auto;font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.07em;}
+.pab-type.adult{background:var(--primary-pale);color:var(--primary);}
+.pab-type.child{background:#fef9c3;color:#78350f;}
+.pab-chevron{color:var(--gray);font-size:.75rem;margin-left:8px;transition:transform .25s;}
+.pax-accordion-btn[aria-expanded="true"] .pab-chevron{transform:rotate(180deg);color:var(--primary);}
+.pab-status{width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-left:4px;transition:background .2s;}
+.pab-status.filled{background:var(--green);}
 
-/* text block */
-.hero-text { flex: 1; min-width: 0; }
-.hero-airline-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px; font-weight: 700;
-    color: #fff; line-height: 1.1; margin-bottom: 10px;
-}
-.hero-meta { display: flex; gap: 10px; flex-wrap: wrap; }
-.hero-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,0.13);
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 999px; padding: 5px 13px;
-    font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.88);
-    backdrop-filter: blur(8px);
-}
-.hero-tag i { color: var(--gold2); font-size: 10px; }
+/* Form inside accordion */
+.pax-fields{padding:20px 22px 24px;background:#fafbff;border-top:1.5px solid var(--primary-pale);}
+.pax-fields.child-fields{background:#fffdf0;border-top-color:#fde68a;}
+.pf-row{display:grid;gap:14px;margin-bottom:14px;}
+.pf-row.cols-2{grid-template-columns:1fr 1fr;}
+.pf-row.cols-1{grid-template-columns:1fr;}
+.pf-group{display:flex;flex-direction:column;gap:5px;}
+.pf-label{font-size:.68rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:5px;}
+.pf-label .req{color:var(--red);font-size:.7rem;}
+.pf-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r8);font-family:var(--font-main);font-size:.82rem;font-weight:500;color:var(--navy);background:#fff;transition:border-color .15s,box-shadow .15s;outline:none;}
+.pf-input:focus{border-color:var(--primary-mid);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.pf-input.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.08);}
+.pf-input::placeholder{color:#c0cad8;}
+.pf-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;}
+.pf-err{font-size:.62rem;color:var(--red);font-weight:600;display:none;align-items:center;gap:4px;}
+.pf-err.show{display:flex;}
+.child-banner{display:flex;align-items:center;gap:10px;background:#fefce8;border:1.5px solid #fde68a;border-radius:var(--r8);padding:10px 14px;margin-bottom:18px;font-size:.74rem;color:#78350f;font-weight:600;}
+.child-banner i{font-size:.85rem;color:#d97706;}
 
-/* flight number pill */
-.flight-no-pill {
-    background: linear-gradient(135deg, var(--gold), var(--gold2));
-    color: #fff; border-radius: 14px;
-    padding: 10px 20px; flex-shrink: 0;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px; font-weight: 700; letter-spacing: 0.1em;
-    box-shadow: 0 4px 14px rgba(200,145,58,0.45);
-}
+/* Contact section divider */
+.contact-divider{height:1px;background:var(--border);margin:6px 0 16px;}
+.contact-label{font-size:.7rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:5px;}
 
-/* ─── CARDS ──────────────────────────────────────────────── */
-.card-block {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 26px 28px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow-sm);
-}
+/* Submit footer */
+.pax-form-footer{padding:18px 22px;background:#f8fafc;border-top:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.pff-total-lbl{font-size:.6rem;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.07em;}
+.pff-total-amt{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--primary-dark);}
+.pff-note{font-size:.63rem;color:var(--gray);display:flex;align-items:center;gap:4px;margin-top:2px;}
+.pff-note i{color:var(--green);}
+.btn-submit{background:linear-gradient(135deg,var(--primary-mid),var(--primary-dark));color:#fff;border:none;border-radius:var(--r12);padding:14px 36px;font-family:var(--font-display);font-weight:800;font-size:.92rem;display:inline-flex;align-items:center;gap:9px;cursor:pointer;transition:transform .15s,box-shadow .15s;white-space:nowrap;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(29,78,216,.38);}
+.btn-submit:disabled{opacity:.65;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-submit-note{font-size:.63rem;color:var(--gray);display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:5px;}
+.btn-submit-note i{color:var(--green);}
 
-/* ─── ROUTE ──────────────────────────────────────────────── */
-.route-row {
-    display: flex; align-items: center;
-    justify-content: space-between; gap: 16px;
-}
-.ep { text-align: center; flex-shrink: 0; }
-.ep .time {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px; font-weight: 700;
-    color: var(--ink); line-height: 1; letter-spacing: -0.02em;
-}
-.ep .iata {
-    font-size: 13px; font-weight: 700;
-    color: var(--gold); letter-spacing: 0.14em; margin-top: 6px;
-}
-.ep .city-name {
-    font-size: 11px; color: var(--muted);
-    margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em;
-}
-.ep .airport-name {
-    font-size: 11px; color: var(--border2);
-    margin-top: 3px; line-height: 1.4; max-width: 120px;
-}
-.ep-r { text-align: right; }
-.ep-r .airport-name { margin-left: auto; }
+/* Alert messages */
+.alert-success{background:#f0fdf4;border:1.5px solid #bbf7d0;color:#14532d;border-radius:var(--r12);padding:14px 18px;margin-bottom:20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;}
+.alert-error{background:#fef2f2;border:1.5px solid #fecaca;color:#7f1d1d;border-radius:var(--r12);padding:14px 18px;margin-bottom:20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;}
 
-.route-mid {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; gap: 8px; min-width: 0;
-}
-.r-track { width: 100%; display: flex; align-items: center; gap: 6px; }
-.r-dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    border: 2px solid var(--gold); background: var(--surface); flex-shrink: 0;
-}
-.r-line {
-    flex: 1; height: 1.5px;
-    background: linear-gradient(90deg, var(--gold), rgba(200,145,58,0.2));
-}
-.r-line.rev { background: linear-gradient(90deg, rgba(200,145,58,0.2), var(--gold)); }
-.r-plane-icon { font-size: 22px; filter: drop-shadow(0 2px 6px rgba(200,145,58,0.3)); }
-.dur-badge {
-    background: var(--gold-lt);
-    border: 1px solid rgba(200,145,58,0.25);
-    border-radius: 999px; padding: 4px 16px;
-    font-size: 12px; font-weight: 600; color: var(--gold); letter-spacing: 0.05em;
-}
-.stopover-info {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
-    background: var(--gold-lt); border: 1px solid rgba(200,145,58,0.2);
-    border-radius: 10px; padding: 6px 14px; margin-top: 4px;
-    font-size: 11px; color: var(--gold);
-}
-.sv-pill {
-    background: rgba(200,145,58,0.15); border-radius: 999px;
-    padding: 2px 10px; font-size: 11px; font-weight: 600; color: var(--gold);
-}
-.overnight-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--sky-lt); border: 1px solid rgba(45,125,210,0.2);
-    border-radius: 999px; padding: 4px 12px;
-    font-size: 11px; font-weight: 600; color: var(--sky);
-}
-
-/* ─── INFO GRID ──────────────────────────────────────────── */
-.info-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    margin-bottom: 16px;
-}
-.info-cell {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 16px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.info-cell:hover {
-    border-color: rgba(200,145,58,0.3);
-    box-shadow: 0 2px 8px rgba(200,145,58,0.08);
-}
-.ic-lbl {
-    font-size: 10px; font-weight: 600; color: var(--muted);
-    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px;
-}
-.ic-val { font-size: 14px; font-weight: 600; color: var(--ink); }
-
-/* ─── CLASS CARDS ────────────────────────────────────────── */
-.class-grid { display: flex; flex-direction: column; gap: 10px; }
-.class-card {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 16px 20px;
-    cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-    position: relative; overflow: hidden;
-}
-.class-card::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-    background: transparent; transition: background 0.2s;
-}
-.class-card:hover { border-color: rgba(200,145,58,0.4); box-shadow: 0 4px 16px rgba(200,145,58,0.1); transform: translateX(3px); }
-.class-card:hover::before { background: var(--gold); }
-.class-card.selected { border-color: var(--gold); background: var(--gold-lt); box-shadow: 0 4px 20px rgba(200,145,58,0.15); }
-.class-card.selected::before { background: var(--gold); }
-.class-card.sold-out { opacity: 0.4; cursor: not-allowed; }
-.class-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.class-name { font-size: 15px; font-weight: 700; color: var(--ink); }
-.class-price { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); }
-.class-price .sym { font-size: 13px; font-weight: 600; vertical-align: super; }
-.class-price .per { font-size: 11px; font-weight: 400; color: var(--muted); font-family: 'Outfit', sans-serif; }
-.class-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-.cm-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--muted); }
-.cm-tag i { font-size: 10px; color: var(--sky); }
-.cm-tag.green i { color: var(--mint); }
-.cm-tag.rose  i { color: var(--rose); }
-.seats-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: var(--rose-lt); border: 1px solid rgba(214,79,79,0.2);
-    border-radius: 999px; padding: 3px 10px;
-    font-size: 11px; font-weight: 700; color: var(--rose);
-}
-.seats-badge.ok { background: var(--mint-lt); border-color: rgba(42,157,104,0.2); color: var(--mint); }
-
-/* ─── FORM CARD ──────────────────────────────────────────── */
-.form-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 24px; padding: 36px 32px;
-    position: sticky; top: 20px;
-    box-shadow: var(--shadow-lg);
-}
-.form-card-eyebrow { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
-.form-card-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.2; }
-.form-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-
-/* ─── FORM INPUTS ────────────────────────────────────────── */
-.form-label-custom {
-    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 7px; display: block; font-weight: 600;
-}
-.custom-input {
-    background: var(--surface2) !important;
-    border: 1.5px solid var(--border) !important;
-    border-radius: 12px !important;
-    color: var(--ink) !important;
-    padding: 12px 16px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 14px !important;
-    width: 100%;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.custom-input::placeholder { color: var(--muted) !important; }
-.custom-input:focus {
-    outline: none !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 0 0 3px rgba(200,145,58,0.12) !important;
-    background: #fff !important;
-}
-
-/* ─── CLASS SELECT IN FORM ───────────────────────────────── */
-.class-select-wrap { display: flex; flex-direction: column; gap: 8px; }
-.cs-option {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--surface2); border: 1.5px solid var(--border);
-    border-radius: 12px; padding: 11px 16px;
-    cursor: pointer; transition: all 0.2s; gap: 10px;
-}
-.cs-option:hover { border-color: rgba(200,145,58,0.4); background: var(--gold-lt); }
-.cs-option.active { border-color: var(--gold); background: var(--gold-lt); }
-.cs-option.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
-.cs-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-.cs-price { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--gold); }
-.cs-radio {
-    width: 16px; height: 16px; border-radius: 50%;
-    border: 2px solid var(--border2); flex-shrink: 0; transition: all 0.2s;
-}
-.cs-option.active .cs-radio { border-color: var(--gold); background: var(--gold); box-shadow: 0 0 0 3px rgba(200,145,58,0.18); }
-
-/* ─── PASSENGER BOX ──────────────────────────────────────── */
-.passenger-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.passenger-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; }
-.passenger-row + .passenger-row { border-top: 1px solid var(--border); }
-.passenger-label strong { font-size: 14px; font-weight: 600; color: var(--ink); }
-.passenger-label small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
-.counter { display: flex; align-items: center; gap: 14px; }
-.counter button {
-    width: 32px; height: 32px; border: 1.5px solid var(--border2);
-    background: var(--surface); color: var(--gold); border-radius: 50%;
-    font-size: 16px; cursor: pointer; transition: all 0.18s;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow-sm);
-}
-.counter button:hover { background: var(--gold); color: #fff; border-color: var(--gold); transform: scale(1.1); box-shadow: 0 4px 12px rgba(200,145,58,0.3); }
-.counter span { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 18px; min-width: 24px; text-align: center; color: var(--ink); }
-
-/* ─── PRICE SUMMARY ──────────────────────────────────────── */
-.price-summary {
-    background: linear-gradient(135deg, var(--gold-lt) 0%, #fff 100%);
-    border: 1px solid rgba(200,145,58,0.25);
-    border-radius: 16px; padding: 18px 20px; margin-top: 20px;
-}
-.ps-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
-.ps-label { font-size: 12px; color: var(--muted); }
-.ps-val   { font-size: 13px; font-weight: 600; color: var(--ink); }
-.ps-divider { height: 1px; background: rgba(200,145,58,0.2); margin: 10px 0; }
-.ps-total-label { font-size: 14px; font-weight: 600; color: var(--ink); }
-.ps-total-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
-
-/* ─── SUBMIT BTN ─────────────────────────────────────────── */
-.btn-main {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 100%);
-    color: #fff; border: none; border-radius: 14px;
-    padding: 16px; font-family: 'Outfit', sans-serif;
-    font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
-    cursor: pointer; width: 100%; margin-top: 20px;
-    position: relative; overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 6px 20px rgba(200,145,58,0.35);
-}
-.btn-main::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0; transition: opacity 0.2s;
-}
-.btn-main:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(200,145,58,0.45); }
-.btn-main:hover::before { opacity: 1; }
-.btn-main:active { transform: translateY(0); }
-
-/* ─── TOAST ──────────────────────────────────────────────── */
-#successMsg {
-    background: linear-gradient(135deg, var(--mint), #4ade80);
-    color: #fff; padding: 14px 20px; border-radius: 14px;
-    margin-bottom: 20px; font-size: 14px; font-weight: 500;
-    display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 4px 16px rgba(42,157,104,0.3);
-    transition: opacity 0.5s, transform 0.5s;
-}
-
-/* ─── DIVIDER ────────────────────────────────────────────── */
-.form-divider { height: 1px; background: var(--border); margin: 20px 0; }
-
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 991px) {
-    .form-card { position: static; }
-    .hero-strip-content { padding: 0 20px; gap: 16px; }
-    .hero-airline-name  { font-size: 18px; }
-}
-@media (max-width: 768px) {
-    .page-wrap  { padding: 90px 0 60px; }
-    .form-card  { padding: 24px 18px; }
-    .ep .time   { font-size: 28px; }
-    .info-grid  { grid-template-columns: 1fr; }
-    .hero-strip { height: 180px; }
-    .card-block { padding: 18px 16px; }
-}
-@media (max-width: 576px) {
-    .route-row  { flex-wrap: wrap; justify-content: center; gap: 20px; }
-    .ep-r       { text-align: center; }
-    .ep-r .airport-name { margin: 0 auto; }
-    .hero-strip { height: 160px; }
-    .hero-airline-name { font-size: 16px; }
-    .flight-no-pill { display: none; }
-}
+@media(max-width:991px){.bk-sidebar{position:static !important;}}
+@media(max-width:768px){.bk-steps{display:none;}.fd-airline{min-width:unset;}.pf-row.cols-2{grid-template-columns:1fr;}}
+@media(max-width:576px){.pf-row.cols-2{grid-template-columns:1fr;}.pax-form-footer{flex-direction:column;align-items:stretch;}.btn-submit{justify-content:center;}}
 </style>
 
-<div class="bg-texture"></div>
+{{-- ── DATA PREP ── --}}
+@php
+  $tripType   = $tripType  ?? request('trip',  'one-way');
+  $isRound    = $tripType === 'round';
+  $selClass   = $selClass  ?? request('class', 'Economy');
+  $adults     = isset($adults)   ? (int)$adults   : (int)request('adults',   1);
+  $children   = isset($children) ? (int)$children : (int)request('children', 0);
+  $totalPax   = $adults + $children;
+  $departDate = $departDate ?? request('depart_date', date('Y-m-d'));
+  $returnDate = $returnDate ?? request('return_date', '');
 
-<div class="container page-wrap">
+  // Outbound
+  $dDep = \Carbon\Carbon::parse($departFlight->departure_time);
+  $dArr = \Carbon\Carbon::parse($departFlight->arrival_time);
+  $dON  = (int)($departFlight->overnight_arrival ?? 0);
+  if ($dON) { $dArr->addDay(); } elseif ($dArr->lessThan($dDep)) { $dArr->addDay(); }
+  $dDiff    = $dDep->diff($dArr);
+  $dSc      = (int)$departFlight->stops;
+  $dStopLbl = $dSc === 0 ? 'Non-stop' : ($dSc === 1 ? '1 Stop' : $dSc . ' Stops');
+  $dStopCls = $dSc === 0 ? 'ns' : ($dSc === 1 ? 'os' : 'ts');
+  $dStopIco = $dSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
+  $dStopovers = $departFlight->stopover_cities ? json_decode($departFlight->stopover_cities, true) : [];
+  $dAvail = $departClass?->available_seats ?? 0;
+  $drefund  = $departClass?->is_refundable ?? 'Non-refundable';
+  $dcancel   = $departClass?->cancellation_charge;
+  $dLow   = $dAvail > 0 && $dAvail <= 5;
+  $dPrice = $departClass?->base_price ?? 0;
+  $dTax   = $departClass?->tax ?? 0;
 
-    {{-- ── Success Toast ── --}}
-    @if(session('success'))
-    <div id="successMsg">
-        <span style="font-size:18px">✔</span> {{ session('success') }}
-    </div>
-    @endif
+  // Return
+  $rPrice = 0;
+  $rTax   = 0;
+  if ($isRound && $returnFlight) {
+    $rDep = \Carbon\Carbon::parse($returnFlight->departure_time);
+    $rArr = \Carbon\Carbon::parse($returnFlight->arrival_time);
+    $rON  = (int)($returnFlight->overnight_arrival ?? 0);
+    if ($rON) { $rArr->addDay(); } elseif ($rArr->lessThan($rDep)) { $rArr->addDay(); }
+    $rDiff      = $rDep->diff($rArr);
+    $rSc        = (int)$returnFlight->stops;
+    $rStopLbl   = $rSc === 0 ? 'Non-stop' : ($rSc === 1 ? '1 Stop' : $rSc . ' Stops');
+    $rStopCls   = $rSc === 0 ? 'ns' : ($rSc === 1 ? 'os' : 'ts');
+    $rStopIco   = $rSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
+    $rStopovers = $returnFlight->stopover_cities ? json_decode($returnFlight->stopover_cities, true) : [];
+    $rAvail     = $returnClass?->available_seats ?? 0;
+    $rrefund    = $returnClass?->is_refundable ?? 'Non-refundable';
+    $rcancel    = $returnClass?->cancellation_charge;
+    $rLow       = $rAvail > 0 && $rAvail <= 5;
+    $rPrice     = $returnClass?->base_price ?? 0;
+    $rTax       = $returnClass?->tax ?? 0;
+  }
 
-    @if($errors->any())
-    <div style="margin-bottom:18px;padding:16px;border:1px solid #f5c2c7;background:#f8d7da;color:#842029;border-radius:12px;">
-        <strong>There were some problems with your booking:</strong>
-        <ul style="margin:8px 0 0 18px;">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+  $grandTotal = ($dPrice + $dTax + $rPrice + $rTax) * $totalPax;
+@endphp
 
-    @php
-        $dep       = \Carbon\Carbon::parse($flight->departure_time);
-        $arr       = \Carbon\Carbon::parse($flight->arrival_time);
-        $overnight = (int)($flight->overnight_arrival ?? 0);
-        if ($overnight) $arr->addDay();
-        elseif ($arr->lessThan($dep)) $arr->addDay();
-        $diff      = $dep->diff($arr);
-        $stopovers = $flight->stopover_cities ? json_decode($flight->stopover_cities, true) : [];
-        $classes   = $flight->flightClasses ?? collect();
-        $econClass = $classes->firstWhere('class_type', 'Economy') ?? $classes->sortBy('total_price')->first();
-        $basePrice = $econClass ? $econClass->total_price : 0;
-        $defaultTravelDate = request('travel_date', request('depart', date('Y-m-d')));
-        $defaultReturnDate = request('return');
-        $selectedTrip = request('trip', 'one-way');
-        $tripType = $selectedTrip === 'round' ? 'Round Trip' : 'One Way';
-    @endphp
-
-    <div class="row g-4">
-
-        {{-- ══════════ LEFT COLUMN ══════════ --}}
-        <div class="col-lg-7">
-
-            {{-- ── Hero Strip ── --}}
-            {{--
-                FIX SUMMARY:
-                1. Removed stray `forelse($flights as $flight)` text that was literally printed inside the div.
-                2. hero-strip-bg (<img>) is now a sibling of .hero-strip-overlay and .hero-strip-content,
-                   NOT inside .airline-logo-wrap.
-                3. .hero-strip has a fixed height (220px) so content is always visible.
-                4. All layers are stacked correctly: bg-img → overlay → content (z-index: 1 / 2).
-            --}}
-            <div class="hero-strip">
-
-                {{-- Layer 1 — background image (fills the strip) --}}
-                @if($flight->airline_logo)
-                    <img
-                        src="{{ asset($flight->airline_logo) }}"
-                        class="hero-strip-bg"
-                        alt="{{ $flight->airline_name }}"
-                        onerror="this.style.display='none';"
-                    >
-                @else
-                    {{-- Fallback: a subtle pattern when no image exists --}}
-                    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1714 0%,#3a2e24 50%,#2d2520 100%);"></div>
-                @endif
-
-                {{-- Layer 2 — dark gradient overlay --}}
-                <div class="hero-strip-overlay"></div>
-
-                {{-- Layer 3 — content --}}
-                <div class="hero-strip-content">
-
-                    {{-- Airline logo icon (small, in content row) --}}
-                    <div class="airline-logo-wrap">
-                        @if($flight->airline_logo)
-                            <img
-                                src="{{ asset($flight->airline_logo) }}"
-                                alt="{{ $flight->airline_name }}"
-                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-                            >
-                            <div class="al-init" style="display:none;">
-                                {{ strtoupper(substr($flight->airline_code ?? 'AI', 0, 2)) }}
-                            </div>
-                        @else
-                            <div class="al-init">
-                                {{ strtoupper(substr($flight->airline_code ?? 'AI', 0, 2)) }}
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- Airline name + tags --}}
-                    <div class="hero-text">
-                        <div class="hero-airline-name">{{ $flight->airline_name }}</div>
-                        <div class="hero-meta">
-                            <span class="hero-tag">
-                                <i class="fa-solid fa-plane"></i>
-                                {{ $flight->flight_number }}
-                            </span>
-                            @if($flight->aircraft_type)
-                            <span class="hero-tag">
-                                <i class="fa-solid fa-jet-fighter-up"></i>
-                                {{ $flight->aircraft_type }}
-                            </span>
-                            @endif
-                            <span class="hero-tag">
-                                <i class="fa-solid fa-circle-dot"></i>
-                                {{ $flight->stops == 0 ? 'Non-stop' : $flight->stops.' Stop'.($flight->stops > 1 ? 's' : '') }}
-                            </span>
-                            <span class="hero-tag">
-                                <i class="fa-solid fa-location-dot"></i>
-                                {{ $flight->from_airport_code }} → {{ $flight->to_airport_code }}
-                            </span>
-                        </div>
-                    </div>
-
-                    {{-- Flight number pill (right side) --}}
-                    <div class="flight-no-pill">
-                        {{ $flight->flight_number }}
-                    </div>
-
-                </div>{{-- /hero-strip-content --}}
-            </div>{{-- /hero-strip --}}
-
-            {{-- Route Card --}}
-            <div class="card-block">
-                <div class="s-title"><i class="fa-solid fa-route" style="color:var(--gold)"></i> Route</div>
-                <div class="route-row">
-
-                    {{-- Origin --}}
-                    <div class="ep">
-                        <div class="time">{{ $dep->format('H:i') }}</div>
-                        <div class="iata">{{ $flight->from_airport_code }}</div>
-                        <div class="city-name">{{ $flight->from_city }}</div>
-                        <div class="airport-name">{{ $flight->from_airport }}</div>
-                    </div>
-
-                    {{-- Middle track --}}
-                    <div class="route-mid">
-                        <div class="r-track">
-                            <div class="r-dot"></div>
-                            <div class="r-line"></div>
-                            <div class="r-plane-icon">✈</div>
-                            <div class="r-line rev"></div>
-                            <div class="r-dot"></div>
-                        </div>
-                        <div class="dur-badge">{{ $diff->h }}h {{ $diff->i }}m</div>
-                        @if(count($stopovers))
-                        <div class="stopover-info">
-                            <i class="fa-solid fa-clock" style="font-size:11px;"></i> Stopover via
-                            @foreach($stopovers as $city)
-                                <span class="sv-pill">{{ $city }}</span>
-                            @endforeach
-                        </div>
-                        @endif
-                        @if($overnight)
-                        <div class="overnight-pill">
-                            <i class="fa-solid fa-moon"></i> Arrives next day (+1)
-                        </div>
-                        @endif
-                    </div>
-
-                    {{-- Destination --}}
-                    <div class="ep ep-r">
-                        <div class="time">{{ $arr->format('H:i') }}</div>
-                        <div class="iata">{{ $flight->to_airport_code }}</div>
-                        <div class="city-name">{{ $flight->to_city }}</div>
-                        <div class="airport-name">{{ $flight->to_airport }}</div>
-                    </div>
-
-                </div>
-            </div>
-
-            {{-- Info Grid --}}
-            <div class="info-grid">
-                <div class="info-cell">
-                    <div class="ic-lbl">Departure</div>
-                    <div class="ic-val">{{ $dep->format('h:i A') }}</div>
-                </div>
-                <div class="info-cell">
-                    <div class="ic-lbl">Arrival</div>
-                    <div class="ic-val">
-                        {{ $arr->format('h:i A') }}
-                    </div>
-                </div>
-                <div class="info-cell">
-                    <div class="ic-lbl">From Airport</div>
-                    <div class="ic-val" style="font-size:12px;line-height:1.4;">{{ $flight->from_airport }}</div>
-                </div>
-                <div class="info-cell">
-                    <div class="ic-lbl">To Airport</div>
-                    <div class="ic-val" style="font-size:12px;line-height:1.4;">{{ $flight->to_airport }}</div>
-                </div>
-                <div class="info-cell">
-                    <div class="ic-lbl">Duration</div>
-                    <div class="ic-val">{{ $diff->h }}h {{ $diff->i }}m</div>
-                </div>
-                <div class="info-cell">
-                    <div class="ic-lbl">Stops</div>
-                    <div class="ic-val">{{ $flight->stops == 0 ? 'Non-stop' : $flight->stops.' Stop'.($flight->stops > 1 ? 's' : '') }}</div>
-                </div>
-                @if($flight->aircraft_type)
-                <div class="info-cell">
-                    <div class="ic-lbl">Aircraft</div>
-                    <div class="ic-val">{{ $flight->aircraft_type }}</div>
-                </div>
-                @endif
-                <div class="info-cell">
-                    <div class="ic-lbl">Airline Code</div>
-                    <div class="ic-val">{{ $flight->airline_code }}</div>
-                </div>
-            </div>
-
-            {{-- Available Classes --}}
-            <div class="card-block">
-                <div class="s-title"><i class="fa-solid fa-chair" style="color:var(--gold)"></i> Available Classes</div>
-                <div class="class-grid">
-                    @forelse($classes as $cls)
-                    @php
-                        $isSoldOut = $cls->available_seats <= 0;
-                        $isLow     = !$isSoldOut && $cls->available_seats <= 5;
-                    @endphp
-                    <div class="class-card {{ $isSoldOut ? 'sold-out' : ($loop->first ? 'selected' : '') }}"
-                         id="cls-{{ $cls->id }}"
-                         onclick="{{ !$isSoldOut ? 'selectClass('.$cls->id.','.$cls->total_price.',this)' : '' }}">
-                        <div class="class-top">
-                            <div class="class-name">{{ $cls->class_type }}</div>
-                            <div style="display:flex;align-items:center;gap:10px;">
-                                @if($isSoldOut)
-                                    <span class="seats-badge"><i class="fa-solid fa-ban"></i> Sold Out</span>
-                                @elseif($isLow)
-                                    <span class="seats-badge"><i class="fa-solid fa-fire"></i> {{ $cls->available_seats }} left</span>
-                                @else
-                                    <span class="seats-badge ok"><i class="fa-solid fa-check"></i> {{ $cls->available_seats }} seats</span>
-                                @endif
-                                <div class="class-price">
-                                    <span class="sym">$</span>{{ number_format($cls->total_price) }}
-                                    <span class="per">/person</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="class-meta">
-                            <span class="cm-tag green"><i class="fa-solid fa-briefcase"></i> Cabin {{ $cls->cabin_baggage_kg }}kg</span>
-                            <span class="cm-tag"><i class="fa-solid fa-suitcase-rolling"></i> Check-in {{ $cls->checkin_baggage_kg }}kg</span>
-                            <span class="cm-tag"><i class="fa-solid fa-indian-rupee-sign"></i> Base ${{ number_format($cls->base_price) }}</span>
-                            <span class="cm-tag"><i class="fa-solid fa-receipt"></i> Tax ${{ number_format($cls->tax) }}</span>
-                            @if($cls->is_refundable)
-                                <span class="cm-tag green"><i class="fa-solid fa-rotate-left"></i> Refundable</span>
-                            @else
-                                <span class="cm-tag rose"><i class="fa-solid fa-ban"></i> Non-refundable</span>
-                            @endif
-                            @if($cls->cancellation_charge > 0)
-                                <span class="cm-tag rose"><i class="fa-solid fa-triangle-exclamation"></i> Cancel fee ${{ number_format($cls->cancellation_charge) }}</span>
-                            @endif
-                        </div>
-                    </div>
-                    @empty
-                    <div style="text-align:center;padding:32px;color:var(--muted);font-size:14px;">
-                        No class information available.
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-        </div>{{-- /col-lg-7 --}}
-
-        {{-- ══════════ RIGHT: BOOKING FORM ══════════ --}}
-        <div class="col-lg-5">
-            <div class="form-card">
-
-                <div class="form-card-eyebrow">✈ Secure Booking</div>
-                <div class="form-card-title">Book Your Flight</div>
-                <div class="form-card-sub">Fill in your details to confirm the reservation</div>
-
-                <form action="{{ route('flightbooking', $flight->id) }}" method="POST" id="bookingForm">
-                    @csrf
-                    <input type="hidden" name="user_id"   value="{{ Auth::id() }}">
-                    <input type="hidden" name="adults"    id="adultInput"   value="1">
-                    <input type="hidden" name="children"  id="childInput"   value="0">
-                    <input type="hidden" name="class"     id="classInput"   value="{{ $econClass->class_type ?? 'Economy' }}">
-                    <input type="hidden" name="class_id"  id="classIdInput" value="{{ $econClass->id ?? '' }}">
-                    <input type="hidden" name="return_date" value="{{ old('return_date', $defaultReturnDate) }}">
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Travel Date</label>
-                        <input type="date" name="travel_date" class="custom-input"
-                               required
-                               value="{{ old('travel_date', $defaultTravelDate) }}"
-                               min="{{ date('Y-m-d') }}">
-                    </div>
-                    @if($tripType === 'Round Trip' && $defaultReturnDate)
-                    <div class="mb-3" style="color:#4a4a4a;font-size:0.95rem;">
-                        <strong>Return Date:</strong> {{ \Carbon\Carbon::parse($defaultReturnDate)->format('d M Y') }}
-                    </div>
-                    @endif
-
-                    {{-- Passenger Details --}}
-                    <div class="s-title" style="margin-bottom:16px;">
-                        <i class="fa-solid fa-user" style="color:var(--gold)"></i> Passenger Details
-                    </div>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label-custom">First Name</label>
-                            <input type="text" name="first_name" class="custom-input"
-                                   placeholder="John" required
-                                   value="{{ old('first_name') }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label-custom">Last Name</label>
-                            <input type="text" name="last_name" class="custom-input"
-                                   placeholder="Doe" required
-                                   value="{{ old('last_name') }}">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label-custom">Gender</label>
-                            <select name="gender" class="custom-input" required>
-                                <option value="" disabled selected>Select gender</option>
-                                <option value="Male"   {{ old('gender') == 'Male'   ? 'selected' : '' }}>Male</option>
-                                <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                                <option value="Other"  {{ old('gender') == 'Other'  ? 'selected' : '' }}>Other</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label-custom">Email</label>
-                            <input type="email" name="email" class="custom-input"
-                                   placeholder="john@example.com" required
-                                   value="{{ old('email', Auth::user()->email ?? '') }}">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label-custom">Phone Number</label>
-                            <input type="text" name="phone_number" class="custom-input"
-                                   placeholder="+91 98765 43210" required
-                                   value="{{ old('phone_number') }}">
-                        </div>
-                    </div>
-
-                    <div class="form-divider"></div>
-
-                    {{-- Trip Type --}}
-                    <label class="form-label-custom" style="margin-bottom:10px;">Trip Type</label>
-                    <div style="display:flex;gap:8px;margin-bottom:20px;">
-                        <label style="flex:1;cursor:pointer;">
-                            <input type="radio" name="trip_type" value="One Way" {{ $tripType === 'One Way' ? 'checked' : '' }} style="display:none;" class="trip-radio">
-                            <div class="cs-option {{ $tripType === 'One Way' ? 'active' : '' }}" id="trip-ow" onclick="selectTrip('One Way')">
-                                <div class="cs-radio"></div>
-                                <div class="cs-name">One Way</div>
-                                <i class="fa-solid fa-arrow-right" style="color:var(--gold);font-size:12px;"></i>
-                            </div>
-                        </label>
-                        <label style="flex:1;cursor:pointer;">
-                            <input type="radio" name="trip_type" value="Round Trip" {{ $tripType === 'Round Trip' ? 'checked' : '' }} style="display:none;" class="trip-radio">
-                            <div class="cs-option {{ $tripType === 'Round Trip' ? 'active' : '' }}" id="trip-rt" onclick="selectTrip('Round Trip')">
-                                <div class="cs-radio"></div>
-                                <div class="cs-name">Round Trip</div>
-                                <i class="fa-solid fa-arrows-rotate" style="color:{{ $tripType === 'Round Trip' ? 'var(--gold)' : 'var(--muted)' }};font-size:12px;" id="rt-icon"></i>
-                            </div>
-                        </label>
-                    </div>
-
-                    {{-- Cabin Class --}}
-                    <label class="form-label-custom" style="margin-bottom:10px;">Cabin Class</label>
-                    <div class="class-select-wrap" style="margin-bottom:20px;">
-                        @foreach($classes as $cls)
-                        @php $sold = $cls->available_seats <= 0; @endphp
-                        <div class="cs-option {{ $loop->first && !$sold ? 'active' : '' }} {{ $sold ? 'disabled' : '' }}"
-                             id="form-cls-{{ $cls->id }}"
-                             onclick="{{ !$sold ? 'selectClass('.$cls->id.','.$cls->total_price.',null,\''.$cls->class_type.'\')' : '' }}">
-                            <div class="cs-radio"></div>
-                            <div class="cs-name">{{ $cls->class_type }}</div>
-                            <div class="cs-price">${{ number_format($cls->total_price) }}</div>
-                        </div>
-                        @endforeach
-                    </div>
-
-                    {{-- Passengers --}}
-                    <label class="form-label-custom" style="margin-bottom:10px;">Passengers</label>
-                    <div class="passenger-box" style="margin-bottom:0;">
-                        <div class="passenger-row">
-                            <div class="passenger-label">
-                                <strong>Adults</strong>
-                                <small>Age 18 and above</small>
-                            </div>
-                            <div class="counter">
-                                <button type="button" onclick="changeCount('adult',-1)">−</button>
-                                <span id="adultCount">1</span>
-                                <button type="button" onclick="changeCount('adult',1)">+</button>
-                            </div>
-                        </div>
-                        <div class="passenger-row">
-                            <div class="passenger-label">
-                                <strong>Children</strong>
-                                <small>Ages 0 – 17</small>
-                            </div>
-                            <div class="counter">
-                                <button type="button" onclick="changeCount('child',-1)">−</button>
-                                <span id="childCount">0</span>
-                                <button type="button" onclick="changeCount('child',1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Price Summary --}}
-                    <div class="price-summary">
-                        <div class="ps-row">
-                            <span class="ps-label">Cabin class</span>
-                            <span class="ps-val" id="summaryClass">{{ $econClass->class_type ?? '—' }}</span>
-                        </div>
-                        <div class="ps-row">
-                            <span class="ps-label">Price per person</span>
-                            <span class="ps-val">$<span id="summaryPerPerson">{{ number_format($basePrice) }}</span></span>
-                        </div>
-                        <div class="ps-row">
-                            <span class="ps-label">Passengers</span>
-                            <span class="ps-val"><span id="summaryPax">1</span> Adult(s)</span>
-                        </div>
-                        <div class="ps-divider"></div>
-                        <div class="ps-row">
-                            <span class="ps-total-label">Total Amount</span>
-                            <span class="ps-total-val">$<span id="summaryTotal">{{ number_format($basePrice) }}</span></span>
-                        </div>
-                    </div>
-
-                    <button class="btn-main" type="submit">
-                        Confirm Booking &nbsp;✈
-                    </button>
-
-                </form>
-            </div>
+{{-- ══ HERO ══ --}}
+<div class="bk-hero">
+  <div class="container-xl">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <a href="javascript:history.back()" class="bk-back">
+          <i class="fa-solid fa-arrow-left"></i> Back to Results
+        </a>
+        <div class="bk-hero-title">
+          <i class="fa-solid fa-ticket"></i>
+          Review &amp; Passenger Details
+          <span class="trip-badge">{{ $isRound ? 'Round Trip' : 'One Way' }}</span>
         </div>
-
-    </div>{{-- /row --}}
+        <div class="bk-hero-sub">
+          {{ $departFlight->from_airport_code }} → {{ $departFlight->to_airport_code }}
+          @if($isRound && $returnFlight) &nbsp;·&nbsp; {{ $returnFlight->from_airport_code }} → {{ $returnFlight->to_airport_code }} @endif
+          &nbsp;·&nbsp; {{ $adults }} Adult{{ $adults > 1 ? 's' : '' }}
+          @if($children), {{ $children }} Child{{ $children > 1 ? 'ren' : '' }} @endif
+          &nbsp;·&nbsp; {{ $selClass }}
+        </div>
+      </div>
+      <div class="bk-steps">
+        <div class="bk-step done"><div class="bk-snum"><i class="fa-solid fa-check" style="font-size:.48rem;"></i></div>Search</div>
+        <div class="bk-sdiv"></div>
+        <div class="bk-step done"><div class="bk-snum"><i class="fa-solid fa-check" style="font-size:.48rem;"></i></div>Select</div>
+        <div class="bk-sdiv"></div>
+        <div class="bk-step active"><div class="bk-snum">3</div>Review</div>
+        <div class="bk-sdiv"></div>
+        <div class="bk-step"><div class="bk-snum">4</div>Book</div>
+      </div>
+    </div>
+  </div>
 </div>
 
+{{-- ══ MAIN ══ --}}
+<div class="bk-wrap">
+<div class="container-xl">
+
+  {{-- Flash messages --}}
+  @if(session('success'))
+    <div class="alert-success"><i class="fa-solid fa-circle-check fa-lg"></i> {{ session('success') }}</div>
+  @endif
+  @if(session('error'))
+    <div class="alert-error"><i class="fa-solid fa-circle-exclamation fa-lg"></i> {{ session('error') }}</div>
+  @endif
+  @if($errors->any())
+    <div class="alert-error"><i class="fa-solid fa-circle-exclamation fa-lg"></i> Please fix the errors below and try again.</div>
+  @endif
+
+<div class="row g-4">
+
+  {{-- LEFT — flight cards + passenger form --}}
+  <div class="col-lg-8">
+
+    {{-- ── OUTBOUND ── --}}
+    <div class="bk-card">
+      <div class="bk-card-head dep">
+        <div class="bk-ch-icon blue"><i class="fa-solid fa-plane-departure"></i></div>
+        <div>
+          <div class="bk-ch-title">{{ $isRound ? 'Outbound Flight' : 'Your Flight' }}</div>
+          <div class="bk-ch-sub">{{ \Carbon\Carbon::parse($departDate)->format('l, d M Y') }}</div>
+        </div>
+        <span class="cls-tag" style="background:var(--primary);">{{ $selClass }}</span>
+      </div>
+      <div class="bk-card-body">
+        <div class="fd-row">
+          <div class="fd-airline">
+            <div class="fd-logo">
+              @if($departFlight->airline_logo)
+                <img src="{{ asset($departFlight->airline_logo) }}" alt="{{ $departFlight->airline_name }}"
+                     onerror="this.style.display='none';this.parentElement.textContent='{{ strtoupper(substr($departFlight->airline_code,0,2)) }}';">
+              @else{{ strtoupper(substr($departFlight->airline_code,0,2)) }}@endif
+            </div>
+            <div>
+              <div class="fd-al-name">{{ $departFlight->airline_name }}</div>
+              <div class="fd-al-sub">
+                <span class="fd-flno">{{ $departFlight->flight_number }}</span>
+                @if($departFlight->aircraft_type)<span class="fd-ac">{{ $departFlight->aircraft_type }}</span>@endif
+              </div>
+            </div>
+          </div>
+          <div class="fd-route">
+            <div class="fd-ep">
+              <div class="fd-time">{{ $dDep->format('H:i') }}</div>
+              <div class="fd-iata">{{ $departFlight->from_airport_code }}</div>
+              <div class="fd-apt">{{ $departFlight->from_airport_code }}</div>
+            </div>
+            <div class="fd-mid">
+              <div class="fd-line">
+                <div class="fd-dot"></div><div class="fd-dash"></div>
+                <span class="fd-plane"><i class="fa-solid fa-plane"></i></span>
+                <div class="fd-dash"></div><div class="fd-dot"></div>
+              </div>
+              <span class="fd-dur">{{ $dDiff->h }}h {{ $dDiff->i }}m</span>
+              <span class="fd-stop {{ $dStopCls }}">
+                <i class="fa-solid {{ $dStopIco }}"></i>{{ $dStopLbl }}
+              </span>
+              @if(count($dStopovers))
+                <div class="fd-via"><i class="fa-solid fa-clock"></i> layover :
+                  @foreach($dStopovers as $c)<span class="sv-city">{{ $c }}</span>@endforeach
+                </div>
+              @endif
+              @if($dON)<div class="fd-over"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
+            </div>
+            <div class="fd-ep fd-ep-r">
+              <div class="fd-time">{{ $dArr->format('H:i') }}@if($dON)<sup style="font-size:.55rem;color:#f97316;vertical-align:super;">+1</sup>@endif</div>
+              <div class="fd-iata">{{ $departFlight->to_airport_code }}</div>
+              <div class="fd-apt">{{ $departFlight->to_airport_code }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="cls-panel">
+          <div class="cls-top">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="cls-badge" style="background:var(--primary);">
+                <i class="fa-solid fa-star" style="font-size:.52rem;"></i> {{ $departClass->class_type }}
+              </span>
+              <span class="seats-pill {{ $dLow ? 'seats-low' : 'seats-ok' }}">
+                <i class="fa-solid {{ $dLow ? 'fa-fire' : 'fa-couch' }}"></i>
+                {{ $dAvail }} seat{{ $dAvail != 1 ? 's' : '' }} available
+              </span>
+              <span>{{$drefund != 0 ? 'Refundable' : '' }}</span>
+              <span class="text-muted">{{ $dcancel ? 'Cancellation charge: $' . number_format($dcancel) : '' }}</span>
+
+            </div>
+            <div class="cls-price-blk">
+              <div class="cls-price-lbl">Per person</div>
+              <div class="cls-price-amt"><span style="font-size:.75rem;font-weight:500;vertical-align:super;">$</span>{{ number_format($dPrice) }}</div>
+              <div class="cls-price-sub">Base price</div>
+            </div>
+          </div>
+          <div class="cls-specs">
+            <div class="spec"><i class="fa-solid fa-briefcase"></i> {{ $departClass->cabin_baggage_kg ?? 7 }}kg cabin</div>
+            <div class="spec"><i class="fa-solid fa-suitcase-rolling"></i> {{ $departClass->checkin_baggage_kg ?? 23 }}kg check-in</div>
+            @if(!empty($departClass->meal_included))<div class="spec"><i class="fa-solid fa-utensils"></i> Meal included</div>@endif
+            @if(!empty($departClass->seat_pitch))<div class="spec"><i class="fa-solid fa-arrows-up-down"></i> {{ $departClass->seat_pitch }} seat pitch</div>@endif
+            @if(!empty($departClass->refundable))<div class="spec"><i class="fa-solid fa-rotate-left"></i> Refundable</div>@endif
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- ── RETURN (only for round trip) ── --}}
+    @if($isRound && $returnFlight)
+    <div class="bk-card">
+      <div class="bk-card-head ret">
+        <div class="bk-ch-icon green"><i class="fa-solid fa-plane-arrival"></i></div>
+        <div>
+          <div class="bk-ch-title">Return Flight</div>
+          <div class="bk-ch-sub">{{ \Carbon\Carbon::parse($returnDate)->format('l, d M Y') }}</div>
+        </div>
+        <span class="cls-tag" style="background:var(--green);">{{ $selClass }}</span>
+      </div>
+      <div class="bk-card-body">
+        <div class="fd-row">
+          <div class="fd-airline">
+            <div class="fd-logo">
+              @if($returnFlight->airline_logo)
+                <img src="{{ asset($returnFlight->airline_logo) }}" alt="{{ $returnFlight->airline_name }}"
+                     onerror="this.style.display='none';this.parentElement.textContent='{{ strtoupper(substr($returnFlight->airline_code,0,2)) }}';">
+              @else{{ strtoupper(substr($returnFlight->airline_code,0,2)) }}@endif
+            </div>
+            <div>
+              <div class="fd-al-name">{{ $returnFlight->airline_name }}</div>
+              <div class="fd-al-sub">
+                <span class="fd-flno">{{ $returnFlight->flight_number }}</span>
+                @if($returnFlight->aircraft_type)<span class="fd-ac">{{ $returnFlight->aircraft_type }}</span>@endif
+              </div>
+            </div>
+          </div>
+          <div class="fd-route">
+            <div class="fd-ep">
+              <div class="fd-time">{{ $rDep->format('H:i') }}</div>
+              <div class="fd-iata">{{ $returnFlight->from_airport_code }}</div>
+              <div class="fd-apt">{{ $returnFlight->from_airport_code }}</div>
+            </div>
+            <div class="fd-mid">
+              <div class="fd-line">
+                <div class="fd-dot"></div><div class="fd-dash"></div>
+                <span class="fd-plane"><i class="fa-solid fa-plane" style="transform:scaleX(-1);display:inline-block;"></i></span>
+                <div class="fd-dash"></div><div class="fd-dot"></div>
+              </div>
+              <span class="fd-dur">{{ $rDiff->h }}h {{ $rDiff->i }}m</span>
+              <span class="fd-stop {{ $rStopCls }}">
+                <i class="fa-solid {{ $rStopIco }}"></i>{{ $rStopLbl }}
+              </span>
+              @if(count($rStopovers))
+                <div class="fd-via"><i class="fa-solid fa-clock"></i> layover :
+                  @foreach($rStopovers as $c)<span class="sv-city">{{ $c }}</span>@endforeach
+                </div>
+              @endif
+              @if($rON)<div class="fd-over"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
+            </div>
+            <div class="fd-ep fd-ep-r">
+              <div class="fd-time">{{ $rArr->format('H:i') }}@if($rON)<sup style="font-size:.55rem;color:#f97316;vertical-align:super;">+1</sup>@endif</div>
+              <div class="fd-iata">{{ $returnFlight->to_airport_code }}</div>
+              <div class="fd-apt">{{ $returnFlight->to_airport_code }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="cls-panel ret-cls">
+          <div class="cls-top">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="cls-badge" style="background:var(--green);">
+                <i class="fa-solid fa-star" style="font-size:.52rem;"></i> {{ $returnClass->class_type }}
+              </span>
+              <span class="seats-pill {{ $rLow ? 'seats-low' : 'seats-ok' }}">
+                <i class="fa-solid {{ $rLow ? 'fa-fire' : 'fa-couch' }}"></i>
+                {{ $rAvail }} seat{{ $rAvail != 1 ? 's' : '' }} available
+              </span>
+            </div>
+            <div class="cls-price-blk">
+              <div class="cls-price-lbl">Per person</div>
+              <div class="cls-price-amt ret"><span style="font-size:.75rem;font-weight:500;vertical-align:super;">$</span>{{ number_format($rPrice) }}</div>
+              <div class="cls-price-sub">taxes included</div>
+            </div>
+          </div>
+          <div class="cls-specs">
+            <div class="spec"><i class="fa-solid fa-briefcase"></i> {{ $returnClass->cabin_baggage_kg ?? 7 }}kg cabin</div>
+            <div class="spec"><i class="fa-solid fa-suitcase-rolling"></i> {{ $returnClass->checkin_baggage_kg ?? 23 }}kg check-in</div>
+            @if(!empty($returnClass->meal_included))<div class="spec"><i class="fa-solid fa-utensils"></i> Meal included</div>@endif
+            @if(!empty($returnClass->seat_pitch))<div class="spec"><i class="fa-solid fa-arrows-up-down"></i> {{ $returnClass->seat_pitch }} seat pitch</div>@endif
+            @if(!empty($returnClass->refundable))<div class="spec"><i class="fa-solid fa-rotate-left"></i> Refundable</div>@endif
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
+
+    {{-- ══ PASSENGER DETAILS FORM ══ --}}
+    <div class="pax-form-card" id="passengerFormCard">
+      <div class="pax-form-head">
+        <div class="pfh-icon"><i class="fa-solid fa-users"></i></div>
+        <div>
+          <div class="pfh-title">Passenger Details</div>
+          <div class="pfh-sub">Please fill in first name, last name &amp; gender for each traveller</div>
+        </div>
+        <span class="pfh-count">{{ $totalPax }} Passenger{{ $totalPax > 1 ? 's' : '' }}</span>
+      </div>
+
+      <form id="passengerForm" method="POST" action="{{ route('flight.book') }}" novalidate>
+        @csrf
+        {{-- Hidden trip data --}}
+        <input type="hidden" name="depart_flight_id"  value="{{ $departFlight->id }}">
+        <input type="hidden" name="depart_class_id"   value="{{ $departClass->id }}">
+        @if($isRound && $returnFlight)
+        <input type="hidden" name="return_flight_id"  value="{{ $returnFlight->id }}">
+        <input type="hidden" name="return_class_id"   value="{{ $returnClass->id }}">
+        @endif
+        <input type="hidden" name="trip_type"         value="{{ $tripType }}">
+        <input type="hidden" name="class"             value="{{ $selClass }}">
+        <input type="hidden" name="adults"            value="{{ $adults }}">
+        <input type="hidden" name="children"          value="{{ $children }}">
+        <input type="hidden" name="depart_date"       value="{{ $departDate }}">
+        <input type="hidden" name="return_date"       value="{{ $returnDate }}">
+        <input type="hidden" name="grand_total"       value="{{ $grandTotal }}">
+
+        {{-- ── ADULT PASSENGERS ── --}}
+        @for($i = 1; $i <= $adults; $i++)
+        @php $isFirstAdult = $i === 1; @endphp
+        <div class="pax-block" id="paxBlock_adult_{{ $i }}">
+          <button type="button"
+            class="pax-accordion-btn"
+            data-bs-toggle="collapse"
+            data-bs-target="#paxCollapse_adult_{{ $i }}"
+            aria-expanded="{{ $isFirstAdult ? 'true' : 'false' }}"
+            aria-controls="paxCollapse_adult_{{ $i }}"
+            id="paxBtn_adult_{{ $i }}">
+            <div class="pab-num">{{ $i }}</div>
+            <div class="pab-info">
+              <div class="pab-title" id="pabTitle_adult_{{ $i }}">
+                Adult {{ $i }}{{ $isFirstAdult ? ' (Primary Contact)' : '' }}
+              </div>
+              <div class="pab-sub">First name, last name &amp; gender{{ $isFirstAdult ? ' · Email &amp; phone required' : '' }}</div>
+            </div>
+            <span class="pab-type adult">Adult</span>
+            <div class="pab-status" id="pabStatus_adult_{{ $i }}"></div>
+            <i class="fa-solid fa-chevron-down pab-chevron"></i>
+          </button>
+
+          <div class="collapse {{ $isFirstAdult ? 'show' : '' }}" id="paxCollapse_adult_{{ $i }}">
+            <div class="pax-fields">
+
+              {{-- First Name + Last Name --}}
+              <div class="pf-row cols-2">
+                <div class="pf-group">
+                  <label class="pf-label">First Name <span class="req">*</span></label>
+                  <input type="text"
+                    name="passengers[adult][{{ $i }}][first_name]"
+                    class="pf-input pax-required"
+                    placeholder="First name"
+                    data-block="adult_{{ $i }}"
+                    value="{{ old('passengers.adult.'.$i.'.first_name') }}"
+                    oninput="updatePaxTitle('adult','{{ $i }}',this)">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+                <div class="pf-group">
+                  <label class="pf-label">Last Name <span class="req">*</span></label>
+                  <input type="text"
+                    name="passengers[adult][{{ $i }}][last_name]"
+                    class="pf-input pax-required"
+                    placeholder="Last name"
+                    data-block="adult_{{ $i }}"
+                    value="{{ old('passengers.adult.'.$i.'.last_name') }}"
+                    oninput="updatePaxTitle('adult','{{ $i }}',this,true)">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+              </div>
+
+              {{-- Gender --}}
+              <div class="pf-row cols-1">
+                <div class="pf-group">
+                  <label class="pf-label">Gender <span class="req">*</span></label>
+                  <select name="passengers[adult][{{ $i }}][gender]" class="pf-input pf-select pax-required" data-block="adult_{{ $i }}">
+                    <option value="">Select gender</option>
+                    <option value="male"   {{ old('passengers.adult.'.$i.'.gender') == 'male'   ? 'selected' : '' }}>Male</option>
+                    <option value="female" {{ old('passengers.adult.'.$i.'.gender') == 'female' ? 'selected' : '' }}>Female</option>
+                    <option value="other"  {{ old('passengers.adult.'.$i.'.gender') == 'other'  ? 'selected' : '' }}>Other</option>
+                  </select>
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+              </div>
+
+              {{-- Contact info only for first adult --}}
+              @if($isFirstAdult)
+              <div class="contact-divider"></div>
+              <div class="contact-label">
+                <i class="fa-solid fa-envelope"></i> Contact Information
+              </div>
+              <div class="pf-row cols-2">
+                <div class="pf-group">
+                  <label class="pf-label">Email Address <span class="req">*</span></label>
+                  <input type="email"
+                    name="contact_email"
+                    class="pf-input pax-required"
+                    placeholder="you@example.com"
+                    data-block="adult_{{ $i }}"
+                    value="{{ old('contact_email') }}">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Valid email required</span>
+                </div>
+                <div class="pf-group">
+                  <label class="pf-label">Phone Number <span class="req">*</span></label>
+                  <input type="tel"
+                    name="contact_phone"
+                    class="pf-input pax-required"
+                    placeholder="+91 9876543210"
+                    data-block="adult_{{ $i }}"
+                    value="{{ old('contact_phone') }}">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+              </div>
+              @endif
+
+            </div>{{-- pax-fields --}}
+          </div>{{-- collapse --}}
+        </div>{{-- pax-block --}}
+        @endfor
+
+        {{-- ── CHILD PASSENGERS ── --}}
+        @for($j = 1; $j <= $children; $j++)
+        @php $childIndex = $adults + $j; @endphp
+        <div class="pax-block" id="paxBlock_child_{{ $j }}">
+          <button type="button"
+            class="pax-accordion-btn"
+            data-bs-toggle="collapse"
+            data-bs-target="#paxCollapse_child_{{ $j }}"
+            aria-expanded="false"
+            aria-controls="paxCollapse_child_{{ $j }}"
+            id="paxBtn_child_{{ $j }}">
+            <div class="pab-num" style="background:#fef9c3;color:#92400e;border-color:#fef9c3;">{{ $childIndex }}</div>
+            <div class="pab-info">
+              <div class="pab-title" id="pabTitle_child_{{ $j }}">Child {{ $j }}</div>
+              <div class="pab-sub">First name, last name, gender &amp; date of birth</div>
+            </div>
+            <span class="pab-type child">Child</span>
+            <div class="pab-status" id="pabStatus_child_{{ $j }}"></div>
+            <i class="fa-solid fa-chevron-down pab-chevron"></i>
+          </button>
+
+          <div class="collapse" id="paxCollapse_child_{{ $j }}">
+            <div class="pax-fields child-fields">
+
+              <div class="child-banner">
+                <i class="fa-solid fa-child-reaching"></i>
+                Child passenger — must be 0–17 years old at time of travel.
+              </div>
+
+              {{-- First Name + Last Name --}}
+              <div class="pf-row cols-2">
+                <div class="pf-group">
+                  <label class="pf-label">First Name <span class="req">*</span></label>
+                  <input type="text"
+                    name="passengers[child][{{ $j }}][first_name]"
+                    class="pf-input pax-required"
+                    placeholder="First name"
+                    data-block="child_{{ $j }}"
+                    value="{{ old('passengers.child.'.$j.'.first_name') }}"
+                    oninput="updatePaxTitle('child','{{ $j }}',this)">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+                <div class="pf-group">
+                  <label class="pf-label">Last Name <span class="req">*</span></label>
+                  <input type="text"
+                    name="passengers[child][{{ $j }}][last_name]"
+                    class="pf-input pax-required"
+                    placeholder="Last name"
+                    data-block="child_{{ $j }}"
+                    value="{{ old('passengers.child.'.$j.'.last_name') }}"
+                    oninput="updatePaxTitle('child','{{ $j }}',this,true)">
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+              </div>
+
+              {{-- Gender + DOB --}}
+              <div class="pf-row cols-2">
+                <div class="pf-group">
+                  <label class="pf-label">Gender <span class="req">*</span></label>
+                  <select name="passengers[child][{{ $j }}][gender]" class="pf-input pf-select pax-required" data-block="child_{{ $j }}">
+                    <option value="">Select gender</option>
+                    <option value="male"   {{ old('passengers.child.'.$j.'.gender') == 'male'   ? 'selected' : '' }}>Male</option>
+                    <option value="female" {{ old('passengers.child.'.$j.'.gender') == 'female' ? 'selected' : '' }}>Female</option>
+                  </select>
+                  <span class="pf-err"><i class="fa-solid fa-circle-exclamation"></i> Required</span>
+                </div>
+                <div class="pf-group">
+                  <label class="pf-label">Date of Birth <span class="req">*</span></label>
+                  <input type="date"
+                    name="passengers[child][{{ $j }}][dob]"
+                    class="pf-input pax-required child-dob"
+                    data-block="child_{{ $j }}"
+                    max="{{ date('Y-m-d') }}"
+                    min="{{ date('Y-m-d', strtotime('-18 years')) }}"
+                    value="{{ old('passengers.child.'.$j.'.dob') }}"
+                    onchange="calcChildAge(this,'childAge_{{ $j }}')">
+                  <span class="pf-err" id="childDobErr_{{ $j }}"><i class="fa-solid fa-circle-exclamation"></i> Must be 0–17 years old</span>
+                </div>
+              </div>
+
+              {{-- Age display --}}
+              <div class="pf-row cols-1">
+                <div class="pf-group">
+                  <label class="pf-label">Age at Travel</label>
+                  <div style="padding:9px 14px;background:var(--primary-light);border:1.5px solid var(--primary-pale);border-radius:var(--r8);font-size:.8rem;font-weight:700;color:var(--primary-dark);min-height:40px;" id="childAge_{{ $j }}">
+                    — will calculate from date of birth
+                  </div>
+                </div>
+              </div>
+
+            </div>{{-- pax-fields --}}
+          </div>{{-- collapse --}}
+        </div>{{-- pax-block --}}
+        @endfor
+
+        {{-- FORM FOOTER / SUBMIT --}}
+        <div class="pax-form-footer">
+          <div style="text-align:left;">
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <i class="fa-solid fa-check-circle"></i>
+              Confirm &amp; Proceed to Book
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>{{-- pax-form-card --}}
+
+  </div>{{-- col-lg-8 --}}
+
+  {{-- RIGHT — summary sidebar --}}
+  <div class="col-lg-4">
+    <div class="bk-sidebar" style="position:sticky;top:18px;">
+
+      {{-- Price Summary --}}
+      <div class="price-card">
+        <div class="price-card-head">
+          <div class="pc-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div>
+            <div class="pc-title">Price Summary</div>
+            <div class="pc-sub">{{ $totalPax }} traveller{{ $totalPax > 1 ? 's' : '' }}</div>
+          </div>
+        </div>
+        <div class="price-card-body">
+          <div class="pg">
+            <div class="pg-lbl" style="font-weight:700;color:var(--primary-dark);">
+              <i class="fa-solid fa-plane-departure" style="font-size:.7rem;"></i>
+              {{ $isRound ? 'Outbound' : 'Flight' }}
+            </div><div></div>
+            <div class="pg-lbl" style="padding-left:12px;">{{ $adults }} Adult{{ $adults > 1 ? 's' : '' }} × ${{ number_format($dPrice) }}</div>
+            <div class="pg-val">${{ number_format($dPrice * $adults) }}</div>
+            <div class="pg-lbl" style="padding-left:12px;">Tax</div>
+            <div class="pg-val">${{ number_format($dTax * $adults) }}</div>
+            @if($children)
+              <div class="pg-lbl" style="padding-left:12px;">{{ $children }} Child{{ $children > 1 ? 'ren' : '' }} × ${{ number_format($dPrice) }}</div>
+              <div class="pg-val">${{ number_format($dPrice * $children) }}</div>
+              <div class="pg-lbl" style="padding-left:12px;">Tax</div>
+              <div class="pg-val">${{ number_format($dTax * $children) }}</div>
+            @endif
+            @if($isRound && $returnFlight)
+              <div class="pg-div"></div>
+              <div class="pg-lbl" style="font-weight:700;color:var(--green);">
+                <i class="fa-solid fa-plane-arrival" style="font-size:.7rem;"></i> Return
+              </div><div></div>
+              <div class="pg-lbl" style="padding-left:12px;">{{ $adults }} Adult{{ $adults > 1 ? 's' : '' }} × ${{ number_format($rPrice) }}</div>
+              <div class="pg-val">${{ number_format($rPrice * $adults) }}</div>
+              <div class="pg-lbl" style="padding-left:12px;">Tax</div>
+              <div class="pg-val">${{ number_format($rTax * $adults) }}</div>
+              @if($children)
+                <div class="pg-lbl" style="padding-left:12px;">{{ $children }} Child{{ $children > 1 ? 'ren' : '' }} × ${{ number_format($rPrice) }}</div>
+                <div class="pg-val">${{ number_format($rPrice * $children) }}</div>
+                <div class="pg-lbl" style="padding-left:12px;">Tax</div>
+                <div class="pg-val">${{ number_format($rTax * $children) }}</div>
+              @endif
+            @endif
+            <div class="pg-div"></div>
+            <div class="pg-total-lbl">Grand Total</div>
+            <div class="pg-total-val"><span style="font-size:.82rem;font-weight:500;vertical-align:super;">$</span>{{ number_format($grandTotal) }}</div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--r8);padding:10px 12px;margin-top:14px;font-size:.68rem;color:var(--gray);line-height:1.6;">
+            <i class="fa-solid fa-circle-info" style="color:var(--primary);"></i>
+            24 hour cancellation allowed after booking at no extra cost.
+          </div>
+        </div>
+      </div>
+
+      {{-- Trip Info --}}
+      <div class="info-card">
+        <div class="info-card-head">
+          <div class="ic-icon"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <div class="ic-title">Trip Details</div>
+            <div class="ic-sub">Your selected options</div>
+          </div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row">
+            <span class="ir-lbl">Trip Type</span>
+            <span class="ir-val">{{ $isRound ? 'Round Trip' : 'One Way' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-lbl">Class</span>
+            <span class="ir-val" style="color:var(--primary);">{{ $selClass }}</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-lbl">Route</span>
+            <span class="ir-val">{{ $departFlight->from_airport_code }} → {{ $departFlight->to_airport_code }}@if($isRound && $returnFlight) · {{ $returnFlight->from_airport_code }} → {{ $returnFlight->to_airport_code }}@endif</span>
+          </div>
+          <div class="info-row">
+            <span class="ir-lbl">Depart</span>
+            <span class="ir-val">{{ \Carbon\Carbon::parse($departDate)->format('d M Y') }}</span>
+          </div>
+          @if($isRound && $returnDate)
+          <div class="info-row">
+            <span class="ir-lbl">Return</span>
+            <span class="ir-val">{{ \Carbon\Carbon::parse($returnDate)->format('d M Y') }}</span>
+          </div>
+          @endif
+          <div class="info-row">
+            <span class="ir-lbl">Adults</span>
+            <span class="ir-val">{{ $adults }}</span>
+          </div>
+          @if($children)
+          <div class="info-row">
+            <span class="ir-lbl">Children</span>
+            <span class="ir-val">{{ $children }}</span>
+          </div>
+          @endif
+          <div class="info-row">
+            <span class="ir-lbl">Outbound Seats Left</span>
+            <span class="ir-val" style="color:{{ $dLow ? 'var(--red)' : 'var(--green)' }};">{{ $dAvail }}</span>
+          </div>
+          @if($isRound && $returnFlight)
+          <div class="info-row">
+            <span class="ir-lbl">Return Seats Left</span>
+            <span class="ir-val" style="color:{{ $rLow ? 'var(--red)' : 'var(--green)' }};">{{ $rAvail }}</span>
+          </div>
+          @endif
+        </div>
+      </div>
+
+      {{-- Trust badges --}}
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px;padding:0 4px;">
+        <div style="display:flex;align-items:center;gap:9px;font-size:.74rem;color:var(--slate);font-weight:500;">
+          <i class="fa-solid fa-lock" style="color:var(--green);width:16px;text-align:center;"></i> SSL secured &amp; encrypted
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;font-size:.74rem;color:var(--slate);font-weight:500;">
+          <i class="fa-solid fa-shield-halved" style="color:var(--green);width:16px;text-align:center;"></i> No hidden fees
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;font-size:.74rem;color:var(--slate);font-weight:500;">
+          <i class="fa-solid fa-headset" style="color:var(--primary);width:16px;text-align:center;"></i> 24/7 support
+        </div>
+      </div>
+
+    </div>
+  </div>{{-- col-lg-4 --}}
+
+</div>{{-- row --}}
+</div>{{-- container --}}
+</div>{{-- bk-wrap --}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let adult           = 1;
-let child           = 0;
-let pricePerPax     = {{ $basePrice }};
-let selectedClassId = {{ $econClass->id ?? 'null' }};
+// ── Update accordion title with passenger name as they type ──
+const firstNames = {};
+const lastNames  = {};
 
-/* ── Class selection ──────────────────────────────────── */
-function selectClass(id, price, cardEl, className) {
-    pricePerPax     = price;
-    selectedClassId = id;
-
-    // Update left-column class cards
-    document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
-    const card = document.getElementById('cls-' + id);
-    if (card) card.classList.add('selected');
-
-    // Update form class options
-    document.querySelectorAll('.cs-option[id^="form-cls-"]').forEach(c => c.classList.remove('active'));
-    const formOpt = document.getElementById('form-cls-' + id);
-    if (formOpt) formOpt.classList.add('active');
-
-    if (className) {
-        document.getElementById('classInput').value         = className;
-        document.getElementById('summaryClass').textContent = className;
-    }
-    document.getElementById('classIdInput').value = id;
-    updatePrice();
+function updatePaxTitle(type, index, input, isLast = false) {
+  const key = type + '_' + index;
+  if (!isLast) firstNames[key] = input.value.trim();
+  else         lastNames[key]  = input.value.trim();
+  const fn = firstNames[key] || '';
+  const ln = lastNames[key]  || '';
+  const nameDisplay = [fn, ln].filter(Boolean).join(' ');
+  const titleEl = document.getElementById('pabTitle_' + key);
+  if (titleEl) {
+    const suffix = (type === 'adult' && index == 1) ? ' (Primary Contact)' : '';
+    titleEl.textContent = nameDisplay
+      ? nameDisplay + suffix
+      : (type === 'adult' ? 'Adult ' + index : 'Child ' + index) + suffix;
+  }
 }
 
-/* ── Trip type toggle ─────────────────────────────────── */
-function selectTrip(type) {
-    const ow     = document.getElementById('trip-ow');
-    const rt     = document.getElementById('trip-rt');
-    const rtIcon = document.getElementById('rt-icon');
+// ── Calculate child age from DOB ──
+function calcChildAge(input, displayId) {
+  const dob   = new Date(input.value);
+  const today = new Date();
+  if (isNaN(dob)) return;
+  let age = today.getFullYear() - dob.getFullYear();
+  const m = today.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+  const el = document.getElementById(displayId);
+  if (!el) return;
+  if (age < 0 || age > 17) {
+    el.textContent = '⚠ Age ' + age + ' — must be between 0 and 17 years';
+    el.style.color      = 'var(--red)';
+    el.style.background = '#fee2e2';
+    el.style.borderColor= '#fca5a5';
+    input.classList.add('error');
+  } else {
+    el.textContent = age + ' year' + (age !== 1 ? 's' : '') + ' old at time of travel';
+    el.style.color      = 'var(--primary-dark)';
+    el.style.background = 'var(--primary-light)';
+    el.style.borderColor= 'var(--primary-pale)';
+    input.classList.remove('error');
+  }
+}
 
-    if (type === 'One Way') {
-        ow.classList.add('active');    rt.classList.remove('active');
-        rtIcon.style.color = 'var(--muted)';
+// ── Mark passenger block as filled (green dot) ──
+function checkBlockFilled(block) {
+  const inputs    = document.querySelectorAll('[data-block="' + block + '"].pax-required');
+  const allFilled = [...inputs].every(i => i.value.trim() !== '');
+  const dot = document.getElementById('pabStatus_' + block);
+  if (dot) dot.classList.toggle('filled', allFilled);
+}
+
+document.querySelectorAll('.pax-required').forEach(input => {
+  input.addEventListener('input',  () => checkBlockFilled(input.dataset.block));
+  input.addEventListener('change', () => checkBlockFilled(input.dataset.block));
+});
+
+// ── Form validation on submit ──
+document.getElementById('passengerForm').addEventListener('submit', function(e) {
+  let valid = true;
+  document.querySelectorAll('.pax-required').forEach(input => {
+    const errEl = input.nextElementSibling;
+    if (!input.value.trim()) {
+      input.classList.add('error');
+      if (errEl && errEl.classList.contains('pf-err')) errEl.classList.add('show');
+      valid = false;
+      // Open the collapsed panel that has the error
+      const block      = input.dataset.block;
+      const collapseEl = document.getElementById('paxCollapse_' + block);
+      if (collapseEl && !collapseEl.classList.contains('show')) {
+        const btn = document.getElementById('paxBtn_' + block);
+        if (btn) btn.click();
+      }
     } else {
-        rt.classList.add('active');    ow.classList.remove('active');
-        rtIcon.style.color = 'var(--gold)';
+      input.classList.remove('error');
+      if (errEl && errEl.classList.contains('pf-err')) errEl.classList.remove('show');
     }
-    document.querySelectorAll('.trip-radio').forEach(r => {
-        r.checked = r.value === type;
-    });
-}
+  });
+  if (!valid) {
+    e.preventDefault();
+    const firstErr = document.querySelector('.pf-input.error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  // Disable button to prevent double submit
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+});
 
-/* ── Passenger counters ───────────────────────────────── */
-function changeCount(type, delta) {
-    if (type === 'adult') adult = Math.max(0, adult + delta);
-    if (type === 'child') child = Math.max(0, child + delta);
-    if (adult + child === 0) { type === 'adult' ? adult = 1 : child = 1; }
-
-    document.getElementById('adultCount').innerText = adult;
-    document.getElementById('childCount').innerText = child;
-    document.getElementById('adultInput').value     = adult;
-    document.getElementById('childInput').value     = child;
-    updatePrice();
-}
-
-/* ── Price summary ────────────────────────────────────── */
-function updatePrice() {
-    const totalPax = adult + child;
-    const total    = totalPax * pricePerPax;
-
-    document.getElementById('summaryPerPerson').innerText = pricePerPax.toLocaleString('en-IN');
-    document.getElementById('summaryPax').innerText       = totalPax;
-    document.getElementById('summaryTotal').innerText     = total.toLocaleString('en-IN');
-}
-
-/* ── Success toast auto-hide ──────────────────────────── */
-setTimeout(function () {
-    const msg = document.getElementById('successMsg');
-    if (msg) {
-        msg.style.opacity   = '0';
-        msg.style.transform = 'translateY(-10px)';
-        setTimeout(() => msg.remove(), 500);
-    }
-}, 3000);
+// Clear error styling on input
+document.querySelectorAll('.pf-input').forEach(input => {
+  input.addEventListener('input', function() {
+    this.classList.remove('error');
+    const errEl = this.nextElementSibling;
+    if (errEl && errEl.classList.contains('pf-err')) errEl.classList.remove('show');
+  });
+});
 </script>
 
 @endsection

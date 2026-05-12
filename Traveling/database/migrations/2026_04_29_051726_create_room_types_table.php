@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name'); 
+            $table->string('name');
             // Deluxe, Suite, Standard
 
             $table->text('description')->nullable();
 
-            $table->boolean('status')->default(1); 
+            $table->boolean('status')->default(1);
             // 1 = active, 0 = inactive
 
             $table->timestamps();

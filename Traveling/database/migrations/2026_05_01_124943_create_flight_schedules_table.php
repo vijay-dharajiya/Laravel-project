@@ -24,7 +24,7 @@ return new class extends Migration
                 'Cancelled',
                 'Boarding',
                 'Departed',
-                'Landed'
+                'Landed',
             ])->default('Scheduled');
 
             $table->unique(['flight_id', 'journey_date']);

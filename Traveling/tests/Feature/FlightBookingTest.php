@@ -1,14 +1,14 @@
 <?php
 
 use App\Models\Flight;
-use App\Models\FlightClass;
 use App\Models\FlightBooking;
+use App\Models\FlightClass;
 use App\Models\User;
 
 it('stores a flight booking when the user submits a valid booking', function () {
     $user = User::factory()->create();
 
-    $flight = new Flight();
+    $flight = new Flight;
     $flight->airline_name = 'TestAir';
     $flight->airline_code = 'TA';
     $flight->flight_number = 'TA-101';
@@ -57,7 +57,7 @@ it('stores a flight booking when the user submits a valid booking', function () 
             'trip_type' => 'One Way',
             'class_id' => $flightClass->id,
         ])
-        ->assertRedirect(route('flight.show', $flight->id))
+        ->assertRedirect(route('flight.details', $flight->id))
         ->assertSessionHas('success');
 
     $this->assertDatabaseHas('flight_bookings', [

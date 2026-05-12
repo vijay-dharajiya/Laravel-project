@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class FlightSchedule extends Model
 {
@@ -41,15 +40,15 @@ class FlightSchedule extends Model
     // ─── Status badge color for UI ────────────────────────────────────
     public function getStatusColorAttribute(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'Scheduled' => 'primary',
-            'On Time'   => 'success',
-            'Delayed'   => 'warning',
+            'On Time' => 'success',
+            'Delayed' => 'warning',
             'Cancelled' => 'danger',
-            'Boarding'  => 'info',
-            'Departed'  => 'secondary',
-            'Landed'    => 'dark',
-            default     => 'secondary',
+            'Boarding' => 'info',
+            'Departed' => 'secondary',
+            'Landed' => 'dark',
+            default => 'secondary',
         };
     }
 
