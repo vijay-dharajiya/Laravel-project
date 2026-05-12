@@ -125,59 +125,300 @@ body,html{font-family:var(--font-main);background:var(--bg);}
 .listing-panel.active{display:block;}
 
 /* ══════════════════════════════════════════
-   FLIGHT CARD — identical to search results page
+   FLIGHT CARD — UPGRADED
 ══════════════════════════════════════════ */
-.rtcard{background:#fff;border-radius:var(--r16);border:2px solid var(--border);overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;}
-.rtcard:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(29,78,216,.12),0 4px 16px rgba(0,0,0,.07);border-color:#bfdbfe;}
+.rtcard{
+  background:#fff;
+  border-radius:var(--r16);
+  border:1.5px solid var(--border);
+  overflow:hidden;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  position:relative;
+}
+.rtcard:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 56px rgba(29,78,216,.12),0 4px 16px rgba(0,0,0,.07);
+  border-color:#bfdbfe;
+}
 
-.rt-leg-strip{display:flex;align-items:center;gap:8px;padding:8px 18px;font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;}
-.rt-leg-strip.depart{background:linear-gradient(90deg,#eff6ff 0%,#dbeafe 100%);color:var(--primary-dark);border-bottom:1.5px solid #bfdbfe;}
-.rt-leg-strip i{font-size:.72rem;}
-.rt-leg-date{margin-left:auto;font-size:.68rem;font-weight:700;opacity:.75;}
+/* ── CARD HEADER ── */
+.rt-card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  background:linear-gradient(90deg,#eff6ff 0%,#dbeafe 100%);
+  border-bottom:1.5px solid #bfdbfe;
+  gap:12px;
+}
+.rt-header-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.rt-header-left i{
+  font-size:.75rem;
+  color:var(--primary-dark);
+}
+.rt-header-dep-label{
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--primary-dark);
+}
+.rt-header-date{
+  font-size:.68rem;
+  font-weight:600;
+  color:#3b5fc0;
+  opacity:.85;
+}
+/* route pill + stop badge together on the right */
+.rt-header-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.rt-route-pill{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:#fff;
+  border:1.5px solid #bfdbfe;
+  border-radius:100px;
+  padding:4px 14px 4px 10px;
+  font-size:.74rem;
+  font-weight:800;
+  color:var(--primary-dark);
+  letter-spacing:.05em;
+}
+.rt-route-pill i{
+  font-size:.68rem;
+  color:var(--primary);
+}
+/* stop badge in header */
+.rt-hdr-stop{
+  font-size:.63rem;
+  font-weight:800;
+  padding:4px 11px;
+  border-radius:100px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+.rt-stop-ns{background:#dcfce7;color:#14532d;}
+.rt-stop-1s{background:#fef9c3;color:#78350f;}
+.rt-stop-2s{background:#fee2e2;color:#7f1d1d;}
 
-.rt-flight-row{padding:16px 18px 14px;display:flex;align-items:center;gap:0;}
-.rt-airline-block{display:flex;align-items:center;gap:10px;min-width:170px;}
-.rt-al-logo{width:40px;height:40px;border-radius:var(--r8);background:#fff;border:1.5px solid #dde3f0;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;font-size:.58rem;font-weight:800;color:var(--primary);letter-spacing:.04em;text-align:center;line-height:1.2;}
+/* ── FLIGHT ROW ── */
+.rt-flight-row{
+  padding:18px 20px 14px;
+  display:flex;
+  align-items:center;
+  gap:0;
+}
+
+.rt-airline-block{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:170px;
+}
+.rt-al-logo{
+  width:42px;height:42px;
+  border-radius:var(--r8);
+  background:#fff;
+  border:1.5px solid #dde3f0;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+  font-size:.58rem;font-weight:800;color:var(--primary);
+  letter-spacing:.04em;text-align:center;line-height:1.2;
+}
 .rt-al-logo img{width:100%;height:100%;object-fit:contain;padding:3px;}
 .rt-al-name{font-family:var(--font-display);font-weight:700;font-size:.82rem;color:var(--navy);}
-.rt-al-sub{font-size:.68rem;color:var(--gray);margin-top:1px;display:flex;align-items:center;gap:5px;}
+.rt-al-sub{font-size:.68rem;color:var(--gray);margin-top:2px;display:flex;align-items:center;gap:5px;}
 .rt-al-flno{font-weight:600;color:var(--slate);}
-.rt-al-ac{background:#f1f5f9;border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:.62rem;font-weight:700;}
+.rt-al-ac{background:#f1f5f9;border:1px solid var(--border);padding:2px 6px;border-radius:4px;font-size:.62rem;font-weight:700;}
 
-.rt-route{flex:1;display:flex;align-items:center;padding:0 12px;min-width:0;}
-.rt-ep-time{font-family:var(--font-display);font-size:1.35rem;font-weight:800;color:var(--navy);line-height:1;}
-.rt-ep-iata{font-size:.8rem;font-weight:800;color:var(--primary);margin-top:3px;letter-spacing:.06em;}
-.rt-ep-airport{font-size:.63rem;color:var(--gray);margin-top:1px;font-weight:500;line-height:1.3;max-width:110px;}
-.rt-ep-r .rt-ep-airport{text-align:right;}
-.rt-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 10px;min-width:0;}
+/* ── ROUTE SECTION ── */
+.rt-route{
+  flex:1;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  min-width:0;
+}
+
+/* endpoint blocks — both centered */
+.rt-ep{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  min-width:0;
+}
+
+/* time with superscript AM/PM */
+.rt-ep-time-wrap{
+  display:flex;
+  align-items:flex-start;
+  gap:2px;
+  line-height:1;
+}
+.rt-ep-time{
+  font-family:var(--font-display);
+  font-size:1.38rem;
+  font-weight:800;
+  color:var(--navy);
+  line-height:1;
+}
+.rt-ep-ampm{
+  font-size:.58rem;
+  font-weight:700;
+  color:var(--gray);
+  margin-top:1px;
+  line-height:1;
+  letter-spacing:.04em;
+}
+/* timezone below time */
+.rt-ep-tz{
+  font-size:.6rem;
+  font-weight:600;
+  color:#94a3b8;
+  letter-spacing:.04em;
+  margin-top:15px;
+  margin-left:-18px;
+  line-height:1;
+}
+.rt-ep-iata{
+  font-size:.8rem;
+  font-weight:800;
+  color:var(--primary);
+  margin-top:5px;
+  letter-spacing:.06em;
+}
+.rt-ep-city{
+  font-size:.64rem;
+  color:var(--gray);
+  margin-top:2px;
+  font-weight:500;
+  line-height:1.3;
+  max-width:110px;
+}
+
+/* middle connector */
+.rt-mid{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:0 10px;
+  min-width:0;
+}
 .rt-route-line{display:flex;align-items:center;width:100%;gap:3px;}
 .rt-r-dot{width:6px;height:6px;border-radius:50%;border:2px solid var(--primary);background:#fff;flex-shrink:0;}
 .rt-r-dash{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--primary) 0,var(--primary) 4px,transparent 4px,transparent 9px);}
 .rt-r-plane{font-size:.76rem;color:var(--primary);}
-.rt-dur-pill{background:var(--primary-light);color:var(--primary-mid);font-size:.66rem;font-weight:700;padding:2px 9px;border-radius:100px;white-space:nowrap;}
-.rt-stop-badge{font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:4px;}
-.rt-stop-ns{background:#dcfce7;color:#14532d;}
-.rt-stop-1s{background:#fef9c3;color:#78350f;}
-.rt-stop-2s{background:#fee2e2;color:#7f1d1d;}
-.rt-stopover{display:inline-flex;align-items:center;justify-content:center;gap:4px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;text-align:center;line-height:1.4;}
-.rt-overnight{display:inline-flex;align-items:center;gap:4px;background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;}
-.sv-city{background:#fef3c7;border:1px solid #fde68a;padding:1px 7px;border-radius:100px;font-size:.62rem;font-weight:700;color:#78350f;white-space:nowrap;}
+.rt-dur-pill{
+  background:var(--primary-light);
+  color:var(--primary-mid);
+  font-size:.66rem;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:100px;
+  white-space:nowrap;
+}
+.rt-stopover{
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;
+  background:#fffbeb;border:1px solid #fde68a;color:#92400e;
+  font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;
+  text-align:center;line-height:1.4;
+}
+.rt-overnight{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;
+  font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;
+}
+.sv-city{
+  background:#fef3c7;border:1px solid #fde68a;
+  padding:1px 7px;border-radius:100px;
+  font-size:.62rem;font-weight:700;color:#78350f;white-space:nowrap;
+}
 
-.rt-price-col{text-align:right;min-width:110px;flex-shrink:0;padding-left:8px;}
+/* ── PRICE COL ── */
+.rt-price-col{
+  text-align:right;
+  min-width:120px;
+  flex-shrink:0;
+  padding-left:10px;
+  border-left:1.5px solid var(--border);
+  margin-left:8px;
+}
+.cls-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  background:var(--primary-pale);color:var(--primary-dark);
+  font-size:.58rem;font-weight:800;letter-spacing:.06em;
+  padding:3px 9px;border-radius:100px;text-transform:uppercase;
+  margin-bottom:5px;
+}
 .rt-price-label{font-size:.6rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;}
-.rt-price-amt{font-family:var(--font-display);font-size:1.1rem;font-weight:800;color:var(--primary-dark);}
+.rt-price-amt{
+  font-family:var(--font-display);
+  font-size:1.15rem;font-weight:800;color:var(--primary-dark);
+}
 .rt-price-sup{font-size:.75rem;font-weight:500;vertical-align:super;}
-.rt-price-sub{font-size:.62rem;color:var(--gray);}
-.rt-baggage{display:flex;flex-direction:column;gap:2px;margin-top:5px;}
-.rt-bag-row{display:flex;align-items:center;gap:3px;font-size:.62rem;color:var(--gray);justify-content:flex-end;}
-.rt-bag-row i{color:var(--primary);font-size:.56rem;}
-.cls-chip{display:inline-flex;align-items:center;gap:3px;background:var(--primary-pale);color:var(--primary-dark);font-size:.58rem;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:100px;text-transform:uppercase;margin-bottom:4px;}
+.rt-price-sub{font-size:.62rem;color:var(--gray);margin-top:1px;}
+/* baggage chips */
+.rt-baggage{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:8px;
+  align-items:flex-end;
+}
+.rt-bag-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:#f8faff;
+  border:1px solid #e0e7ff;
+  border-radius:7px;
+  padding:3px 8px;
+}
+.rt-bag-chip i{color:var(--primary);font-size:.58rem;}
+.rt-bag-chip span{font-size:.62rem;font-weight:600;color:var(--slate);}
 
-.rt-footer{padding:14px 18px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#f8faff 0%,#eef4ff 100%);border-top:1.5px solid #e8edf8;flex-wrap:wrap;}
-.rt-class-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary-pale);color:var(--primary-dark);font-size:.62rem;font-weight:800;letter-spacing:.07em;padding:3px 10px;border-radius:100px;text-transform:uppercase;}
+/* ── FOOTER ── */
+.rt-footer{
+  padding:13px 20px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  background:linear-gradient(135deg,#f8faff 0%,#eef4ff 100%);
+  border-top:1.5px solid #e8edf8;
+  flex-wrap:wrap;
+}
+.rt-class-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--primary-pale);color:var(--primary-dark);
+  font-size:.62rem;font-weight:800;letter-spacing:.07em;
+  padding:3px 10px;border-radius:100px;text-transform:uppercase;
+}
 .seats-warn{display:flex;align-items:center;gap:5px;font-size:.7rem;font-weight:700;color:#dc2626;}
 .rt-footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
-.btn-select-rt{background:linear-gradient(135deg,var(--primary-mid),var(--primary-dark));color:#fff;border:none;border-radius:var(--r8);padding:11px 26px;font-family:var(--font-display);font-weight:700;font-size:.84rem;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;text-decoration:none;transition:transform .14s,box-shadow .14s;}
+.btn-select-rt{
+  background:linear-gradient(135deg,var(--primary-mid),var(--primary-dark));
+  color:#fff;border:none;border-radius:var(--r8);
+  padding:11px 26px;font-family:var(--font-display);font-weight:700;font-size:.84rem;
+  display:inline-flex;align-items:center;gap:7px;
+  white-space:nowrap;cursor:pointer;text-decoration:none;
+  transition:transform .14s,box-shadow .14s;
+}
 .btn-select-rt:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(29,78,216,.4);color:#fff;}
 
 /* ── HOTEL CARD ── */
@@ -215,18 +456,22 @@ body,html{font-family:var(--font-main);background:var(--bg);}
   .sb-tab .tab-icon{width:32px;height:32px;font-size:16px;}
   .sb-swap{display:none;}
   .sb-search-btn{width:100%;justify-content:center;}
-  .rt-leg-strip{font-size:.62rem;padding:7px 12px;flex-wrap:wrap;gap:4px;}
-  .rt-leg-date{margin-left:0;width:100%;font-size:.6rem;margin-top:2px;}
-  .rt-flight-row{padding:12px;flex-direction:column;align-items:stretch;gap:12px;}
+  .rt-card-header{flex-wrap:wrap;gap:8px;padding:10px 14px;}
+  .rt-header-right{flex-wrap:wrap;}
+  .rt-flight-row{padding:14px;flex-direction:column;align-items:stretch;gap:14px;}
   .rt-airline-block{min-width:unset;width:100%;}
   .rt-route{padding:0;width:100%;}
   .rt-ep-time{font-size:1.1rem;}
-  .rt-ep-airport{font-size:.58rem;max-width:80px;}
+  .rt-ep-city{font-size:.6rem;max-width:80px;}
   .rt-mid{padding:0 6px;}
-  .rt-price-col{text-align:left;min-width:unset;padding-left:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:10px;}
-  .rt-baggage{flex-direction:row;gap:10px;flex-wrap:wrap;}
-  .rt-bag-row{justify-content:flex-start;}
-  .rt-footer{flex-direction:column;align-items:stretch;gap:12px;padding:12px;}
+  .rt-price-col{
+    text-align:left;min-width:unset;padding-left:0;
+    border-left:none;margin-left:0;
+    border-top:1.5px solid var(--border);padding-top:12px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  }
+  .rt-baggage{flex-direction:row;align-items:flex-start;}
+  .rt-footer{flex-direction:column;align-items:stretch;gap:12px;padding:12px 14px;}
   .rt-footer-right{flex-direction:row;align-items:center;justify-content:space-between;}
   .btn-select-rt{padding:10px 20px;font-size:.8rem;}
 }
@@ -460,6 +705,7 @@ body,html{font-family:var(--font-main);background:var(--bg);}
           $fStop = $fSc === 0 ? 'nonstop' : ($fSc === 1 ? '1stop' : '2stop');
           $fStopLabel = $fSc === 0 ? 'Non-stop' : ($fSc === 1 ? '1 Stop' : $fSc . ' Stops');
           $fStopBadge = $fSc === 0 ? 'rt-stop-ns' : ($fSc === 1 ? 'rt-stop-1s' : 'rt-stop-2s');
+          $fStopIcon  = $fSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
           $fStopovers = $flight->stopover_cities ? json_decode($flight->stopover_cities, true) : [];
           $fCls   = $flight->flightClasses->firstWhere('class_type','Economy')
                     ?? $flight->flightClasses->sortBy('total_price')->first();
@@ -479,14 +725,26 @@ body,html{font-family:var(--font-main);background:var(--bg);}
 
         <div class="rtcard">
 
-          {{-- Leg strip --}}
-          <div class="rt-leg-strip depart">
-            <i class="fa-solid fa-plane-departure"></i>
-            {{ $fDep->format('D, d M Y') }}
-            <span class="rt-leg-date">{{ $flight->from_airport_code }} → {{ $flight->to_airport_code }}</span>
+          {{-- ── CARD HEADER: left = label+date | right = route pill + stop badge ── --}}
+          <div class="rt-card-header">
+            <div class="rt-header-left">
+              <i class="fa-solid fa-plane-departure"></i>
+              <span class="rt-header-dep-label">Departure</span>
+              <span class="rt-header-date">{{ $fDep->format('D, d M Y') }}</span>
+            </div>
+            <div class="rt-header-right">
+              <div class="rt-route-pill">
+                {{ $flight->from_airport_code }}
+                <i class="fa-solid fa-arrow-right"></i>
+                {{ $flight->to_airport_code }}
+              </div>
+              <span class="rt-hdr-stop {{ $fStopBadge }}">
+                <i class="fa-solid {{ $fStopIcon }}"></i>{{ $fStopLabel }}
+              </span>
+            </div>
           </div>
 
-          {{-- Flight row --}}
+          {{-- ── FLIGHT ROW ── --}}
           <div class="rt-flight-row">
 
             {{-- Airline --}}
@@ -510,11 +768,21 @@ body,html{font-family:var(--font-main);background:var(--bg);}
 
             {{-- Route --}}
             <div class="rt-route">
+
+              {{-- DEPARTURE endpoint — centered --}}
               <div class="rt-ep">
-                <div class="rt-ep-time">{{ $fDep->format('H:i') }}</div>
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $fDep->format('h:i') }}</span>
+                  <span class="rt-ep-ampm">{{ $fDep->format('A') }}</span>
+                  @if($flight->departure_timezone)
+                    <div class="rt-ep-tz">{{ $flight->departure_timezone }}</div>
+                  @endif
+                </div>
                 <div class="rt-ep-iata">{{ $flight->from_airport_code }}</div>
-                <div class="rt-ep-airport">{{ $flight->from_city ?? $flight->from_airport_code }}</div>
+                <div class="rt-ep-city">{{ $flight->from_city ?? $flight->from_airport_code }}</div>
               </div>
+
+              {{-- Mid connector --}}
               <div class="rt-mid">
                 <div class="rt-route-line">
                   <div class="rt-r-dot"></div>
@@ -523,37 +791,41 @@ body,html{font-family:var(--font-main);background:var(--bg);}
                   <div class="rt-r-dash"></div>
                   <div class="rt-r-dot"></div>
                 </div>
-                <span class="rt-dur-pill">{{ $fDiff->h }}h {{ $fDiff->i }}m</span>
-                <span class="rt-stop-badge {{ $fStopBadge }}">
-                  <i class="fa-solid {{ $fSc === 0 ? 'fa-circle-check' : 'fa-circle-dot' }}"></i>{{ $fStopLabel }}
-                </span>
+                <span class="rt-dur-pill">{{ $flight->duration }}</span>
                 @if(count($fStopovers))
                   <div class="rt-stopover">
                     <i class="fa-solid fa-clock"></i> layover :
                     @foreach($fStopovers as $city)<span class="sv-city">{{ $city }}</span>@endforeach
                   </div>
                 @endif
-                @if($fON)<div class="rt-overnight"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
+                @if($fON)<div class="rt-overnight"><i class="fa-solid fa-moon"></i> +1 night</div>@endif
               </div>
-              <div class="rt-ep rt-ep-r">
-                <div class="rt-ep-time">
-                  {{ $fArr->format('H:i') }}@if($fON)<sup style="font-size:.6rem;color:#f97316;vertical-align:super;">+1</sup>@endif
+
+              {{-- ARRIVAL endpoint — centered --}}
+              <div class="rt-ep">
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $fArr->format('h:i') }}@if($fON)<sup style="font-size:.55rem;color:#f97316;margin-left:1px;">+1</sup>@endif</span>
+                  <span class="rt-ep-ampm">{{ $fArr->format('A') }}</span>
+                  @if($flight->arrival_timezone)
+                    <div class="rt-ep-tz">{{ $flight->arrival_timezone }}</div>
+                  @endif
                 </div>
                 <div class="rt-ep-iata">{{ $flight->to_airport_code }}</div>
-                <div class="rt-ep-airport">{{ $flight->to_city ?? $flight->to_airport_code }}</div>
+                <div class="rt-ep-city">{{ $flight->to_city ?? $flight->to_airport_code }}</div>
               </div>
-            </div>
+
+            </div>{{-- /rt-route --}}
 
             {{-- Price --}}
             <div class="rt-price-col">
-              <span class="cls-chip"><i class="fa-solid fa-star" style="font-size:.5rem;"></i>Economy</span>
+              <div class="cls-chip"><i class="fa-solid fa-star" style="font-size:.5rem;"></i> Economy</div>
               <div class="rt-price-label">One Way</div>
               <div class="rt-price-amt"><span class="rt-price-sup">$</span>{{ number_format($fPrice) }}</div>
               <div class="rt-price-sub">per adult</div>
               @if($fCls)
                 <div class="rt-baggage">
-                  <div class="rt-bag-row"><i class="fa-solid fa-briefcase"></i>{{ $fCls->cabin_baggage_kg }}kg cabin</div>
-                  <div class="rt-bag-row"><i class="fa-solid fa-suitcase-rolling"></i>{{ $fCls->checkin_baggage_kg }}kg check-in</div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-briefcase"></i><span>{{ $fCls->cabin_baggage_kg }}kg cabin</span></div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-suitcase-rolling"></i><span>{{ $fCls->checkin_baggage_kg }}kg check-in</span></div>
                 </div>
               @endif
             </div>
@@ -659,9 +931,7 @@ let hfPax = { a: 1, c: 0 };
    SINGLE DOMContentLoaded
 ═══════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
-  // Move TCC dropdown to body so it escapes all overflow clipping
   document.body.appendChild(document.getElementById('hfTccDrop'));
-  // Init pax button states
   document.getElementById('hfAdMinus').disabled = true;
   document.getElementById('hfChMinus').disabled = true;
 });

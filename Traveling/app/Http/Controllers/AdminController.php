@@ -47,7 +47,10 @@ class AdminController extends Controller
             'to_airport_code' => 'required|max:10',
 
             'departure_time' => 'required',
+            'departure_timezone' => 'required',
             'arrival_time' => 'required',
+            'arrival_timezone' => 'required',
+            'duration'=> 'required',
 
             'stops' => 'required|integer|min:0|max:2',
             'stopover_cities' => 'nullable|required_if:stops,1|required_if:stops,2',
@@ -79,6 +82,9 @@ class AdminController extends Controller
         // ─── Timing ───
         $flight->departure_time = $rq->departure_time;
         $flight->arrival_time = $rq->arrival_time;
+        $flight->departure_timezone = $rq->departure_timezone;
+        $flight->arrival_timezone = $rq->arrival_timezone;
+        $flight->duration = $rq->duration;
         $flight->overnight_arrival = $rq->overnight_arrival ?? 0;
 
         // ─── Stops ───
@@ -136,6 +142,9 @@ class AdminController extends Controller
 
             'departure_time' => 'required',
             'arrival_time' => 'required',
+            'departure_timezone' => 'required',
+            'arrival_timezone' => 'required',
+            'duration'=> 'required',
 
             'stops' => 'required|integer|min:0|max:2',
         ]);
@@ -165,6 +174,9 @@ class AdminController extends Controller
         // ─── Timing ───
         $flight->departure_time = $rq->departure_time;
         $flight->arrival_time = $rq->arrival_time;
+        $flight->departure_timezone = $rq->departure_timezone;
+        $flight->arrival_timezone = $rq->arrival_timezone;
+        $flight->duration = $rq->duration;
         $flight->overnight_arrival = $rq->overnight_arrival ?? 0;
 
         // ─── Stops ───

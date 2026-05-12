@@ -97,9 +97,25 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
+                    <label>Departure Timezone</label>
+                    <input type="text" name="departure_timezone" class="form-control" placeholder="Asia/Kolkata" required>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label>Duration</label>
+                    <input type="text" name="duration" class="form-control" placeholder="3h 30m" required>
+                </div>
+                
+                <div class="col-md-4 mb-3">
                     <label>Arrival Time</label>
                     <input type="time" name="arrival_time" class="form-control" required>
                 </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Arrival Timezone</label>
+                    <input type="text" name="arrival_timezone" class="form-control" placeholder="Asia/Kolkata" required>
+                </div>
+                
 
                 <div class="col-md-4 mb-3">
                     <label>Overnight Arrival</label>

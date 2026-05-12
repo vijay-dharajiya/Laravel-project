@@ -128,10 +128,29 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
+                    <label>Departure Timezone</label>
+                    <input type="text" name="departure_timezone" class="form-control"
+                        value="{{ $flight->departure_timezone }}" required>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label>Duration</label>
+                    <input type="text" name="duration" class="form-control"
+                        value="{{ $flight->duration }}" required>
+                </div>
+                
+                <div class="col-md-4 mb-3">
                     <label>Arrival Time</label>
                     <input type="time" name="arrival_time" class="form-control"
                         value="{{ \Carbon\Carbon::parse($flight->arrival_time)->format('H:i') }}" required>
                 </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Arrival Timezone</label>
+                    <input type="text" name="arrival_timezone" class="form-control"
+                        value="{{ $flight->arrival_timezone }}" required>
+                </div>
+
 
                 <div class="col-md-4 mb-3">
                     <label>Overnight Arrival</label>

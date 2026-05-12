@@ -16,7 +16,6 @@
   --border:#e2e8f0;--bg:#f1f5f9;
   --green:#16a34a;--green-light:#dcfce7;
   --r8:8px;--r12:12px;--r16:16px;
-  --sh:0 4px 24px rgba(0,0,0,.08),0  1px 4px rgba(0,0,0,.04);
   --font-main:'Outfit',sans-serif;
   --font-display:'Sora',sans-serif;
 }
@@ -34,16 +33,10 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
   font-family:var(--font-display);color:#fff;font-size:1.15rem;
   font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;opacity:.9;
 }
-
-/* ── SEARCH BOX ── */
 .search-box{
-  width:100%;
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(20px);
-  border-radius:24px;
-  box-shadow:0 32px 80px rgba(0,0,0,.28),0 8px 20px rgba(29,78,216,.12);
-  overflow:visible;
-  animation:searchRise .9s cubic-bezier(.22,1,.36,1) both;
+  width:100%;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);
+  border-radius:24px;box-shadow:0 32px 80px rgba(0,0,0,.28),0 8px 20px rgba(29,78,216,.12);
+  overflow:visible;animation:searchRise .9s cubic-bezier(.22,1,.36,1) both;
 }
 @keyframes searchRise{from{opacity:0;transform:translateY(40px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
 
@@ -71,7 +64,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .sf-inp::placeholder{color:#b0bac8;font-weight:400;}
 .sf-date{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:12px;font-family:var(--font-main);font-size:.88rem;font-weight:500;color:var(--navy);background:#FAFBFF;outline:none;transition:border-color .2s,box-shadow .2s;cursor:pointer;}
 .sf-date:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(29,78,216,.10);}
-
 .sb-swap{display:flex;align-items:flex-end;padding-bottom:2px;}
 .swap-btn{width:36px;height:36px;border-radius:50%;background:var(--primary-light);border:2px solid var(--primary);color:var(--primary);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,transform .2s;flex-shrink:0;}
 .swap-btn:hover{background:var(--primary);color:#fff;transform:rotate(180deg);}
@@ -87,25 +79,9 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .tcc-val{font-size:.82rem;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;max-width:100%;}
 .tcc-chev{color:var(--gray);font-size:.65rem;flex-shrink:0;transition:transform .2s;}
 .tcc-trigger.open .tcc-chev{transform:rotate(180deg);}
-
-/* TCC Drop — fixed position, appended to body */
-.tcc-drop{
-  position:fixed;
-  top:0;left:0;
-  width:320px;
-  background:rgba(255,255,255,.99);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border:1.5px solid rgba(191,219,254,.8);
-  border-radius:18px;
-  box-shadow:0 32px 80px rgba(0,0,0,.25),0 8px 24px rgba(29,78,216,.16),0 0 0 1px rgba(255,255,255,.6) inset;
-  z-index:999999;
-  display:none;
-  overflow:hidden;
-}
+.tcc-drop{position:fixed;top:0;left:0;width:320px;background:rgba(255,255,255,.99);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1.5px solid rgba(191,219,254,.8);border-radius:18px;box-shadow:0 32px 80px rgba(0,0,0,.25),0 8px 24px rgba(29,78,216,.16),0 0 0 1px rgba(255,255,255,.6) inset;z-index:999999;display:none;overflow:hidden;}
 .tcc-drop.open{display:block;animation:tccOpen .18s cubic-bezier(.22,1,.36,1) both;}
 @keyframes tccOpen{from{opacity:0;transform:translateY(-6px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-
 .tcc-sec{padding:14px 18px;border-bottom:1px solid #f0f4ff;}
 .tcc-slbl{font-size:.63rem;font-weight:800;color:var(--primary-dark);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
 .tcc-slbl::before{content:'';display:inline-block;width:3px;height:11px;background:var(--primary);border-radius:2px;}
@@ -123,8 +99,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .tcc-note{padding:10px 18px;font-size:.68rem;color:var(--gray);line-height:1.55;background:#fafbff;border-top:1px solid #f0f4ff;}
 .btn-apply{display:block;width:100%;background:linear-gradient(135deg,var(--primary-mid),var(--primary-dark));color:#fff;border:none;padding:13px;font-family:var(--font-display);font-weight:700;font-size:.86rem;cursor:pointer;transition:opacity .15s;}
 .btn-apply:hover{opacity:.9;}
-
-/* Search button */
 .sb-search-btn{height:46px;padding:0 26px;background:linear-gradient(135deg,var(--primary-mid),var(--primary-dark));color:#fff;border:none;border-radius:12px;font-family:var(--font-display);font-size:.86rem;font-weight:700;display:flex;align-items:center;gap:7px;cursor:pointer;transition:transform .15s,box-shadow .15s;white-space:nowrap;flex-shrink:0;}
 .sb-search-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(29,78,216,.38);}
 
@@ -149,7 +123,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .sbf-sec{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
 .sbf-sec:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
 .sbf-lbl{font-size:.62rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px;display:block;}
-
 .stop-pills{display:flex;flex-direction:column;gap:4px;}
 .stop-pill{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;border-radius:var(--r8);border:2px solid var(--border);background:#fff;cursor:pointer;transition:all .14s;font-size:.8rem;font-weight:600;color:var(--slate);}
 .stop-pill:hover{border-color:var(--primary);background:var(--primary-light);}
@@ -159,7 +132,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .stop-pill.active .sp-dot{background:var(--primary);}
 .sp-n{font-size:.65rem;font-weight:700;background:#f1f5f9;padding:2px 7px;border-radius:100px;color:var(--gray);}
 .stop-pill.active .sp-n{background:var(--primary-pale);color:var(--primary-mid);}
-
 .al-list{display:flex;flex-direction:column;gap:6px;}
 .al-item{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.8rem;font-weight:500;color:var(--slate);}
 .al-item input{width:14px;height:14px;accent-color:var(--primary);cursor:pointer;}
@@ -175,57 +147,213 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .sort-sel{border:2px solid var(--border);border-radius:var(--r8);padding:6px 10px;font-size:.78rem;background:#fff;font-family:var(--font-main);cursor:pointer;color:var(--navy);font-weight:600;outline:none;}
 .sort-sel:focus{border-color:var(--primary);}
 
-/* ─── FLIGHT CARD ─────────────────────────────────────────────── */
-.rtcard{background:#fff;border-radius:var(--r16);border:2px solid var(--border);overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;}
-.rtcard:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(29,78,216,.12),0 4px 16px rgba(0,0,0,.07);border-color:#bfdbfe;}
+/* ═══════════════════════════════════════════════════════════════
+   FLIGHT CARD — UPGRADED DESIGN
+═══════════════════════════════════════════════════════════════ */
+.rtcard{
+  background:#fff;
+  border-radius:var(--r16);
+  border:1.5px solid var(--border);
+  overflow:hidden;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  position:relative;
+}
+.rtcard:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 56px rgba(29,78,216,.12),0 4px 16px rgba(0,0,0,.07);
+  border-color:#bfdbfe;
+}
 
-.rt-leg-strip{display:flex;align-items:center;gap:8px;padding:8px 18px;font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;}
-.rt-leg-strip.depart{background:linear-gradient(90deg,#eff6ff 0%,#dbeafe 100%);color:var(--primary-dark);border-bottom:1.5px solid #bfdbfe;}
-.rt-leg-strip.return-leg{background:linear-gradient(90deg,#f0fdf4 0%,#dcfce7 100%);color:#14532d;border-top:2px dashed #86efac;border-bottom:1.5px solid #86efac;}
-.rt-leg-strip i{font-size:.72rem;}
-.rt-leg-date{margin-left:auto;font-size:.68rem;font-weight:700;opacity:.75;}
+/* ── CARD HEADER ── */
+.rt-card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  border-bottom:1.5px solid #bfdbfe;
+  gap:12px;
+}
+.rt-card-header.depart-hdr{
+  background:linear-gradient(90deg,#eff6ff 0%,#dbeafe 100%);
+}
+.rt-card-header.return-hdr{
+  background:linear-gradient(90deg,#f0fdf4 0%,#dcfce7 100%);
+  border-top:2px dashed #86efac;
+  border-bottom-color:#86efac;
+}
+.rt-hdr-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.rt-hdr-left i{
+  font-size:.73rem;
+}
+.depart-hdr .rt-hdr-left i{ color:var(--primary-dark); }
+.return-hdr .rt-hdr-left i{ color:#166534; }
+.rt-hdr-label{
+  font-size:.64rem;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.depart-hdr .rt-hdr-label{ color:var(--primary-dark); }
+.return-hdr .rt-hdr-label{ color:#166534; }
+.rt-hdr-date{
+  font-size:.68rem;
+  font-weight:600;
+  opacity:.8;
+}
+.depart-hdr .rt-hdr-date{ color:#3b5fc0; }
+.return-hdr .rt-hdr-date{ color:#15803d; }
 
-.rt-flight-row{padding:16px 18px 14px;display:flex;align-items:center;gap:0;}
-.rt-airline-block{display:flex;align-items:center;gap:10px;min-width:170px;}
-.rt-al-logo{width:40px;height:40px;border-radius:var(--r8);background:#fff;border:1.5px solid #dde3f0;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;font-size:.58rem;font-weight:800;color:var(--primary);letter-spacing:.04em;text-align:center;line-height:1.2;}
+/* right side: route pill + stop badge */
+.rt-hdr-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.rt-route-pill{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:#fff;
+  border:1.5px solid #bfdbfe;
+  border-radius:100px;
+  padding:4px 12px 4px 10px;
+  font-size:.72rem;
+  font-weight:800;
+  color:var(--primary-dark);
+  letter-spacing:.05em;
+}
+.rt-route-pill i{ font-size:.66rem;color:var(--primary); }
+.return-hdr .rt-route-pill{
+  border-color:#86efac;
+  color:#166534;
+}
+.return-hdr .rt-route-pill i{ color:#16a34a; }
+
+/* stop badge in header */
+.rt-hdr-stop{
+  font-size:.62rem;
+  font-weight:800;
+  padding:4px 11px;
+  border-radius:100px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+.rt-stop-ns{ background:#dcfce7;color:#14532d; }
+.rt-stop-1s{ background:#fef9c3;color:#78350f; }
+.rt-stop-2s{ background:#fee2e2;color:#7f1d1d; }
+
+/* ── FLIGHT ROW ── */
+.rt-flight-row{
+  padding:18px 20px 14px;
+  display:flex;
+  align-items:center;
+  gap:0;
+}
+.rt-airline-block{
+  display:flex;align-items:center;gap:10px;min-width:170px;
+}
+.rt-al-logo{
+  width:42px;height:42px;border-radius:var(--r8);background:#fff;
+  border:1.5px solid #dde3f0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;font-size:.58rem;font-weight:800;color:var(--primary);
+  letter-spacing:.04em;text-align:center;line-height:1.2;
+}
 .rt-al-logo img{width:100%;height:100%;object-fit:contain;padding:3px;}
 .rt-al-name{font-family:var(--font-display);font-weight:700;font-size:.82rem;color:var(--navy);}
-.rt-al-sub{font-size:.68rem;color:var(--gray);margin-top:1px;display:flex;align-items:center;gap:5px;}
+.rt-al-sub{font-size:.67rem;color:var(--gray);margin-top:2px;display:flex;align-items:center;gap:5px;}
 .rt-al-flno{font-weight:600;color:var(--slate);}
-.rt-al-ac{background:#f1f5f9;border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:.62rem;font-weight:700;}
+.rt-al-ac{background:#f1f5f9;border:1px solid var(--border);padding:2px 6px;border-radius:4px;font-size:.61rem;font-weight:700;}
 
-.rt-route{flex:1;display:flex;align-items:center;padding:0 12px;min-width:0;}
-.rt-ep-time{font-family:var(--font-display);font-size:1.35rem;font-weight:800;color:var(--navy);line-height:1;}
-.rt-ep-iata{font-size:.8rem;font-weight:800;color:var(--primary);margin-top:3px;letter-spacing:.06em;}
-.rt-ep-airport{font-size:.63rem;color:var(--gray);margin-top:1px;font-weight:500;line-height:1.3;max-width:110px;}
-.rt-ep-r .rt-ep-airport{text-align:right;}
-.rt-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 10px;min-width:0;}
+/* ── ROUTE SECTION ── */
+.rt-route{
+  flex:1;display:flex;align-items:center;padding:0 12px;min-width:0;
+}
+
+/* endpoint — both centered */
+.rt-ep{
+  display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;
+}
+
+/* time + AM/PM superscript */
+.rt-ep-time-wrap{
+  display:flex;align-items:flex-start;gap:2px;line-height:1;
+}
+.rt-ep-time{
+  font-family:var(--font-display);font-size:1.35rem;font-weight:800;color:var(--navy);line-height:1;
+}
+.rt-ep-ampm{
+  font-size:.56rem;font-weight:700;color:var(--gray);margin-top:1px;line-height:1;letter-spacing:.04em;
+}
+/* timezone below time */
+.rt-ep-tz{
+  font-size:.6rem;
+  font-weight:600;
+  color:#94a3b8;
+  letter-spacing:.04em;
+  margin-top:15px;
+  margin-left:-18px;
+  line-height:1;
+}
+.rt-ep-iata{
+  font-size:.8rem;font-weight:800;color:var(--primary);margin-top:5px;letter-spacing:.06em;
+}
+.rt-ep-city{
+  font-size:.63rem;color:var(--gray);margin-top:2px;font-weight:500;line-height:1.3;max-width:110px;
+}
+
+/* middle connector */
+.rt-mid{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 10px;min-width:0;
+}
 .rt-route-line{display:flex;align-items:center;width:100%;gap:3px;}
 .rt-r-dot{width:6px;height:6px;border-radius:50%;border:2px solid var(--primary);background:#fff;flex-shrink:0;}
 .rt-r-dash{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--primary) 0,var(--primary) 4px,transparent 4px,transparent 9px);}
 .rt-r-plane{font-size:.76rem;color:var(--primary);}
-.rt-dur-pill{background:var(--primary-light);color:var(--primary-mid);font-size:.66rem;font-weight:700;padding:2px 9px;border-radius:100px;white-space:nowrap;}
-.rt-stop-badge{font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:4px;}
-.rt-stop-ns{background:#dcfce7;color:#14532d;}
-.rt-stop-1s{background:#fef9c3;color:#78350f;}
-.rt-stop-2s{background:#fee2e2;color:#7f1d1d;}
+.rt-dur-pill{background:var(--primary-light);color:var(--primary-mid);font-size:.66rem;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap;}
 .rt-stopover{display:inline-flex;align-items:center;justify-content:center;gap:4px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;text-align:center;line-height:1.4;}
 .rt-overnight{display:inline-flex;align-items:center;gap:4px;background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;font-size:.64rem;font-weight:600;padding:3px 10px;border-radius:6px;}
 .sv-city{background:#fef3c7;border:1px solid #fde68a;padding:1px 7px;border-radius:100px;font-size:.62rem;font-weight:700;color:#78350f;white-space:nowrap;}
 
-.rt-price-col{text-align:right;min-width:110px;flex-shrink:0;padding-left:8px;}
-.rt-price-label{font-size:.6rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;}
-.rt-price-amt{font-family:var(--font-display);font-size:1.1rem;font-weight:800;color:var(--primary-dark);}
-.rt-price-amt.return-price{color:#14532d;}
-.rt-price-sup{font-size:.75rem;font-weight:500;vertical-align:super;}
-.rt-price-sub{font-size:.62rem;color:var(--gray);}
-.rt-baggage{display:flex;flex-direction:column;gap:2px;margin-top:5px;}
-.rt-bag-row{display:flex;align-items:center;gap:3px;font-size:.62rem;color:var(--gray);justify-content:flex-end;}
-.rt-bag-row i{color:var(--primary);font-size:.56rem;}
-.cls-chip{display:inline-flex;align-items:center;gap:3px;background:var(--primary-pale);color:var(--primary-dark);font-size:.58rem;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:100px;text-transform:uppercase;margin-bottom:4px;}
+/* ── PRICE COL ── */
+.rt-price-col{
+  text-align:right;min-width:118px;flex-shrink:0;padding-left:10px;
+  border-left:1.5px solid var(--border);margin-left:8px;
+}
+.cls-chip{
+  display:inline-flex;align-items:center;gap:3px;background:var(--primary-pale);
+  color:var(--primary-dark);font-size:.57rem;font-weight:800;letter-spacing:.06em;
+  padding:3px 9px;border-radius:100px;text-transform:uppercase;margin-bottom:5px;
+}
 .cls-chip.return-chip{background:#dcfce7;color:#14532d;}
+.rt-price-label{font-size:.59rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;}
+.rt-price-amt{font-family:var(--font-display);font-size:1.12rem;font-weight:800;color:var(--primary-dark);}
+.rt-price-amt.return-price{color:#14532d;}
+.rt-price-sup{font-size:.74rem;font-weight:500;vertical-align:super;}
+.rt-price-sub{font-size:.61rem;color:var(--gray);margin-top:1px;}
 
-.rt-footer{padding:14px 18px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#f8faff 0%,#eef4ff 100%);border-top:1.5px solid #e8edf8;flex-wrap:wrap;}
+/* baggage chips */
+.rt-baggage{display:flex;flex-direction:column;gap:4px;margin-top:8px;align-items:flex-end;}
+.rt-bag-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#f8faff;border:1px solid #e0e7ff;border-radius:7px;padding:3px 8px;
+}
+.rt-bag-chip i{color:var(--primary);font-size:.58rem;}
+.rt-bag-chip span{font-size:.62rem;font-weight:600;color:var(--slate);}
+
+/* ── FOOTER ── */
+.rt-footer{
+  padding:13px 20px 15px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;background:linear-gradient(135deg,#f8faff 0%,#eef4ff 100%);
+  border-top:1.5px solid #e8edf8;flex-wrap:wrap;
+}
 .rt-class-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary-pale);color:var(--primary-dark);font-size:.62rem;font-weight:800;letter-spacing:.07em;padding:3px 10px;border-radius:100px;text-transform:uppercase;}
 .seats-warn{display:flex;align-items:center;gap:5px;font-size:.7rem;font-weight:700;color:#dc2626;}
 .rt-footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
@@ -239,82 +367,38 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 .empty-box h5{font-family:var(--font-display);font-weight:800;color:var(--navy);margin-bottom:6px;}
 .empty-box p{color:var(--gray);font-size:.88rem;}
 
-/* ─── MOBILE RESPONSIVE ────────────────────────────────────────── */
+/* ─── MOBILE ──────────────────────────────────────────────────── */
 @media(max-width:991px){
   .sidebar{position:static;margin-bottom:18px;top:auto;}
 }
-
 @media(max-width:768px){
   .sb-swap{display:none;}
   .sb-search-btn{width:100%;justify-content:center;}
   .sb-panel{padding:16px;}
   .sb-fields{flex-direction:column;}
   .sb-field{min-width:unset;width:100%;}
-
-  .tcc-drop{
-    width:calc(100vw - 24px) !important;
-    left:12px !important;
-    right:12px !important;
-    border-radius:16px;
-  }
+  .tcc-drop{width:calc(100vw - 24px) !important;left:12px !important;right:12px !important;border-radius:16px;}
   .pax-ctrl{gap:16px;}
   .pax-btn{width:40px;height:40px;font-size:1.1rem;}
-
-  .rt-leg-strip{font-size:.62rem;padding:7px 12px;flex-wrap:wrap;gap:4px;}
-  .rt-leg-date{margin-left:0;width:100%;font-size:.6rem;margin-top:2px;}
-
-  .rt-flight-row{
-    padding:12px;
-    flex-direction:column;
-    align-items:stretch;
-    gap:12px;
-  }
-  .rt-airline-block{
-    min-width:unset;
-    width:100%;
-    justify-content:flex-start;
-  }
-
-  .rt-route{
-    padding:0;
-    width:100%;
-    gap:4px;
-  }
+  .rt-card-header{flex-wrap:wrap;gap:8px;padding:10px 14px;}
+  .rt-hdr-right{flex-wrap:wrap;}
+  .rt-flight-row{padding:14px;flex-direction:column;align-items:stretch;gap:14px;}
+  .rt-airline-block{min-width:unset;width:100%;}
+  .rt-route{padding:0;width:100%;}
   .rt-ep-time{font-size:1.1rem;}
-  .rt-ep-airport{font-size:.58rem;max-width:80px;}
+  .rt-ep-city{font-size:.6rem;max-width:80px;}
   .rt-mid{padding:0 6px;}
-  .rt-dur-pill{font-size:.58rem;padding:2px 7px;}
-  .rt-stop-badge{font-size:.58rem;padding:2px 8px;}
-
   .rt-price-col{
-    text-align:left;
-    min-width:unset;
-    padding-left:0;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:10px;
-    border-top:1px solid var(--border);
-    padding-top:10px;
+    text-align:left;min-width:unset;padding-left:0;
+    border-left:none;margin-left:0;
+    border-top:1.5px solid var(--border);padding-top:12px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;
   }
-  .rt-price-col .cls-chip{margin-bottom:0;}
-  .rt-baggage{flex-direction:row;gap:10px;flex-wrap:wrap;}
-  .rt-bag-row{justify-content:flex-start;}
-
-  .rt-footer{
-    flex-direction:column;
-    align-items:stretch;
-    gap:12px;
-    padding:12px;
-  }
-  .rt-footer-right{
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-  }
+  .rt-baggage{flex-direction:row;align-items:flex-start;}
+  .rt-footer{flex-direction:column;align-items:stretch;gap:12px;padding:12px 14px;}
+  .rt-footer-right{flex-direction:row;align-items:center;justify-content:space-between;}
   .btn-select-rt{padding:10px 20px;font-size:.8rem;}
 }
-
 @media(max-width:480px){
   .rt-ep-time{font-size:1rem;}
   .res-hdr{flex-direction:column;align-items:flex-start;}
@@ -403,38 +487,32 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
           <input type="hidden" name="children" id="hfChildrenH" value="{{ $children }}">
 
           <div class="sb-fields">
-            {{-- From --}}
             <div class="sb-field" style="flex:1.3;">
               <label>From</label>
               <div class="sf-wrap" style="position:relative;">
                 <i class="sf-icon-abs fa-solid fa-plane-departure"></i>
                 <input type="text" id="fromInput" name="from" class="sf-inp"
-                       placeholder="City or airport"
-                       value="{{ $fromText }}" autocomplete="off">
+                       placeholder="City or airport" value="{{ $fromText }}" autocomplete="off">
                 <div id="fromDropdown" class="autocomplete-dropdown" style="display:none;"></div>
                 <input type="hidden" name="from_code" id="fromCode" value="{{ $fromCode }}">
               </div>
             </div>
 
-            {{-- Swap --}}
             <div class="sb-swap">
               <button type="button" class="swap-btn" onclick="hfSwap()" title="Swap">⇄</button>
             </div>
 
-            {{-- To --}}
             <div class="sb-field" style="flex:1.3;">
               <label>To</label>
               <div class="sf-wrap" style="position:relative;">
                 <i class="sf-icon-abs fa-solid fa-plane-arrival"></i>
                 <input type="text" id="toInput" name="to" class="sf-inp"
-                       placeholder="City or airport"
-                       value="{{ $toText }}" autocomplete="off">
+                       placeholder="City or airport" value="{{ $toText }}" autocomplete="off">
                 <div id="toDropdown" class="autocomplete-dropdown" style="display:none;"></div>
                 <input type="hidden" name="to_code" id="toCode" value="{{ $toCode }}">
               </div>
             </div>
 
-            {{-- Depart --}}
             <div class="sb-field">
               <label>Depart</label>
               <input type="date" name="depart" id="hfDepartDate" class="sf-date"
@@ -442,14 +520,12 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
                      onchange="onDepartChange(this)">
             </div>
 
-            {{-- Return --}}
             <div class="sb-field" id="hfReturnWrap" style="{{ $isRound ? '' : 'display:none;' }}">
               <label>Return</label>
               <input type="date" name="return" id="hfReturnDate" class="sf-date"
                      value="{{ $retDate }}" min="{{ $selDate }}">
             </div>
 
-            {{-- Travellers & Class --}}
             <div class="sb-field tcc-wrap" style="flex:1.4;">
               <label>Travellers &amp; Class</label>
               <div class="tcc-trigger" id="hfTccTrigger" onclick="toggleTcc(event)">
@@ -462,7 +538,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
               </div>
             </div>
 
-            {{-- Search --}}
             <button type="submit" class="sb-search-btn">
               <i class="fa-solid fa-magnifying-glass"></i>Search Flights
             </button>
@@ -473,7 +548,7 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
   </div>
 </div>
 
-{{-- TCC DROPDOWN — appended to <body> by JS --}}
+{{-- TCC DROPDOWN — appended to body by JS --}}
 <div class="tcc-drop" id="hfTccDrop">
   <div class="tcc-sec">
     <span class="tcc-slbl">Cabin Class</span>
@@ -520,7 +595,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
       </div>
       <div class="sbf-body">
 
-        {{-- Stops --}}
         <div class="sbf-sec">
           <span class="sbf-lbl">Stops (Outbound)</span>
           <div class="stop-pills">
@@ -552,7 +626,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
           </div>
         </div>
 
-        {{-- Airlines --}}
         <div class="sbf-sec">
           <span class="sbf-lbl">Airlines</span>
           <div class="al-list">
@@ -575,7 +648,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
         <button class="btn-reset-f" onclick="resetFilters()">
           <i class="fa-solid fa-rotate-left"></i> Reset Filters
         </button>
-
       </div>
     </div>
   </div>
@@ -660,6 +732,7 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
         $dStop = $dSc === 0 ? 'nonstop' : ($dSc === 1 ? '1stop' : '2stop');
         $dStopLabel = $dSc === 0 ? 'Non-stop' : ($dSc === 1 ? '1 Stop' : $dSc . ' Stops');
         $dStopBadge = $dSc === 0 ? 'rt-stop-ns' : ($dSc === 1 ? 'rt-stop-1s' : 'rt-stop-2s');
+        $dStopIcon  = $dSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
         $dStopovers = $df->stopover_cities ? json_decode($df->stopover_cities, true) : [];
         $dCls   = $getClassPrice($df, $selClass);
         $dPrice = $dCls ? $dCls->total_price : 0;
@@ -675,14 +748,15 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
         $rSc   = (int)$rf->stops;
         $rStopLabel = $rSc === 0 ? 'Non-stop' : ($rSc === 1 ? '1 Stop' : $rSc . ' Stops');
         $rStopBadge = $rSc === 0 ? 'rt-stop-ns' : ($rSc === 1 ? 'rt-stop-1s' : 'rt-stop-2s');
+        $rStopIcon  = $rSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
         $rStopovers = $rf->stopover_cities ? json_decode($rf->stopover_cities, true) : [];
         $rCls   = $getClassPrice($rf, $selClass);
         $rPrice = $rCls ? $rCls->total_price : 0;
         $rFromAirport = $airportName($rf->from_airport_code);
         $rToAirport   = $airportName($rf->to_airport_code);
 
-        $totalPrice  = $dPrice + $rPrice;
-        $totalPerPax = $totalPrice * $totalPax;
+        $totalPrice   = $dPrice + $rPrice;
+        $totalPerPax  = $totalPrice * $totalPax;
         $isLowD = $dCls && $dCls->available_seats > 0 && $dCls->available_seats <= 5;
         $isLowR = $rCls && $rCls->available_seats > 0 && $rCls->available_seats <= 5;
 
@@ -709,12 +783,26 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
            id="pair-{{ $pairIdx }}">
         <div class="rtcard">
 
-          <div class="rt-leg-strip depart">
-            <i class="fa-solid fa-plane-departure"></i>
-            Depart · {{ \Carbon\Carbon::parse($selDate)->format('D, d M Y') }}
-            <span class="rt-leg-date">{{ $fromText ?: $df->from_airport_code }} → {{ $toText ?: $df->to_airport_code }}</span>
+          {{-- ── DEPART HEADER ── --}}
+          <div class="rt-card-header depart-hdr">
+            <div class="rt-hdr-left">
+              <i class="fa-solid fa-plane-departure"></i>
+              <span class="rt-hdr-label">Depart</span>
+              <span class="rt-hdr-date">{{ \Carbon\Carbon::parse($selDate)->format('D, d M Y') }}</span>
+            </div>
+            <div class="rt-hdr-right">
+              <div class="rt-route-pill">
+                {{ $df->from_airport_code }}
+                <i class="fa-solid fa-arrow-right"></i>
+                {{ $df->to_airport_code }}
+              </div>
+              <span class="rt-hdr-stop {{ $dStopBadge }}">
+                <i class="fa-solid {{ $dStopIcon }}"></i>{{ $dStopLabel }}
+              </span>
+            </div>
           </div>
 
+          {{-- ── DEPART FLIGHT ROW ── --}}
           <div class="rt-flight-row">
             <div class="rt-airline-block">
               <div class="rt-al-logo">
@@ -733,11 +821,17 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
             </div>
 
             <div class="rt-route">
+              {{-- Departure endpoint --}}
               <div class="rt-ep">
-                <div class="rt-ep-time">{{ $dDep->format('H:i') }}</div>
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $dDep->format('h:i') }}</span>
+                  <span class="rt-ep-ampm">{{ $dDep->format('A') }}</span>
+                  @if($df->departure_timezone)<div class="rt-ep-tz">{{ $df->departure_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $df->from_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $dFromAirport }}">{{ $dFromAirport }}</div>
+                <div class="rt-ep-city" title="{{ $dFromAirport }}">{{ $dFromAirport }}</div>
               </div>
+
               <div class="rt-mid">
                 <div class="rt-route-line">
                   <div class="rt-r-dot"></div><div class="rt-r-dash"></div>
@@ -745,16 +839,19 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
                   <div class="rt-r-dash"></div><div class="rt-r-dot"></div>
                 </div>
                 <span class="rt-dur-pill">{{ $dDiff->h }}h {{ $dDiff->i }}m</span>
-                <span class="rt-stop-badge {{ $dStopBadge }}">
-                  <i class="fa-solid {{ $dSc === 0 ? 'fa-circle-check' : 'fa-circle-dot' }}"></i>{{ $dStopLabel }}
-                </span>
                 @if(count($dStopovers))<div class="rt-stopover"><i class="fa-solid fa-clock"></i> layover @foreach($dStopovers as $city)<span class="sv-city">{{ $city }}</span>@endforeach</div>@endif
                 @if($dON)<div class="rt-overnight"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
               </div>
-              <div class="rt-ep rt-ep-r">
-                <div class="rt-ep-time">{{ $dArr->format('H:i') }}@if($dON)<sup style="font-size:.6rem;color:#f97316;vertical-align:super;">+1</sup>@endif</div>
+
+              {{-- Arrival endpoint --}}
+              <div class="rt-ep">
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $dArr->format('h:i') }}@if($dON)<sup style="font-size:.55rem;color:#f97316;margin-left:1px;">+1</sup>@endif</span>
+                  <span class="rt-ep-ampm">{{ $dArr->format('A') }}</span>
+                  @if($df->arrival_timezone)<div class="rt-ep-tz">{{ $df->arrival_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $df->to_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $dToAirport }}">{{ $dToAirport }}</div>
+                <div class="rt-ep-city" title="{{ $dToAirport }}">{{ $dToAirport }}</div>
               </div>
             </div>
 
@@ -765,19 +862,33 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
               <div class="rt-price-sub">per adult</div>
               @if($dCls)
                 <div class="rt-baggage">
-                  <div class="rt-bag-row"><i class="fa-solid fa-briefcase"></i>{{ $dCls->cabin_baggage_kg }}kg cabin</div>
-                  <div class="rt-bag-row"><i class="fa-solid fa-suitcase-rolling"></i>{{ $dCls->checkin_baggage_kg }}kg check-in</div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-briefcase"></i><span>{{ $dCls->cabin_baggage_kg }}kg cabin</span></div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-suitcase-rolling"></i><span>{{ $dCls->checkin_baggage_kg }}kg check-in</span></div>
                 </div>
               @endif
             </div>
           </div>
 
-          <div class="rt-leg-strip return-leg">
-            <i class="fa-solid fa-plane-arrival"></i>
-            Return · {{ \Carbon\Carbon::parse($retDate)->format('D, d M Y') }}
-            <span class="rt-leg-date">{{ $toText ?: $rf->from_airport_code }} → {{ $fromText ?: $rf->to_airport_code }}</span>
+          {{-- ── RETURN HEADER ── --}}
+          <div class="rt-card-header return-hdr">
+            <div class="rt-hdr-left">
+              <i class="fa-solid fa-plane-arrival"></i>
+              <span class="rt-hdr-label">Return</span>
+              <span class="rt-hdr-date">{{ \Carbon\Carbon::parse($retDate)->format('D, d M Y') }}</span>
+            </div>
+            <div class="rt-hdr-right">
+              <div class="rt-route-pill">
+                {{ $rf->from_airport_code }}
+                <i class="fa-solid fa-arrow-right"></i>
+                {{ $rf->to_airport_code }}
+              </div>
+              <span class="rt-hdr-stop {{ $rStopBadge }}">
+                <i class="fa-solid {{ $rStopIcon }}"></i>{{ $rStopLabel }}
+              </span>
+            </div>
           </div>
 
+          {{-- ── RETURN FLIGHT ROW ── --}}
           <div class="rt-flight-row">
             <div class="rt-airline-block">
               <div class="rt-al-logo">
@@ -797,10 +908,15 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 
             <div class="rt-route">
               <div class="rt-ep">
-                <div class="rt-ep-time">{{ $rDep->format('H:i') }}</div>
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $rDep->format('h:i') }}</span>
+                  <span class="rt-ep-ampm">{{ $rDep->format('A') }}</span>
+                  @if($rf->departure_timezone)<div class="rt-ep-tz">{{ $rf->departure_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $rf->from_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $rFromAirport }}">{{ $rFromAirport }}</div>
+                <div class="rt-ep-city" title="{{ $rFromAirport }}">{{ $rFromAirport }}</div>
               </div>
+
               <div class="rt-mid">
                 <div class="rt-route-line">
                   <div class="rt-r-dot"></div><div class="rt-r-dash"></div>
@@ -808,16 +924,18 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
                   <div class="rt-r-dash"></div><div class="rt-r-dot"></div>
                 </div>
                 <span class="rt-dur-pill">{{ $rDiff->h }}h {{ $rDiff->i }}m</span>
-                <span class="rt-stop-badge {{ $rStopBadge }}">
-                  <i class="fa-solid {{ $rSc === 0 ? 'fa-circle-check' : 'fa-circle-dot' }}"></i>{{ $rStopLabel }}
-                </span>
                 @if(count($rStopovers))<div class="rt-stopover"><i class="fa-solid fa-clock"></i> layover @foreach($rStopovers as $city)<span class="sv-city">{{ $city }}</span>@endforeach</div>@endif
                 @if($rON)<div class="rt-overnight"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
               </div>
-              <div class="rt-ep rt-ep-r">
-                <div class="rt-ep-time">{{ $rArr->format('H:i') }}@if($rON)<sup style="font-size:.6rem;color:#f97316;vertical-align:super;">+1</sup>@endif</div>
+
+              <div class="rt-ep">
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $rArr->format('h:i') }}@if($rON)<sup style="font-size:.55rem;color:#f97316;margin-left:1px;">+1</sup>@endif</span>
+                  <span class="rt-ep-ampm">{{ $rArr->format('A') }}</span>
+                  @if($rf->arrival_timezone)<div class="rt-ep-tz">{{ $rf->arrival_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $rf->to_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $rToAirport }}">{{ $rToAirport }}</div>
+                <div class="rt-ep-city" title="{{ $rToAirport }}">{{ $rToAirport }}</div>
               </div>
             </div>
 
@@ -828,13 +946,14 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
               <div class="rt-price-sub">per adult</div>
               @if($rCls)
                 <div class="rt-baggage">
-                  <div class="rt-bag-row"><i class="fa-solid fa-briefcase"></i>{{ $rCls->cabin_baggage_kg }}kg cabin</div>
-                  <div class="rt-bag-row"><i class="fa-solid fa-suitcase-rolling"></i>{{ $rCls->checkin_baggage_kg }}kg check-in</div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-briefcase"></i><span>{{ $rCls->cabin_baggage_kg }}kg cabin</span></div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-suitcase-rolling"></i><span>{{ $rCls->checkin_baggage_kg }}kg check-in</span></div>
                 </div>
               @endif
             </div>
           </div>
 
+          {{-- ── FOOTER ── --}}
           <div class="rt-footer">
             <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
               <div>
@@ -895,6 +1014,7 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
         $fStop = $fSc === 0 ? 'nonstop' : ($fSc === 1 ? '1stop' : '2stop');
         $fStopLabel = $fSc === 0 ? 'Non-stop' : ($fSc === 1 ? '1 Stop' : $fSc . ' Stops');
         $fStopBadge = $fSc === 0 ? 'rt-stop-ns' : ($fSc === 1 ? 'rt-stop-1s' : 'rt-stop-2s');
+        $fStopIcon  = $fSc === 0 ? 'fa-circle-check' : 'fa-circle-dot';
         $fStopovers = $flight->stopover_cities ? json_decode($flight->stopover_cities, true) : [];
         $fCls        = $getClassPrice($flight, $selClass);
         $fPrice      = $fCls ? $fCls->total_price : 0;
@@ -921,12 +1041,26 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
            data-airline="{{ $flight->airline_name }}">
         <div class="rtcard">
 
-          <div class="rt-leg-strip depart">
-            <i class="fa-solid fa-plane-departure"></i>
-            {{ \Carbon\Carbon::parse($selDate)->format('D, d M Y') }}
-            <span class="rt-leg-date">{{ $fromText ?: $flight->from_airport_code }} → {{ $toText ?: $flight->to_airport_code }}</span>
+          {{-- ── CARD HEADER ── --}}
+          <div class="rt-card-header depart-hdr">
+            <div class="rt-hdr-left">
+              <i class="fa-solid fa-plane-departure"></i>
+              <span class="rt-hdr-label">Departure</span>
+              <span class="rt-hdr-date">{{ \Carbon\Carbon::parse($selDate)->format('D, d M Y') }}</span>
+            </div>
+            <div class="rt-hdr-right">
+              <div class="rt-route-pill">
+                {{ $flight->from_airport_code }}
+                <i class="fa-solid fa-arrow-right"></i>
+                {{ $flight->to_airport_code }}
+              </div>
+              <span class="rt-hdr-stop {{ $fStopBadge }}">
+                <i class="fa-solid {{ $fStopIcon }}"></i>{{ $fStopLabel }}
+              </span>
+            </div>
           </div>
 
+          {{-- ── FLIGHT ROW ── --}}
           <div class="rt-flight-row">
             <div class="rt-airline-block">
               <div class="rt-al-logo">
@@ -945,28 +1079,37 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
             </div>
 
             <div class="rt-route">
+              {{-- Departure endpoint --}}
               <div class="rt-ep">
-                <div class="rt-ep-time">{{ $fDep->format('H:i') }}</div>
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $fDep->format('h:i') }}</span>
+                  <span class="rt-ep-ampm">{{ $fDep->format('A') }}</span>
+                  @if($flight->departure_timezone)<div class="rt-ep-tz">{{ $flight->departure_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $flight->from_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $fFromAirport }}">{{ $fFromAirport }}</div>
+                <div class="rt-ep-city" title="{{ $fFromAirport }}">{{ $fFromAirport }}</div>
               </div>
+
               <div class="rt-mid">
                 <div class="rt-route-line">
                   <div class="rt-r-dot"></div><div class="rt-r-dash"></div>
                   <span class="rt-r-plane"><i class="fa-solid fa-plane"></i></span>
                   <div class="rt-r-dash"></div><div class="rt-r-dot"></div>
                 </div>
-                <span class="rt-dur-pill">{{ $fDiff->h }}h {{ $fDiff->i }}m</span>
-                <span class="rt-stop-badge {{ $fStopBadge }}">
-                  <i class="fa-solid {{ $fSc === 0 ? 'fa-circle-check' : 'fa-circle-dot' }}"></i>{{ $fStopLabel }}
-                </span>
+                <span class="rt-dur-pill">{{ $flight->duration }}</span>
                 @if(count($fStopovers))<div class="rt-stopover"><i class="fa-solid fa-clock"></i> layover : @foreach($fStopovers as $city)<span class="sv-city">{{ $city }}</span>@endforeach</div>@endif
                 @if($fON)<div class="rt-overnight"><i class="fa-solid fa-moon"></i> +1 day</div>@endif
               </div>
-              <div class="rt-ep rt-ep-r">
-                <div class="rt-ep-time">{{ $fArr->format('H:i') }}@if($fON)<sup style="font-size:.6rem;color:#f97316;vertical-align:super;">+1</sup>@endif</div>
+
+              {{-- Arrival endpoint --}}
+              <div class="rt-ep">
+                <div class="rt-ep-time-wrap">
+                  <span class="rt-ep-time">{{ $fArr->format('h:i') }}@if($fON)<sup style="font-size:.55rem;color:#f97316;margin-left:1px;">+1</sup>@endif</span>
+                  <span class="rt-ep-ampm">{{ $fArr->format('A') }}</span>
+                  @if($flight->arrival_timezone)<div class="rt-ep-tz">{{ $flight->arrival_timezone }}</div>@endif
+                </div>
                 <div class="rt-ep-iata">{{ $flight->to_airport_code }}</div>
-                <div class="rt-ep-airport" title="{{ $fToAirport }}">{{ $fToAirport }}</div>
+                <div class="rt-ep-city" title="{{ $fToAirport }}">{{ $fToAirport }}</div>
               </div>
             </div>
 
@@ -977,13 +1120,14 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
               <div class="rt-price-sub">per adult</div>
               @if($fCls)
                 <div class="rt-baggage">
-                  <div class="rt-bag-row"><i class="fa-solid fa-briefcase"></i>{{ $fCls->cabin_baggage_kg }}kg cabin</div>
-                  <div class="rt-bag-row"><i class="fa-solid fa-suitcase-rolling"></i>{{ $fCls->checkin_baggage_kg }}kg check-in</div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-briefcase"></i><span>{{ $fCls->cabin_baggage_kg }}kg cabin</span></div>
+                  <div class="rt-bag-chip"><i class="fa-solid fa-suitcase-rolling"></i><span>{{ $fCls->checkin_baggage_kg }}kg check-in</span></div>
                 </div>
               @endif
             </div>
           </div>
 
+          {{-- ── FOOTER ── --}}
           <div class="rt-footer">
             <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
               <div>
@@ -1047,37 +1191,25 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
 
 let hfPax = { a: {{ $adults }}, c: {{ $children }} };
 
-/* ═══════════════════════════════════════════════════════════════
-   SINGLE DOMContentLoaded — all init logic here, nothing duplicated
-═══════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
-
-  // 1. Move TCC dropdown to body so it escapes overflow:hidden parents
   document.body.appendChild(document.getElementById('hfTccDrop'));
-
-  // 2. Set initial disabled state for pax buttons
   document.getElementById('hfAdMinus').disabled = hfPax.a <= 1;
   document.getElementById('hfChMinus').disabled = hfPax.c <= 0;
-
-  // 3. Stamp original sort index on every flight card — MUST happen before
-  //    any sortCards() call so Default order can always be restored correctly
   const list = document.getElementById('flightGrid');
   if (list) {
     list.querySelectorAll('.flight-item').forEach((item, i) => {
       item.dataset.origIdx = i;
     });
   }
-
 });
 
-/* ─── TAB / TRIP HELPERS ──────────────────────────────────────── */
+/* ─── TAB / TRIP ── */
 function switchTab(btn, panelId) {
   document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.sb-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(panelId).classList.add('active');
 }
-
 function setTrip(btn, t) {
   document.querySelectorAll('.trip-tab-inner').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -1091,12 +1223,10 @@ function setTrip(btn, t) {
     if (!ri.value || ri.value < depart) ri.value = depart;
   }
 }
-
 function onDepartChange(input) {
   const r = document.getElementById('hfReturnDate');
   if (r) { r.min = input.value; if (r.value < input.value) r.value = input.value; }
 }
-
 function hfSwap() {
   const fi = document.getElementById('fromInput'), ti = document.getElementById('toInput');
   const fc = document.getElementById('fromCode'),  tc = document.getElementById('toCode');
@@ -1104,14 +1234,13 @@ function hfSwap() {
   [fc.value, tc.value] = [tc.value, fc.value];
 }
 
-/* ─── TCC DROPDOWN ────────────────────────────────────────────── */
+/* ─── TCC DROPDOWN ── */
 function positionDrop() {
   const trigger = document.getElementById('hfTccTrigger');
   const drop    = document.getElementById('hfTccDrop');
   const rect    = trigger.getBoundingClientRect();
   const vw      = window.innerWidth;
   const isMobile = vw < 768;
-
   if (isMobile) {
     const dropH      = drop.offsetHeight || 320;
     const spaceBelow = window.innerHeight - rect.bottom - 8;
@@ -1121,11 +1250,9 @@ function positionDrop() {
     drop.style.width    = (vw - 24) + 'px';
     drop.style.minWidth = '';
     if (spaceBelow >= dropH || spaceBelow >= spaceAbove) {
-      drop.style.top    = (rect.bottom + 8) + 'px';
-      drop.style.bottom = 'auto';
+      drop.style.top = (rect.bottom + 8) + 'px'; drop.style.bottom = 'auto';
     } else {
-      drop.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
-      drop.style.top    = 'auto';
+      drop.style.bottom = (window.innerHeight - rect.top + 8) + 'px'; drop.style.top = 'auto';
     }
   } else {
     drop.style.top      = (rect.bottom + 8) + 'px';
@@ -1136,33 +1263,26 @@ function positionDrop() {
     drop.style.minWidth = Math.max(310, rect.width) + 'px';
   }
 }
-
 function toggleTcc(e) {
   e.stopPropagation();
-  const drop    = document.getElementById('hfTccDrop');
+  const drop = document.getElementById('hfTccDrop');
   const trigger = document.getElementById('hfTccTrigger');
   if (drop.classList.contains('open')) {
-    drop.classList.remove('open');
-    trigger.classList.remove('open');
+    drop.classList.remove('open'); trigger.classList.remove('open');
     document.removeEventListener('click', closeTccOut);
   } else {
-    positionDrop();
-    drop.classList.add('open');
-    trigger.classList.add('open');
+    positionDrop(); drop.classList.add('open'); trigger.classList.add('open');
     setTimeout(() => document.addEventListener('click', closeTccOut), 0);
   }
 }
-
 function closeTccOut(e) {
-  const drop    = document.getElementById('hfTccDrop');
+  const drop = document.getElementById('hfTccDrop');
   const trigger = document.getElementById('hfTccTrigger');
   if (!drop.contains(e.target) && !trigger.contains(e.target)) {
-    drop.classList.remove('open');
-    trigger.classList.remove('open');
+    drop.classList.remove('open'); trigger.classList.remove('open');
     document.removeEventListener('click', closeTccOut);
   }
 }
-
 function chHfPax(type, delta) {
   if (type === 'a') hfPax.a = Math.max(1, hfPax.a + delta);
   else              hfPax.c = Math.max(0, hfPax.c + delta);
@@ -1172,7 +1292,6 @@ function chHfPax(type, delta) {
   document.getElementById('hfChCnt').textContent = hfPax.c;
   updateHfTcc();
 }
-
 function updateHfTcc() {
   const cls   = document.getElementById('hfCabinSel').value;
   const parts = [hfPax.a + ' Adult' + (hfPax.a > 1 ? 's' : '')];
@@ -1180,20 +1299,17 @@ function updateHfTcc() {
   parts.push(cls);
   document.getElementById('hfTccVal').textContent = parts.join(', ');
 }
-
 function applyHfTcc() {
   updateHfTcc();
   document.getElementById('hfTccDrop').classList.remove('open');
   document.getElementById('hfTccTrigger').classList.remove('open');
   document.removeEventListener('click', closeTccOut);
 }
-
 function syncBeforeSubmit() {
   document.getElementById('hfAdultsH').value   = hfPax.a;
   document.getElementById('hfChildrenH').value = hfPax.c;
   document.getElementById('hfClassH').value    = document.getElementById('hfCabinSel').value;
 }
-
 window.addEventListener('scroll', () => {
   if (document.getElementById('hfTccDrop').classList.contains('open')) positionDrop();
 }, { passive: true });
@@ -1201,67 +1317,50 @@ window.addEventListener('resize', () => {
   if (document.getElementById('hfTccDrop').classList.contains('open')) positionDrop();
 }, { passive: true });
 
-/* ─── AIRPORT AUTOCOMPLETE ────────────────────────────────────── */
+/* ─── AIRPORT AUTOCOMPLETE ── */
 (function () {
   const SEARCH_URL = '{{ route("airports.search") }}';
   const FIELDS = [
     ['fromInput', 'fromDropdown', 'fromCode'],
     ['toInput',   'toDropdown',   'toCode'  ],
   ];
-
   function esc(str) {
     return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-
   FIELDS.forEach(([inputId, dropId, codeId]) => {
     const input      = document.getElementById(inputId);
     const dropdown   = document.getElementById(dropId);
     const codeHidden = document.getElementById(codeId);
     if (!input || !dropdown || !codeHidden) return;
-
     let debounce = null, lastQuery = '';
-
     function render(airports) {
       if (!airports.length) {
-        dropdown.innerHTML = `<div class="autocomplete-item no-result">
-          <i class="fa-solid fa-circle-info"></i> No airports found</div>`;
+        dropdown.innerHTML = `<div class="autocomplete-item no-result"><i class="fa-solid fa-circle-info"></i> No airports found</div>`;
         show(); return;
       }
       dropdown.innerHTML = airports.map(a => `
-        <div class="autocomplete-item"
-             data-city="${esc(a.city)}"
-             data-code="${esc(a.airport_code)}"
-             data-name="${esc(a.airport_name)}">
+        <div class="autocomplete-item" data-city="${esc(a.city)}" data-code="${esc(a.airport_code)}" data-name="${esc(a.airport_name)}">
           <div class="ac-inner">
             <div class="ac-code-box">${esc(a.airport_code)}</div>
             <div>
               <div class="ac-detail-name">${esc(a.airport_code)} — ${esc(a.airport_name)}</div>
-              <div class="ac-detail-city">
-                <i class="fa-solid fa-location-dot" style="color:#ef4444;font-size:.65rem;"></i>
-                ${esc(a.city)}
-              </div>
+              <div class="ac-detail-city"><i class="fa-solid fa-location-dot" style="color:#ef4444;font-size:.65rem;"></i>${esc(a.city)}</div>
             </div>
           </div>
         </div>`).join('');
       show();
     }
-
     function fetchAirports(q) {
-      fetch(`${SEARCH_URL}?q=${encodeURIComponent(q)}`)
-        .then(r => r.json()).then(render).catch(hide);
+      fetch(`${SEARCH_URL}?q=${encodeURIComponent(q)}`).then(r => r.json()).then(render).catch(hide);
     }
-
     function show() { dropdown.style.display = 'flex'; }
     function hide() { dropdown.style.display = 'none'; }
-
     function selectItem(item) {
-      input.value      = `${item.dataset.city} (${item.dataset.code})`;
+      input.value = `${item.dataset.city} (${item.dataset.code})`;
       codeHidden.value = item.dataset.code;
-      lastQuery        = input.value;
-      hide();
-      input.focus();
+      lastQuery = input.value;
+      hide(); input.focus();
     }
-
     input.addEventListener('input', function () {
       const q = this.value.trim();
       codeHidden.value = '';
@@ -1271,12 +1370,10 @@ window.addEventListener('resize', () => {
       clearTimeout(debounce);
       debounce = setTimeout(() => fetchAirports(q), 250);
     });
-
-    dropdown.addEventListener('click', function (e) {
+    dropdown.addEventListener('click', e => {
       const item = e.target.closest('.autocomplete-item[data-code]');
       if (item) selectItem(item);
     });
-
     input.addEventListener('keydown', function (e) {
       const items = Array.from(dropdown.querySelectorAll('.autocomplete-item[data-code]'));
       if (!items.length || dropdown.style.display === 'none') return;
@@ -1285,40 +1382,31 @@ window.addEventListener('resize', () => {
         e.preventDefault();
         if (idx >= 0) items[idx].classList.remove('hovered');
         idx = (idx + 1) % items.length;
-        items[idx].classList.add('hovered');
-        items[idx].scrollIntoView({ block: 'nearest' });
+        items[idx].classList.add('hovered'); items[idx].scrollIntoView({ block:'nearest' });
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         if (idx >= 0) items[idx].classList.remove('hovered');
         idx = (idx - 1 + items.length) % items.length;
-        items[idx].classList.add('hovered');
-        items[idx].scrollIntoView({ block: 'nearest' });
+        items[idx].classList.add('hovered'); items[idx].scrollIntoView({ block:'nearest' });
       } else if (e.key === 'Enter') {
         const h = dropdown.querySelector('.autocomplete-item.hovered');
         if (h) { e.preventDefault(); selectItem(h); }
-      } else if (e.key === 'Escape') {
-        hide();
-      }
+      } else if (e.key === 'Escape') { hide(); }
     });
-
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', e => {
       if (!input.contains(e.target) && !dropdown.contains(e.target)) hide();
     });
   });
 })();
 
-/* ═══════════════════════════════════════════════════════════════
-   SIDEBAR FILTERS
-═══════════════════════════════════════════════════════════════ */
+/* ─── SIDEBAR FILTERS ── */
 let activeStop = 'all';
-
 function fStop(el, t) {
   document.querySelectorAll('.stop-pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   activeStop = t;
   runFilters();
 }
-
 function runFilters() {
   const checkedAirlines = Array.from(document.querySelectorAll('.al-cb'))
     .filter(c => c.checked).map(c => c.value);
@@ -1335,13 +1423,11 @@ function runFilters() {
   if (nr) nr.style.display = vis === 0 ? 'block' : 'none';
 }
 
-/* ─── SORT ────────────────────────────────────────────────────── */
+/* ─── SORT ── */
 function sortCards(val) {
   const list = document.getElementById('flightGrid');
   if (!list) return;
-
   const items = Array.from(list.querySelectorAll('.flight-item'));
-
   items.sort((a, b) => {
     const pa = parseFloat(a.dataset.price) || 0;
     const pb = parseFloat(b.dataset.price) || 0;
@@ -1349,10 +1435,8 @@ function sortCards(val) {
     if (val === 'price_desc') return pb - pa;
     return (parseInt(a.dataset.origIdx) || 0) - (parseInt(b.dataset.origIdx) || 0);
   });
-
   items.forEach(item => list.appendChild(item));
 }
-
 function resetFilters() {
   activeStop = 'all';
   document.querySelectorAll('.stop-pill').forEach((p, i) => p.classList.toggle('active', i === 0));

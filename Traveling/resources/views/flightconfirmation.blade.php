@@ -721,7 +721,7 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
         <table class="pax-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>Full Name</th>
               <th>Gender</th>
               <th>Type</th>
@@ -776,12 +776,6 @@ body,html{font-family:var(--font-main);background:var(--bg);color:var(--navy);}
       <button onclick="window.print()" class="btn-outline-cf">
         <i class="fa-solid fa-print"></i> Print / Save PDF
       </button>
-      @if($booking->isCancellable())
-      <a href="#" class="btn-red-cf"
-         onclick="return confirm('Are you sure you want to cancel this booking?')">
-        <i class="fa-solid fa-xmark"></i> Cancel Booking
-      </a>
-      @endif
     </div>
 
   </div>{{-- col-lg-8 --}}

@@ -355,6 +355,16 @@
         font-weight: 600;
         color: #64748b;
     }
+
+    .timezone {
+        font-size: 8px;
+        color: #94a3b8;
+        background: #f1f5f9;
+        padding: 1px 4px;
+        border-radius: 4px;
+        font-weight: 600;
+
+    }
 </style>
 
 <div class="flight-table-wrap">
@@ -445,8 +455,10 @@
                     <td>
                         <div class="time-display">
                             {{ $dep->format('h:i A') }}
+                            <span class="timezone">{{ $flight->departure_timezone ? ' '.$flight->departure_timezone : '' }}</span>
                             <span class="route-arrow">→</span>
                             {{ $arr->format('h:i A') }}
+                            <span class="timezone">{{ $flight->arrival_timezone ? ' '.$flight->arrival_timezone : '' }}</span>
                             @if($flight->overnight_arrival)
                                 <span class="overnight-tag">+1</span>
                             @endif
@@ -455,9 +467,13 @@
 
                     {{-- DURATION --}}
                     <td>
+
                         <span class="duration-pill">
-                            🕐 {{ $diff->h }}h {{ $diff->i }}m
+                            🕐 {{$flight->duration}}
                         </span>
+                      {{--  <span class="duration-pill">
+                            🕐 {{ $diff->h }}h {{ $diff->i }}m
+                        </span> --}}
                     </td>
 
                     {{-- STOPS --}}

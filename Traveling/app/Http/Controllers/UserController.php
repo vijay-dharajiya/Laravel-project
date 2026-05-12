@@ -333,7 +333,7 @@ class UserController extends Controller
      | FLIGHT DETAILS PAGE (BOOKING PAGE)
      | Route: GET /flights/{id}
      |=========================================================================*/
-  public function flightdetails(Request $request, $id)
+    public function flightdetails(Request $request, $id)
     {
         // =========================
         // DEPART FLIGHT
@@ -346,7 +346,6 @@ class UserController extends Controller
         // RETURN FLIGHT
         // =========================
         $returnFlight = null;
-
         if ($request->trip === 'round' && $request->return_flight) {
             $returnFlight = Flight::find($request->return_flight);
         }
@@ -355,35 +354,55 @@ class UserController extends Controller
         // DEPART CLASS
         // =========================
         $departClass = null;
+        $departAvailableSeats = 0;
 
         if ($request->depart_class) {
             $departClass = FlightClass::find($request->depart_class);
+
+            if ($departClass && $request->depart_date) {
+                $bookedSeats = FlightBooking::where('depart_flight_id', $departFlight->id)
+                    ->where('depart_class_id',  $departClass->id)
+                    ->where('depart_date',      $request->depart_date)
+                    ->whereIn('status',         ['confirmed', 'pending'])
+                    ->sum(DB::raw('adults + children'));
+
+                $departAvailableSeats = max(0, ($departClass->total_seats ?? $departClass->available_seats) - $bookedSeats);
+            }
         }
 
         // =========================
         // RETURN CLASS
         // =========================
         $returnClass = null;
+        $returnAvailableSeats = null;
 
         if ($request->return_class) {
             $returnClass = FlightClass::find($request->return_class);
+
+            if ($returnClass && $returnFlight && $request->return_date) {
+                $returnBookedSeats = FlightBooking::where('return_flight_id', $returnFlight->id)
+                    ->where('return_class_id',  $returnClass->id)
+                    ->where('return_date',      $request->return_date)
+                    ->whereIn('status',         ['confirmed', 'pending'])
+                    ->sum(DB::raw('adults + children'));
+
+                $returnAvailableSeats = max(0, ($returnClass->total_seats ?? $returnClass->available_seats) - $returnBookedSeats);
+            }
         }
 
         return view('flightbooking', [
-            'departFlight' => $departFlight,
-            'returnFlight' => $returnFlight,
-
-            'departClass' => $departClass,
-            'returnClass' => $returnClass,
-
-            'tripType'   => $request->trip,
-            'selClass'   => $request->class,
-
-            'adults'     => (int)$request->adults,
-            'children'   => (int)$request->children,
-
-            'departDate' => $request->depart_date,
-            'returnDate' => $request->return_date,
+            'departFlight'         => $departFlight,
+            'returnFlight'         => $returnFlight,
+            'departClass'          => $departClass,
+            'returnClass'          => $returnClass,
+            'departAvailableSeats' => $departAvailableSeats,   // ← new
+            'returnAvailableSeats' => $returnAvailableSeats,   // ← new
+            'tripType'             => $request->trip,
+            'selClass'             => $request->class,
+            'adults'               => (int) $request->adults,
+            'children'             => (int) $request->children,
+            'departDate'           => $request->depart_date,
+            'returnDate'           => $request->return_date,
         ]);
     }
 
@@ -456,13 +475,42 @@ class UserController extends Controller
             ]);
         }
  
-        // ── 3. Check seat availability ────────────────────────────────────────
-        if (($departClass->available_seats ?? 0) < $totalPax) {
-            return back()->with('error', 'Not enough seats available on the outbound flight. Please go back and choose another option.');
+        // ── 3. Check seat availability (date-specific, not global) ───────────────
+
+        $departAlreadyBooked = FlightBooking::where('depart_flight_id', $validated['depart_flight_id'])
+            ->where('depart_class_id',  $validated['depart_class_id'])
+            ->where('depart_date',      $validated['depart_date'])
+            ->whereIn('status',         ['confirmed', 'pending'])
+            ->sum(DB::raw('adults + children'));
+
+        $departTotalSeats    = $departClass->total_seats ?? $departClass->available_seats;
+        $departSeatsLeft     = max(0, $departTotalSeats - $departAlreadyBooked);
+
+        if ($departSeatsLeft < $totalPax) {
+            return back()->with('error',
+                "Only {$departSeatsLeft} seat(s) left on the outbound flight for " .
+                Carbon::parse($validated['depart_date'])->format('d M Y') .
+                '. Please go back and choose another option.'
+            );
         }
- 
-        if ($returnClass && ($returnClass->available_seats ?? 0) < $totalPax) {
-            return back()->with('error', 'Not enough seats available on the return flight. Please go back and choose another option.');
+
+        if ($returnClass) {
+            $returnAlreadyBooked = FlightBooking::where('return_flight_id', $validated['return_flight_id'])
+                ->where('return_class_id',  $validated['return_class_id'])
+                ->where('return_date',      $validated['return_date'])
+                ->whereIn('status',         ['confirmed', 'pending'])
+                ->sum(DB::raw('adults + children'));
+
+            $returnTotalSeats = $returnClass->total_seats ?? $returnClass->available_seats;
+            $returnSeatsLeft  = max(0, $returnTotalSeats - $returnAlreadyBooked);
+
+            if ($returnSeatsLeft < $totalPax) {
+                return back()->with('error',
+                    "Only {$returnSeatsLeft} seat(s) left on the return flight for " .
+                    Carbon::parse($validated['return_date'])->format('d M Y') .
+                    '. Please go back and choose another option.'
+                );
+            }
         }
  
         // ── 4. Build passengers array for JSON storage ────────────────────────
@@ -518,14 +566,7 @@ class UserController extends Controller
  
                     'passengers'       => $passengersJson,
                 ]);
- 
-                // Decrement available seats on outbound class
-                $departClass->decrement('available_seats', $totalPax);
- 
-                // Decrement on return class if round trip
-                if ($returnClass) {
-                    $returnClass->decrement('available_seats', $totalPax);
-                }
+
  
                 return $booking;
             });

@@ -28,7 +28,10 @@ return new class extends Migration
 
             // ─── Schedule (fixed timings, no date here) ───────────────
             $table->time('departure_time');
+            $table->string('departure_timezone', 50)->default('UTC'); // e.g. "Asia/Kolkata"
             $table->time('arrival_time');
+            $table->string('arrival_timezone', 50)->default('UTC'); // e.g. "Asia/Kolkata"
+            $table->time('duration')->nullable();
             // duration is NOT stored — calculated via Laravel accessor
             $table->tinyInteger('overnight_arrival')->default(0); // +1 day flag
 
